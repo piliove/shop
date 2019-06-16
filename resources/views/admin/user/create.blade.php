@@ -1,49 +1,32 @@
 @include('/admin/common/head')
 @include('/admin/common/sidebar')
-<div id="top" style="text-align:center">
-    <div class="col-md-12">
-        <div class="panel panel-headline">
-            <div class="panel-heading">
-            </div>
-            <div class="panel-body">
-                <div id="title"><h1>添加用户</h1></div>
-                <div id="user-form">
-                    <form class="form-horizontal">
-                        {{csrf_field()}}
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label">用户名</label>
-                            <div class="col-sm-12">
-                                <input type="text" name="uname" class="form-control" placeholder="用户账号">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label">密码</label>
-                            <div class="col-sm-12">
-                                <input type="password" class="form-control" name="upwd" placeholder="用户密码">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label">确认密码</label>
-                            <div class="col-sm-12">
-                                <input type="password" class="form-control" name="upwd1" placeholder="用户密码">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label">头像</label>
-                            <div class="col-sm-12">
-                                <input id="file" type="file" name="file" class="form-control">
-                                <img style="width:100px; left:0px;" src="" id="uface" alt="">
-                                <input type="hidden" id="hidden_uface" name="uface">
-                            </div>
-                        </div>
-                    </form>
-                    <div class="form-group">
-                        <div class="col-sm-offset-2 col-sm-12">
-                            <button style="width:100%" type="button" id="submit" class="btn btn-success">添加用户</button>
-                        </div>
-                    </div>
+<div class="col-12 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">添加用户</h4>
+            <form class="forms-sample">
+                <div class="form-group">
+                    <label>用户名</label>
+                    <input type="text" class="form-control" name="uname" placeholder="用户账号">
                 </div>
-            </div>
+                <div class="form-group">
+                    <label>密码</label>
+                    <input type="password" name="upwd" class="form-control" placeholder="用户密码">
+                </div>
+                <div class="form-group">
+                    <label>确认密码</label>
+                    <input type="password" name="upwd1" class="form-control" placeholder="和用户密码一致">
+                </div>
+                <div class="form-group">
+                    <label>上传头像</label>
+                    <div class="input-group col-xs-12">
+                        <input type="file" name="file" id="file" class="form-control">
+                            <input type="hidden" id="hidden_uface" name="uface">
+                    </div>
+                    <img style="width:100px; height:100px;" src="" id="uface" alt="">
+                </div>
+            </form>
+            <button id="submit" class="btn btn-gradient-primary mr-2">立即添加</button>
         </div>
     </div>
 </div>

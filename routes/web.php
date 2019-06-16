@@ -22,6 +22,8 @@ Route::get('/', function () {
 Route::post('admin/user/updatefile', 'Admin\UserController@updateFile');
 //删除用户
 Route::get('/admin/user/del', 'Admin\UserController@destroy');
+//接收修改用户传值
+Route::post('/admin/user/update','Admin\UserController@update');
 //用户增删改查
 Route::resource('admin/user', 'Admin\UserController');
 
@@ -130,7 +132,9 @@ Route::resource('admin/link', 'Admin\LinkController');
 
 
 //=======================132-162行=========================
-
+//======================优惠券管理===================
+//优惠券 增删改查
+Route::resource('admin/coupon', 'Admin\CouponController');
 
 
 

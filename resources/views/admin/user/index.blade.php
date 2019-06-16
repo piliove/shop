@@ -11,14 +11,16 @@
 <div class="card">
     <div class="card-body">
         <form action="/admin/user" method="get" style="width:100%">
-        <div class="input-group" style="width:30%">
-            <h4 style="font-size:25px;">搜索:&nbsp;&nbsp;</h4>
-            <input style="height:30px;" name="search" type="text" class="form-control" placeholder="输入用户名或ID搜索">
-            <div class="input-group-append">
-                <button style="height:30px;" class="btn btn-sm btn-gradient-primary" type="submit">Search</button>
+            <div class="input-group" style="width:30%">
+                <h4 style="font-size:25px;">搜索:&nbsp;&nbsp;</h4>
+                <input style="height:30px;" name="search" type="text" class="form-control" placeholder="输入用户名搜索">
+                <div class="input-group-append">
+                    <button style="height:30px;" class="btn btn-sm btn-gradient-primary" type="submit">立即查找</button>
+                </div>
             </div>
-        </div>
         </form>
+        <a href="/admin/user/create" style="margin-top:10px;" class="badge badge-info">
+            <i class="mdi mdi-account-multiple-plus"></i>添加用户</a>
         <table class="table">
             <thead>
             <tr>
@@ -43,7 +45,7 @@
                         <td><label class="badge badge-warning">超级管理员</label></td>
                     @endif
                     <td>
-                        <button type="button" class="btn btn-info btn-sm">详情</button>
+                        <a href="/admin/user/{{$v->id}}/edit" type="button" class="btn btn-info btn-sm">详情</a>
                         <a href="JavaScript:;" onclick="del({{$v->id}},this)"
                            class="btn btn-gradient-danger btn-sm">删除</a>
                     </td>
@@ -60,13 +62,13 @@
     function del(id, obj) {
         layer.msg('确定删除?', {
             time: 0 //不自动关闭
-            , btn: ['确定','取消']
+            , btn: ['确定', '取消']
             , yes: function () {
                 $.get('/admin/user/del?id=' + id, function (res) {
                     if (res == '删除成功') {
                         layer.alert(res, {icon: 6});
                         $(obj).parent().parent().remove();
-                    }else{
+                    } else {
                         layer.msg(res, {icon: 5});
                     }
                 }, 'html')

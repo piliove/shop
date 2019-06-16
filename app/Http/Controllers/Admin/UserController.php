@@ -4,10 +4,11 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\users;
-use App\Models\user_infos;
+use App\Models\Users;
+use App\Models\UserInfos;
 use mysql_xdevapi\Exception;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use DB;
 
 class UserController extends Controller
@@ -17,14 +18,15 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        $search = $request->input('search',null);
+        //接收搜索传值
+        $search = $request->input('search', null);
         $data = [
+//            ['id', 'like', '%' . $search . '$'],
             ['uname', 'like', '%' . $search . '%'],
 
         ];
         //查询所有用户数据
-        $users = users::orderBy('id')->paginate(8);
-        $users = DB::table('users')->where($data)->orderBy('id')->paginate(8);
+        $users = Users::where($data)->orderBy('id')->paginate(3);
         //引导模板
         return view('/admin/user/index', ['users' => $users, 'search' => $search]);
     }
@@ -67,21 +69,21 @@ class UserController extends Controller
         //判断密码和确认密码是否一致
         if ($request->input('upwd1') !== $data['upwd']) exit('两次密码必须一致');
         //判断各项是否为空
-        if (!$data['uname'] || !$data['upwd'] || !$data['uface'] || !$data['_token']) exit('请确保各项值不为空');
+        if (!$data['uname'] || !$data['upwd'] || !$data['uface']) exit('请确保各项值不为空');
 
         //创建模型写入数据到数据库并判断是否添加成功
-        $user = new users;
+        $user = new Users;
         $user->uname = $data['uname'];
         $user->upwd = Hash::make($data['upwd']);
         $user->uface = $data['uface'];
         $user->uip = $_SERVER['REMOTE_ADDR'];
-        $user->_token = $data['_token'];
+        $user->_token = date('ymd', time()) . rand(1000, 10000);
         try {
             $path = $user->save();
             if ($path) {
                 //获取新添加数据id写入用户详情表user_info中的uid
                 $uid = $user->id;
-                $user_info = new user_infos;
+                $user_info = new UserInfos;
                 $user_info->uid = $uid;
                 $user_info->save();
                 exit('添加成功');
@@ -95,23 +97,12 @@ class UserController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
      * 显示修改页面(用户详情)
      */
     public function edit($id)
     {
         //通过id获取用户信息
-        $user = users::find($id);
+        $user = Users::find($id);
         //一对一关系查询用户详情表(模型查询)
         $userinfo = $user->userinfo;
         //引导模板
@@ -119,15 +110,46 @@ class UserController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @param int $id
-     * @return \Illuminate\Http\Response
+     * 接收修改用户传值
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        //接收修改表单所有值
+        $data = $request->all();
+        //查询出对应ID的users和userinfos的数据库
+        $user = Users::find($data['id']);
+        $userinfo = UserInfos::where('uid', $data['id'])->first();
+        //判断token是否一致
+        if ($user->_token !== $data['token']) exit('验证失败');
+        //判断头像是否有修改
+        if (empty($data['uface'])) {
+            $data['uface'] = $user->uface;
+        } else {
+            $data['uface'];
+        }
+        //age的值不能超出范围
+        if ($data['age'] < 0 || $data['age'] >= 150) exit('年龄范围不合法');
+        //判断是否有空值
+        if (empty($data['uname']) || empty($data['name']) || empty($data['email']) || empty($data['phone']) || empty($data['age']) || empty($data['qq']) || empty($data['addr'])) exit('请确保所有选项不为空');
+        //将需要修改的值写入users表
+        $user->uname = $data['uname'];
+        $user->uface = $data['uface'];
+        $user->status = $data['status'];
+        $user->power = $data['power'];
+        $user_status = $user->save();
+        //将需要修改的值写入userinfos表
+        $userinfo->name = $data['name'];
+        $userinfo->addr = $data['addr'];
+        $userinfo->email = $data['email'];
+        $userinfo->phone = $data['phone'];
+        $userinfo->qq = $data['qq'];
+        $userinfo->age = $data['age'];
+        $userinfo_status = $userinfo->save();
+        if($user_status&&$userinfo_status){
+            echo '修改成功';
+        }else{
+            echo '修改失败';
+        }
     }
 
     /**
@@ -137,11 +159,15 @@ class UserController extends Controller
     {
         //接收传值
         $uid = $request->input('id');
+        //查询id对应用户
+        $img = Users::find($uid);
         //执行删除操作
-        $user = users::destroy($uid);
+        $user = Users::destroy($uid);
         $user_info = DB::table('user_info')->where('uid', $uid)->delete();
         if ($user && $user_info) {
             echo '删除成功';
+            //删除查询出的用户头像
+            Storage::delete($img->uface);
         } else {
             echo '删除失败';
         }
