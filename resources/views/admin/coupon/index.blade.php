@@ -3,50 +3,52 @@
 {{--标题start--}}
 <div class="page-header">
     <h3 class="page-title">
-        查看反馈
+        优惠券列表
     </h3>
 </div>
 {{--标题end--}}
 {{--表格start--}}
 <div class="card">
     <div class="card-body">
-        <form action="/admin/feedback" method="get" style="width:100%">
+        <form action="/admin/coupon" method="get" style="width:100%">
         <div class="input-group" style="width:30%">
             <h4 style="font-size:25px;">搜索:&nbsp;&nbsp;</h4>
             <input style="height:30px;" name="search" type="text" class="form-control" placeholder="输入用户名或ID搜索">
             <div class="input-group-append">
-                <button style="height:30px;" class="btn btn-sm btn-gradient-primary" type="submit">Search</button>
+                <button style="height:30px;" class="btn btn-sm btn-gradient-primary" type="submit"><i class="mdi mdi-account-search"></i></button>
             </div>
         </div>
         </form>
+        <a href="/admin/coupon/create" style="margin-top:10px;" class="badge badge-info">
+            <i class="mdi mdi-account-multiple-plus"></i>添加优惠券</a>
         <table class="table">
             <thead>
             <tr>
                 <th>ID</th>
-                <th>用户名</th>
-                <th>反馈留言</th>
-                <th>创建时间</th>
+                <th>优惠券名称</th>
+                <th>价格</th>
+                <th>数量</th>
                 <th>操作</th>
             </tr>
             </thead>
             <tbody>
-            @foreach($feedbacks as $k=>$v)
+                @foreach($coupons as $k => $v)
                 <tr>
-                    <td>{{$v->id}}</td>
-                    <td>{{$v->uname}}</td>
-                    <td>{{$v->feedback_info}}</td>
-                    <td>{{$v->created_at}}</td>
+                    <td>{{ $v->id }}</td>
+                    <td>{{ $v->cname }}</td>
+                    <td>{{ $v->cprice }}</td>
+                    <td>{{ $v->cnum }}</td>
                     <td>
-                        <button type="button" class="btn btn-info btn-sm">详情</button>
-                        <a href="JavaScript:;" onclick="del({{$v->id}},this)"
+                        <a href="/admin/coupon/{{ $v->id }}/edit"><button type="button" class="btn btn-info btn-sm">修改</button></a>
+                        <a href="JavaScript:;" token="" onclick="del({{$v->id}},this)"
                            class="btn btn-gradient-danger btn-sm">删除</a>
                     </td>
-                </tr>    
-            @endforeach
+                </tr>
+                @endforeach
             </tbody>
         </table>
         <!-- 分页 开始 -->
-        {{ $feedbacks->appends(['search'=>$search])->links() }}
+        <div style="margin-top:10px;">{{ $coupons->appends(['search'=>$search])->links('common.paginator') }}</div>
         <!-- 分页 结束 -->
     </div>
 </div>
@@ -65,7 +67,7 @@
             }
 
             // ajax删除html dom节点
-            $.post('/admin/feedback/'+id,{'_method':'DELETE','_token':'{{ csrf_token() }}'},function(res){
+            $.post('/admin/coupon/'+id,{'_method':'DELETE','_token':'{{ csrf_token() }}'},function(res){
             if(res != 'err'){
                 // 对a标签的父节点进行操作
                 $(obj).closest('tr').remove();

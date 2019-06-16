@@ -16,14 +16,18 @@ class LinkController extends Controller
     /**
      * 显示首页 主页面
      *
+     * @param Request(lname(链接名))
      * @return 第26行代码
+     * @return_param $links_data(连接数据)
      */
-    public function index()
+    public function index(Request $request)
     {
+        //获得搜索关键词(链接名)
+        $search_key = $request->input('lname','');
         //实例化模型,取出数据
-        $links_data = Links::paginate(9);
+        $links_data = Links::where('lname','like','%'.$search_key.'%')->orderBy('id','asc')->paginate(7);
 
-        return view('admin.link.index', ['links_data'=>$links_data]);
+        return view('admin.link.index', ['links_data'=>$links_data, 'search_key'=>$search_key]);
     }
 
     /**
@@ -33,7 +37,7 @@ class LinkController extends Controller
      */
     public function create()
     {
-        return view('admin.link.create');
+        //return view('admin.link.create');
     }
 
     /**
@@ -45,6 +49,7 @@ class LinkController extends Controller
     public function store(Request $request)
     {
         //验证 表单传入值
+       
         $this->validate($request, [
             'title'=>[
                 'required',
@@ -84,9 +89,15 @@ class LinkController extends Controller
 
         //判断结果
         if ($res) {
-            return redirect('/admin/link')->with('success','添加成功');
+            //设置成功之后的消息
+            session(['link_msg'=>'添加成功']);
+
+            return redirect('/admin/link');
         } else {
-            return back()->with('error','添加失败');
+            //设置失败之后的消息
+            session(['link_msg'=>'添加失败']);
+
+            return back();
         }
 
         
@@ -107,7 +118,7 @@ class LinkController extends Controller
      * 显示 修改 页面
      *
      * @param   id(被修改id值)
-     * @return 第118行代码
+     * @return 第129行代码
      * @return_param $links_data(被修改的记录值)
      */
     public function edit($id)
@@ -115,7 +126,7 @@ class LinkController extends Controller
         //找到需要修改的记录
         $links_data = Links::find($id);
 
-        return view('admin.link.edit', ['links_data'=>$links_data]);
+        return $links_data;
     }
 
     /**
@@ -153,9 +164,10 @@ class LinkController extends Controller
         $links->title = $request->input('title');       
         //下载图片到服务器
         if ($request->hasFile('thumb')) {
-
+            
             //删除旧图片
-            Storage::delete('file.jpg');
+            $thumb = $links->thumb;
+            Storage::delete($thumb);
 
             //压入新图片路径
             $thumb = $request->file('thumb')->store(date('Ymd'));
@@ -167,9 +179,13 @@ class LinkController extends Controller
 
         //判断结果
         if ($res) {
-            return redirect('/admin/link')->with('success','修改成功');
+            session(['link_msg'=>'修改成功']);
+            
+            return redirect('/admin/link');
         } else {
-            return back()->with('error','修改失败或未修改数据');
+            session(['link_msg'=>'修改失败']);
+
+            return back();
         }
 
 
@@ -179,19 +195,44 @@ class LinkController extends Controller
      * 执行 删除 操作
      *
      * @param  id(被删除的记录id)
-     * @return 
+     * @return 第190行
      */
     public function destroy($id)
     {
+        //获得图片路径
+        $links = Links::find($id);
+        $thumb = $links->thumb;
+
+        //检查是否有图片
+        $exists = Storage::disk('local')->exists($thumb);
+
+        //若有图片,则直接删除
+        if ($exists) {
+            Storage::delete($thumb);
+        }
+
         //直接删除
         $res = Links::destroy($id);
 
-        //直接返回结果
-        if ($res) {
-            echo 1;
-            return back()->with('success','删除成功');
+        //直接返回结
+        if ($res) {            
+            return json_encode(['flag'=>true, 'info'=>'删除成功']);
         } else {
-            return back()->with('success','删除失败');
+            return json_encode(['flag'=>false, 'info'=>'删除失败']);
         }
     }
+
+    /**
+     * 执行 转变状态 操作
+     *
+     * @param  Request(msg(标识符))
+     * 
+     */
+    public function change(Request $request)
+    {
+        if ($request->input('msg')) {
+            session(['link_msg'=>null]);
+        }
+    }
+  
 }

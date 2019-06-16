@@ -21,7 +21,7 @@ class UserController extends Controller
         //接收搜索传值
         $search = $request->input('search', null);
         $data = [
-//            ['id', 'like', '%' . $search . '$'],
+        //  ['id', 'like', '%' . $search . '$'],
             ['uname', 'like', '%' . $search . '%'],
 
         ];

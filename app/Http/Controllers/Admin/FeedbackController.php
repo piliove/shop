@@ -22,7 +22,7 @@ class FeedbackController extends Controller
         $search = $request->input('search','');
 
         // 查询所有数据
-        $feedbacks = FeedBacks::where('uname','like','%'.$search.'%')->paginate(5);
+        $feedbacks = FeedBacks::where('uname','like','%'.$search.'%')->paginate(1);
 
         // 加载 反馈列表页面
         return view('admin.feedback.index',['feedbacks'=>$feedbacks,'search'=>$search]);
@@ -65,7 +65,8 @@ class FeedbackController extends Controller
         $feedbacks->uname = $data['uname'];
         $feedbacks->feedback_info = $data['feedback_info'];
         $feedbacks->save();
-
+        
+        // 判断成功与否
         if($feedbacks){
             return redirect('/admin/feedback')->with('success','添加成功!');
         }else {
@@ -116,8 +117,8 @@ class FeedbackController extends Controller
      */
     public function destroy(Request $request,$id)
     {
-        $data = $request->all();
-        dd($data);
+        // $data = $request->all();
+        // dd($data);
         // 接收到ajax提交的id参数
         $feedbacks = FeedBacks::find($id);
 

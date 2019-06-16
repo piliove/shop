@@ -26,7 +26,7 @@
                     <img style="width:100px; height:100px;" src="" id="uface" alt="">
                 </div>
             </form>
-            <button id="submit" class="btn btn-gradient-primary mr-2">立即添加</button>
+            <button id="submit" class="btn btn-gradient-primary mr-2">添加</button>
         </div>
     </div>
 </div>

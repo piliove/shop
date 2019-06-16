@@ -1,27 +1,15 @@
 <!-- 左侧边栏 开始 -->
 <nav class="sidebar sidebar-offcanvas" id="sidebar">
             <ul class="nav">
-                <li class="nav-item nav-profile">
-                    <a href="#" class="nav-link">
-                        <div class="nav-profile-image">
-                            <img src="/admins/images/faces/face1.jpg" alt="profile">
-                            <span class="login-status online"></span> <!--change to offline or busy as needed-->
-                        </div>
-                        <div class="nav-profile-text d-flex flex-column">
-                            <span class="font-weight-bold mb-2">David Grey. H</span>
-                            <span class="text-secondary text-small">Project Manager</span>
-                        </div>
-                        <i class="mdi mdi-bookmark-check text-success nav-profile-badge"></i>
-                    </a>
-                </li>
                 <!-- 侧边栏:首页 开始 -->
                 <li class="nav-item">
-                    <a class="nav-link" href="/admin/index">
+                    <a class="nav-link" href="#">
                         <span class="menu-title">后台首页</span>
                         <i class="mdi mdi-home menu-icon"></i>
                     </a>
                 </li>
                 <!-- 侧边栏:首页 开始 -->
+
                 <!-- 侧边栏:用户 开始 -->
                 <li class="nav-item">
                     <a class="nav-link" href="/admin/user">
@@ -49,14 +37,34 @@
                 </li>
                 <!-- 侧边栏:轮播图管理 结束 -->
 
-                <div class="tlinks">Collect from <a href="http://www.cssmoban.com/" >企业网站模板</a></div>
-                <li class="nav-item sidebar-actions">
-                <span class="nav-link">
-                    <button class="btn btn-block btn-lg btn-gradient-primary mt-4">+ Add a project</button>
-                    <div class="mt-4">
-                    </div>
-                </span>
+                <!-- 侧边栏:广告管理 开始 -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/advert">
+                        <span class="menu-title">广告管理</span>
+                        <i class="mdi mdi-account menu-icon"></i>
+                    </a>
                 </li>
+                <!-- 侧边栏:广告管理 结束 -->
+
+                <!-- 侧边栏:优惠券管理 开始 -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/coupon">
+                        <span class="menu-title">优惠券管理</span>
+                        <i class="mdi mdi-account menu-icon"></i>
+                    </a>
+                </li>
+                <!-- 侧边栏:优惠券管理 结束 -->
+
+                <!-- 侧边栏:链接管理 开始 -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/link">
+                        <span class="menu-title">链接管理</span>
+                        <i class="mdi mdi-account menu-icon"></i>
+                    </a>
+                </li>
+                <!-- 侧边栏:链接管理 结束 -->
+
+                
             </ul>
         </nav>
         <!-- 内容start -->
