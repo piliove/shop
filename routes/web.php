@@ -79,8 +79,10 @@ Route::resource('admin/link', 'Admin\LinkController');
 
 
 //=======================B=========================
-
-
+//分类消息提醒
+Route::get('/admin/changecatemsg','Admin\CateController@change');
+//分类管理 
+Route::resource('/admin/cate', 'Admin\CateController');
 
 
 

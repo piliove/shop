@@ -64,6 +64,14 @@
                 </li>
                 <!-- 侧边栏:链接管理 结束 -->
 
+                <!-- 侧边栏:分类管理 开始 -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/cate">
+                        <span class="menu-title">栏目管理</span>
+                        <i class="mdi mdi-account menu-icon"></i>
+                    </a>
+                </li>
+                <!-- 侧边栏:分类管理 结束 -->
                 
             </ul>
         </nav>
