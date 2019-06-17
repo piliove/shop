@@ -38,7 +38,7 @@
 <script>
     $(document).ready(function(){
         @if( !empty(session('cate_msg')) )
-            layer.msg(session('cate_msg'));
+            layer.msg("{{session('cate_msg')}}");
             $.get("/admin/changecatemsg",{msg:true});
         @endif
     });
