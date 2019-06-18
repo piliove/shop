@@ -72,7 +72,7 @@
     </div>
 </div>
 @include('admin/common/foot')
-<script src="/AjaxFileUpload/ajaxfileupload.js"></script>
+<script src="/AjaxFileUpload/AjaxFileUpload.js"></script>
 <script>
 
 $(document).ready(function(){
