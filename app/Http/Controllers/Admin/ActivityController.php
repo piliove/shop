@@ -183,7 +183,19 @@ class ActivityController extends Controller
      * @return json(msg)
      */
     public function destroy($id)
-    {
+    {   
+        $activity = Activity::find($id);
+        $path = $activity->activity_path;
+
+        //检查是否有图片
+        $exists = Storage::disk('local')->exists($path);
+
+        //若有图片,则直接删除
+        if ($exists) {
+            Storage::delete($path);
+        }
+
+
         //开始实例化模型
         $res = Activity::destroy($id);
 
