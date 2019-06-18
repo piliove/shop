@@ -2,26 +2,19 @@
 @include('/admin/common/sidebar')
 <div class="card">
     <div class="card-body">
-        <h4 class="card-title">优惠券管理</h4>
+        <h4 class="card-title">商家管理</h4>
         <p class="card-description">
-        coupon manage
+        business manage
         </p>
         <form class="forms-sample">
-            <input type="hidden" name="id" value="{{$coupons->id}}">
+            {{ csrf_field() }}
             <div class="form-group">
-                <label for="exampleInputName1">优惠券名称</label>
-                <input type="text" class="form-control" name="cname" id="exampleInputName1" value="{{ $coupons->cname }}" placeholder="请输入优惠券名称">
-            </div>
-            <div class="form-group">
-                <label for="exampleInputName1">优惠券价格</label>
-                <input type="number" class="form-control" name="cprice" id="exampleInputName2" value="{{ $coupons->cprice }}" placeholder="请输入...">
-            </div>
-            <div class="form-group">
-                <label for="exampleInputName1">优惠券数量</label>
-                <input type="number" class="form-control" name="cnum" id="exampleInputName3" value="{{ $coupons->cnum }}" placeholder="请输入...">
+                <label for="exampleInputName1">商家名称</label>
+                <input type="text" class="form-control" name="bname" id="exampleInputName1" placeholder="请输入商家名称">
             </div>
         </form>
         <button type="submit" id="submit" class="btn btn-gradient-primary mr-2">修改</button>
+        
     </div>
 </div>
 @include('/admin/common/foot')
@@ -32,15 +25,15 @@ $("#submit").click(function () {
         var cont = $("form").serialize();
         layer.load(2, {shade: [0.1, '#fff']});
         $.ajax({
-            url: "/admin/coupon/update",
+            url: "/admin/business",
             type: 'post',
             dataType: 'html',
             data: cont,
             success: function (res) {
                 layer.closeAll();
-                if (res == '修改成功') {
+                if (res == '添加成功') {
                     layer.alert(res, {icon: 6}, function () {
-                        location.href = "/admin/coupon";
+                        location.href = "/admin/business";
                     });
                 } else {
                     layer.msg(res, {icon: 5});
