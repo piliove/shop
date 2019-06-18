@@ -3,7 +3,7 @@
 {{--标题start--}}
 <div class="page-header">
     <h3 class="page-title">
-        查看用户
+        用户列表
     </h3>
 </div>
 {{--标题end--}}
@@ -15,14 +15,13 @@
                 <h4 style="font-size:25px;">搜索:&nbsp;&nbsp;</h4>
                 <input style="height:30px;" name="search" type="text" class="form-control" placeholder="输入用户名搜索">
                 <div class="input-group-append">
-                    <button style="height:30px;" class="btn btn-sm btn-gradient-primary" type="submit">立即查找</button>
+                    <button style="height:30px;" class="btn btn-sm btn-gradient-primary" type="submit"><i
+                                class="mdi mdi-account-search"></i></button>
                 </div>
             </div>
         </form>
         <a href="/admin/user/create" style="margin-top:10px;" class="badge badge-info">
             <i class="mdi mdi-account-multiple-plus"></i>添加用户</a>
-        <a href="JavaScript:;" class="badge badge-success" onclick="upwd()">
-            <i class="mdi mdi-account-key">修改密码</i></a>
         <table class="table">
             <thead>
             <tr>
@@ -55,7 +54,9 @@
             @endforeach
             </tbody>
         </table>
-        <div style="margin-left:35%">{{ $users->appends(['search'=>$search])->links() }}</div>
+        <!-- 分页 开始 -->
+        <div style="margin-top:10px;">{{ $users->appends(['search'=>$search])->links('common.paginator') }}</div>
+        <!-- 分页 结束 -->
     </div>
 </div>
 {{--表格end--}}
@@ -77,19 +78,4 @@
             }
         });
     }
-</script>
-<script>
-    function upwd() {
-        layer.open({
-            type: 2,
-            area: ['700px', '450px'],
-            fixed: false, //不固定
-            maxmin: true,
-            content: '/admin/user/upwd'
-        });
-    }
-
-    $('#upwd').click(function () {
-        console.log(123);
-    })
 </script>

@@ -3,7 +3,7 @@
 {{--标题start--}}
 <div class="page-header">
     <h3 class="page-title">
-        查看反馈
+        反馈列表
     </h3>
 </div>
 {{--标题end--}}
@@ -15,10 +15,12 @@
             <h4 style="font-size:25px;">搜索:&nbsp;&nbsp;</h4>
             <input style="height:30px;" name="search" type="text" class="form-control" placeholder="输入用户名或ID搜索">
             <div class="input-group-append">
-                <button style="height:30px;" class="btn btn-sm btn-gradient-primary" type="submit">Search</button>
+                <button style="height:30px;" class="btn btn-sm btn-gradient-primary" type="submit"><i class="mdi mdi-account-search"></i></button>
             </div>
         </div>
         </form>
+        <a href="/admin/feedback/create" style="margin-top:10px;" class="badge badge-info">
+            <i class="mdi mdi-account-multiple-plus"></i>添加反馈</a>
         <table class="table">
             <thead>
             <tr>
@@ -46,7 +48,7 @@
             </tbody>
         </table>
         <!-- 分页 开始 -->
-        {{ $feedbacks->appends(['search'=>$search])->links() }}
+        <div style="margin-top:10px;">{{ $feedbacks->appends(['search'=>$search])->links('common.paginator') }}</div>
         <!-- 分页 结束 -->
     </div>
 </div>

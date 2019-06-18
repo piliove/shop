@@ -16,8 +16,7 @@
                 <label for="exampleTextarea1">反馈信息</label>
                 <textarea class="form-control" name="feedback_info" id="exampleTextarea1" placeholder="请输入反馈信息" rows="4"></textarea>
             </div>
-            <button type="submit" class="btn btn-gradient-primary mr-2">提交</button>
-            <button type="reset" class="btn btn-light">取消</button>
+            <button type="submit" class="btn btn-gradient-primary mr-2">添加</button>
         </form>
     </div>
 </div>

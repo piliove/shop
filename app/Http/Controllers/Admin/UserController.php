@@ -21,12 +21,12 @@ class UserController extends Controller
         //接收搜索传值
         $search = $request->input('search', null);
         $data = [
-//            ['id', 'like', '%' . $search . '$'],
+        //  ['id', 'like', '%' . $search . '$'],
             ['uname', 'like', '%' . $search . '%'],
 
         ];
         //查询所有用户数据
-        $users = Users::where($data)->orderBy('id')->paginate(8);
+        $users = Users::where($data)->orderBy('id')->paginate(3);
         //引导模板
         return view('/admin/user/index', ['users' => $users, 'search' => $search]);
     }
@@ -77,7 +77,7 @@ class UserController extends Controller
         $user->upwd = Hash::make($data['upwd']);
         $user->uface = $data['uface'];
         $user->uip = $_SERVER['REMOTE_ADDR'];
-        $user->_token = date('ymd', time()) . rand(1000, 10000);
+        $user->_token = date('Ymd', time()) . rand(1000, 10000);
         try {
             $path = $user->save();
             if ($path) {
@@ -145,42 +145,10 @@ class UserController extends Controller
         $userinfo->qq = $data['qq'];
         $userinfo->age = $data['age'];
         $userinfo_status = $userinfo->save();
-        if ($user_status && $userinfo_status) {
+        if($user_status&&$userinfo_status){
             echo '修改成功';
-        } else {
+        }else{
             echo '修改失败';
-        }
-    }
-
-    /**
-     * 修改用户密码
-     */
-    public function upwd()
-    {
-        return view('/admin/user/upwd');
-    }
-
-    /**
-     * 接收修改密码值
-     */
-    public function cpwd(Request $request)
-    {
-        //接收除token外所有值
-        $data = $request->except('_token');
-        //判断ID是否为空
-        if (empty($data['id'])) exit('用户ID不能为空');
-        //判断是否有空项
-        if (empty($data['upwd']) || empty($data['upwd1'])) exit('请确保各项不为空');
-        //判断两次密码是否一致
-        if ($data['upwd'] !== $data['upwd1']) exit('两次密码不一致');
-        //将修改的密码写入数据库中,并验证是否修改成功
-        $user = Users::find($data['id']);
-        $user->upwd = Hash::make($data['upwd']);
-        $status = $user->save();
-        if ($status) {
-            echo('修改成功');
-        } else {
-            echo('修改失败');
         }
     }
 
