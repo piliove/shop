@@ -84,6 +84,12 @@ Route::get('/admin/changecatemsg','Admin\CateController@change');
 //分类管理 
 Route::resource('/admin/cate', 'Admin\CateController');
 
+//活动头像异步传输
+Route::post('/admin/getprofile', 'Admin\ActivityController@getProfile');
+//后台 活动管理
+Route::resource('/admin/activity', 'Admin\ActivityController');
+//后台 活动消息转变提醒
+Route::get('/admin/changeactivitymsg','Admin\ActivityController@change');
 
 
 

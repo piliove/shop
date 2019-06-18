@@ -49,7 +49,7 @@ class LinkController extends Controller
     public function store(Request $request)
     {
         //验证 表单传入值
-       
+
         $this->validate($request, [
             'title'=>[
                 'required',

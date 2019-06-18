@@ -72,6 +72,15 @@
                     </a>
                 </li>
                 <!-- 侧边栏:分类管理 结束 -->
+
+                 <!-- 侧边栏:活动管理 开始 -->
+                 <li class="nav-item">
+                    <a class="nav-link" href="/admin/activity">
+                        <span class="menu-title">活动管理</span>
+                        <i class="mdi mdi-account menu-icon"></i>
+                    </a>
+                </li>
+                <!-- 侧边栏:活动管理 结束 -->
                 
             </ul>
         </nav>
