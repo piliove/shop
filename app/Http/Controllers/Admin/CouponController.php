@@ -121,7 +121,7 @@ class CouponController extends Controller
         //接收修改表单所有值
         $data = $request->all();
 
-        //查询出对应ID的users和userinfos的数据库
+        //查询出对应ID的coupons的数据库
         $coupons = Coupons::find($data['id']);
 
         // 判断价格是否是数字类型

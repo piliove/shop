@@ -89,14 +89,19 @@ class FeedbackController extends Controller
     }
 
     /**
-     * 显示 修改反馈页面
+     * 显示 详情页面
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
-        //
+
+        // 查询该记录所有数据
+        $feedbacks = Feedbacks::find($id);
+
+        // 渲染详情页面
+        return view('admin.feedback.edit',['feedbacks'=>$feedbacks]);
     }
 
     /**

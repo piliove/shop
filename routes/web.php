@@ -79,8 +79,10 @@ Route::resource('admin/link', 'Admin\LinkController');
 
 
 //=======================B=========================
-
-
+//分类消息提醒
+Route::get('/admin/changecatemsg','Admin\CateController@change');
+//分类管理 
+Route::resource('/admin/cate', 'Admin\CateController');
 
 
 
@@ -146,6 +148,8 @@ Route::post('/admin/coupon/update','Admin\CouponController@update');
 Route::resource('admin/coupon', 'Admin\CouponController');
 
 //======================商家管理===================
+//接收修改商家的值
+Route::post('/admin/business/update','Admin\BusinessController@update');
 // 商家 增删改查
 Route::resource('admin/business','Admin\BusinessController');
 

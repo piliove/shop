@@ -36,10 +36,12 @@
                 <tr>
                     <td>{{$v->id}}</td>
                     <td>{{$v->uname}}</td>
-                    <td>{{$v->feedback_info}}</td>
+                    <td>
+                        <p style="width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">{{$v->feedback_info}}</p>          
+                    </td>
                     <td>{{$v->created_at}}</td>
                     <td>
-                        <button type="button" class="btn btn-info btn-sm">详情</button>
+                        <a href="/admin/feedback/{{$v->id}}/edit"><button type="button" class="btn btn-info btn-sm">详情</button></a>
                         <a href="JavaScript:;" onclick="del({{$v->id}},this)"
                            class="btn btn-gradient-danger btn-sm">删除</a>
                     </td>

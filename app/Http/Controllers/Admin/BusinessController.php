@@ -97,8 +97,12 @@ class BusinessController extends Controller
      */
     public function edit($id)
     {
-        // 渲染 修改页面
-        return view('admin.business.edit');
+        // 查询该记录所有数据
+        $business = Business::find($id);
+
+        // 渲染 商家修改页面
+        return view('admin.business.edit',['business'=>$business]);
+
     }
 
     /**
@@ -108,9 +112,31 @@ class BusinessController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        //接收修改表单所有值
+        $data = $request->all();
+
+        //查询出对应ID的business的数据库
+        $business = Business::find($data['id']);
+
+        // 判断商家名称是否为空
+        if( empty($data['bname']) ){
+            exit('商家名称不能为空');
+        }
+
+        // 查询该记录所有数据
+        $business->bname = $data['bname'];
+
+        // 存入数据到数据库中
+        $business->save();
+        
+        // 判断成功与否
+        if ($business) {
+            exit('修改成功');
+        } else {
+            exit('修改失败');
+        }
     }
 
     /**

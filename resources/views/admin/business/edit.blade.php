@@ -7,14 +7,13 @@
         business manage
         </p>
         <form class="forms-sample">
-            {{ csrf_field() }}
+            <input type="hidden" name="id" value="{{ $business->id }}">
             <div class="form-group">
                 <label for="exampleInputName1">商家名称</label>
-                <input type="text" class="form-control" name="bname" id="exampleInputName1" placeholder="请输入商家名称">
+                <input type="text" class="form-control" name="bname" value="{{ $business->bname }}" id="exampleInputName1" placeholder="请输入商家名称">
             </div>
         </form>
         <button type="submit" id="submit" class="btn btn-gradient-primary mr-2">修改</button>
-        
     </div>
 </div>
 @include('/admin/common/foot')
@@ -25,13 +24,13 @@ $("#submit").click(function () {
         var cont = $("form").serialize();
         layer.load(2, {shade: [0.1, '#fff']});
         $.ajax({
-            url: "/admin/business",
+            url: "/admin/business/update",
             type: 'post',
             dataType: 'html',
             data: cont,
             success: function (res) {
                 layer.closeAll();
-                if (res == '添加成功') {
+                if (res == '修改成功') {
                     layer.alert(res, {icon: 6}, function () {
                         location.href = "/admin/business";
                     });
