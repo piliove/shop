@@ -15,6 +15,23 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+//*********************************前台路由******************************
+//=================前台注册(手机号/邮箱)=====================
+//首页
+Route::get('/index', 'Home\IndexController@index');
+Route::get('/', 'Home\IndexController@index');
+//注册
+Route::get('/reg', 'Home\RegController@index');
+//返回验证码
+Route::post('/reg/upphone', 'Home\RegController@upPhone');
+//接收手机注册表单值
+Route::post('reg/regphone', 'Home\RegController@regPhone');
+//接收邮箱注册表单值
+Route::post('reg/upemail', 'Home\RegController@upEmail');
+//邮箱激活页面
+Route::get('/reg/email/{id}/{token}/{uname}', 'Home\RegController@email');
+
+
 //*********************************后台路由******************************
 //======================用户管理===================
 //文件上传
@@ -162,6 +179,8 @@ Route::post('/admin/business/update','Admin\BusinessController@update');
 Route::resource('admin/business','Admin\BusinessController');
 
 //======================商品管理===================
+//接收修改商品传值
+Route::post('/admin/goods/update','Admin\GoodsController@update');
 //文件上传
 Route::post('/admin/goods/updatefile', 'Admin\GoodsController@updateFile');
 // 商品 增删改查
