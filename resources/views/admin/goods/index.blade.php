@@ -39,11 +39,15 @@
                     <td>{{ $v->id }}</td>
                     <td>{{ $v->gname }}</td>
                     <td>{{ $v->gprice }}</td>
-                    <td>{{ $v->gtitle }}</td>
-                    <td>{{ $v->gdesc }}</td>
+                    <td>
+                        <p style="width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">{{ $v->gtitle }}</p>                 
+                    </td>
+                    <td>
+                    <p style="width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">{{ $v->gdesc }}</p>
+                    </td>
                     <td>{{ $v->gnum }}</td>
                     <td>
-                        <a href="/admin/coupon/{{ $v->id }}/edit"><button type="button" class="btn btn-info btn-sm">修改</button></a>
+                        <a href="/admin/goods/{{ $v->id }}/edit"><button type="button" class="btn btn-info btn-sm">修改</button></a>
                         <a href="JavaScript:;" token="" onclick="del({{$v->id}},this)"
                            class="btn btn-gradient-danger btn-sm">删除</a>
                     </td>

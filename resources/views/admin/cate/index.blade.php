@@ -24,7 +24,7 @@
              <tr>
                 <th>ID</th>
                 <th>栏目标题</th>
-                <th>父ID</th>
+                <th>PID</th>
                 <th>路径</th>
                 <th>操作</th>
             </tr>

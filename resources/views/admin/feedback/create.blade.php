@@ -14,7 +14,7 @@
             </div>
             <div class="form-group">
                 <label for="exampleTextarea1">反馈信息</label>
-                <textarea class="form-control" name="feedback_info" id="exampleTextarea1" placeholder="请输入反馈信息" rows="4"></textarea>
+                <textarea class="form-control" name="feedback_info" id="exampleTextarea1" placeholder="请输入反馈信息(200个字符以内)" rows="4"></textarea>
             </div>
         </form>
         <button type="submit" id="submit" class="btn btn-gradient-primary mr-2">添加</button>

@@ -38,7 +38,7 @@
                     <td>
                         @foreach($goods as $kk=>$vv)
                             @if($vv->gid == $v->id )
-                            <a href="">{{ $vv->gname }}</a>|
+                            <a style="width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" href="">{{ $vv->gname }}</a>|
                             @endif
                         @endforeach
                     </td>
