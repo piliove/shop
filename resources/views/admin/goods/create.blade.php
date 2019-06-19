@@ -64,6 +64,24 @@
                         </div>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">所属栏目</label>
+                            <div class="col-sm-9">
+                                <select class="form-control" name="cid">
+                                    @foreach($cates as $k => $v)
+                                        @if($v->pid == 0)
+                                        <option value="{{ $v->id }}" disabled>{{ $v->cname }}</option>
+                                        @else
+                                        <option value="{{ $v->id }}">{{ $v->cname }}</option>
+                                        @endif
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="form-group">
                     <label>上传缩略图</label>
                     <div class="input-group col-xs-12">

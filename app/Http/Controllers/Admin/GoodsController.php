@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Business;
 use App\Models\Goods;
+use App\Models\Cates;
 use Illuminate\Support\Facades\Storage;
 use mysql_xdevapi\Exception;
 use DB;
@@ -58,8 +59,11 @@ class GoodsController extends Controller
         // 获取商家管理的所有数据
         $business = Business::all();
 
+        // 获取栏目管理的所有数据
+        $cates = Cates::all();
+
         // 渲染 添加管理页面
-        return view('admin.goods.create',['business'=>$business]);
+        return view('admin.goods.create',['cates'=>$cates,'business'=>$business]);
     }
 
     /**
@@ -87,7 +91,9 @@ class GoodsController extends Controller
         $goods->gtitle = $data['gtitle'];
         $goods->gnum = $data['gnum'];
         $goods->gid = $data['gid'];
+        $goods->cid = $data['cid'];
         $goods->gthumb_1 = $data['uface'];
+        $goods->_token = date('ymd', time()) . rand(1000, 10000);
 
         try {
             $path = $goods->save();
@@ -121,7 +127,17 @@ class GoodsController extends Controller
      */
     public function edit($id)
     {
-        //
+        // 获取商品管理指定数据信息
+        $goods = Goods::find($id);
+
+        // 获取商家管理的指定数据
+        $business = Business::find($goods->gid);
+
+        // 获取栏目管理的所有数据
+        $cate = Cates::all();
+
+        // 渲染 添加管理页面
+        return view('admin.goods.edit',['cate'=>$cate,'goods'=>$goods,'business'=>$business]);
     }
 
     /**
@@ -131,9 +147,41 @@ class GoodsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        //接收修改表单所有值
+        $data = $request->all();
+
+        // 实例化goods模型
+        $goods = Goods::find($data['id']);
+
+        //判断token是否一致
+        if ($goods->_token !== $data['token']) exit('验证失败');
+
+        //判断各项是否为空
+        if (!$data['gname'] || !$data['gprice'] || !$data['gdesc'] || !$data['gtitle'] || !$data['gnum'] || !$data['gid'] || !$data['uface']) exit('请确保各项值不为空');
+
+        // 将数据存入数据库
+        $goods->gname = $data['gname'];
+        $goods->gprice = $data['gprice'];
+        $goods->gdesc = $data['gdesc'];
+        $goods->gtitle = $data['gtitle'];
+        $goods->gnum = $data['gnum'];
+        $goods->gid = $data['gid'];
+        $goods->cid = $data['cid'];
+        $goods->gthumb_1 = $data['uface'];
+        $goods->_token = date('ymd', time()) . rand(1000, 10000);
+
+        try {
+            $path = $goods->save();
+            if ($path) {
+                exit('修改成功');
+            } else {
+                exit('修改失败');
+            }
+        } catch (\Exception $e) {
+            echo '用户名已存在';
+        }
     }
 
     /**

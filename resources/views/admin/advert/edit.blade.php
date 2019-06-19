@@ -2,8 +2,9 @@
 @include('/admin/common/sidebar')
 <div class="card">
     <div class="card-body">
-        <h4 class="card-title">广告管理</h4>
+        <h4 class="card-title">活动管理</h4>
         <p class="card-description">
+        活动信息修改
         </p>
         <form class="forms-sample" action="/admin/advert/{{ $advert->id }}" method="post" enctype="multipart/form-data">
             {{ csrf_field() }}
