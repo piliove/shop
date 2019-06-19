@@ -108,6 +108,9 @@ Route::resource('/admin/activity', 'Admin\ActivityController');
 //后台 活动消息转变提醒
 Route::get('/admin/changeactivitymsg','Admin\ActivityController@change');
 
+//后台 商品改变推荐位
+Route::get('/admin/recommendchange','Admin\GoodsController@changerec');
+
 
 
 
