@@ -153,8 +153,15 @@ Route::post('/admin/coupon/update','Admin\CouponController@update');
 //优惠券 增删改查
 Route::resource('admin/coupon', 'Admin\CouponController');
 
+//======================商家管理===================
+// 商家 增删改查
+Route::resource('admin/business','Admin\BusinessController');
 
-
+//======================商品管理===================
+//文件上传
+Route::post('/admin/goods/updatefile', 'Admin\GoodsController@updateFile');
+// 商品 增删改查
+Route::resource('admin/goods','Admin\GoodsController');
 
 
 

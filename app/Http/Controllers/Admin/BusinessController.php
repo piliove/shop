@@ -4,43 +4,47 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\feedbacks;
+use App\Models\Business;
+use App\Models\Goods;
 
 /**
- * 反馈管理
+ * 商家 管理
  */
-class FeedbackController extends Controller
+class BusinessController extends Controller
 {
     /**
-     * 显示反馈管理 列表页面
+     * 显示 商家管理列表页面
      *
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
     {
+        //获取Goods商品的所有数据
+        $goods = Goods::all();
+
         // 接收搜索的参数
         $search = $request->input('search','');
 
         // 查询所有数据
-        $feedbacks = FeedBacks::where('uname','like','%'.$search.'%')->paginate(5);
+        $business = Business::where('business_name','like','%'.$search.'%')->paginate(5);
 
-        // 加载 反馈列表页面
-        return view('admin.feedback.index',['feedbacks'=>$feedbacks,'search'=>$search]);
+        // 渲染 商家列表页面
+        return view('admin.business.index',['goods'=>$goods,'business'=>$business,'search'=>$search]);
     }
 
     /**
-     * 显示 添加反馈页面
+     * 显示 添加商家 页面
      *
      * @return \Illuminate\Http\Response
      */
     public function create()
     {
-        // 渲染 添加反馈页面
-        return view('/admin/feedback/create');
+        // 渲染 添加商家页面
+        return view('admin.business.create');
     }
 
     /**
-     * 执行 添加反馈操作
+     * 执行 添加商家操作
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -51,34 +55,31 @@ class FeedbackController extends Controller
         $data = $request->all();
 
         // 判断所给的值是否为空
-        if($data['uname'] == false){
+        if($data['bname'] == false){
             exit('用户名不能为空');
         }
 
-        // 判断反馈信息是否为空
-        if($data['feedback_info'] == false){
-            exit('反馈信息不能为空');
-        }
-
         //创建模型写入数据到数据库并判断是否添加成功
-        $feedbacks = new FeedBacks;
-        $feedbacks->uname = $data['uname'];
-        $feedbacks->feedback_info = $data['feedback_info'];
-
-        // 存入数据库
-        $feedbacks->save();
+        $business = new Business;
+        $business->bname = $data['bname'];
         
-        // 判断成功与否
-        if ($feedbacks) {
-            exit('添加成功');
-        } else {
-            exit('添加失败');
+        try {
+            // 存入数据库
+            $res = $business->save();
+            // 判断成功与否
+            if ($res) {
+                exit('添加成功');
+            } else {
+                exit('添加失败');
+            }
+        } catch (\Exception $e) {
+            echo '商品名称已存在';
         }
-
+        
     }
 
     /**
-     * 显示页面
+     * Display the specified resource.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -89,18 +90,19 @@ class FeedbackController extends Controller
     }
 
     /**
-     * 显示 修改反馈页面
+     * 显示 修改商家页面
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
-        //
+        // 渲染 修改页面
+        return view('admin.business.edit');
     }
 
     /**
-     * 执行 修改反馈操作
+     * 执行 修改商家操作
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
@@ -112,20 +114,18 @@ class FeedbackController extends Controller
     }
 
     /**
-     * 删除 一条反馈记录
+     * 删除 一条商家操作
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function destroy(Request $request,$id)
     {
-        // $data = $request->all();
-        // dd($data);
         // 接收到ajax提交的id参数
-        $feedbacks = FeedBacks::find($id);
+        $business = Business::find($id);
 
         // 删除数据库中该id的反馈信息
-        $res = $feedbacks->delete();
+        $res = $business->delete();
 
         // 判断并返回给ajax
         if ($res) {
@@ -133,6 +133,5 @@ class FeedbackController extends Controller
         } else {
             echo 'err';
         }
-        
     }
 }
