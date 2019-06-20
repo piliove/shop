@@ -14,13 +14,39 @@ class BannersController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $banners = DB::table('banners')->get();
+         //接收搜索传值
+        $search = $request->input('search', null);
+        $data = [
+        //  ['id', 'like', '%' . $search . '$'],
+            ['title', 'like', '%' . $search . '%'],
 
-        return view('admin.banners.index',['banners'=>$banners]);
+        ];
+        //查询所有用户数据
+        $banners = Banners::where($data)->orderBy('id')->paginate(3);
+
+        return view('admin.banners.index',['banners'=>$banners, 'search' => $search]);
     }
 
+    /**
+     * 接收上传头像
+     */
+    public function updateFile(Request $request)
+    {
+        if ($request->hasFile('url')) {
+            //创建上传对象
+            $url = $request->file('url');
+            //修改上传文件名称
+            $name = $url->extension();
+            $FileName = time() . rand(100, 1234);
+            $FileName = $FileName . '.' . $name;
+            //执行上传文件
+            $path = $url->storeAs('/' . date('Ymd', time()), $FileName);
+            //返回上传文件名称
+            echo $path;
+        }
+    }
     /**
      * 显示添加 页面
      *
@@ -39,32 +65,16 @@ class BannersController extends Controller
      */
     public function store(Request $request)
     {
-        // 验证数据
-        $this->validate($request, [
-            'title' => 'required|max:30',
-            'url' => 'required',
-        ],[
-            'title.required'=>'标题必填',
-            'phone.regex'=>'标题超出',
-            'url.required'=>'图片必填',
-        ]);
-        if ($request->hasFile('url')) {
-            $url = $request->file('url')->store(date('Ymd')); 
-        } else {
-            return back()-> with('error','请选择图片');
-        }
-
-        $banners['title'] = $request->input('title','');
-        $banners['url'] = $url;
-        $banners['status'] = $request->input('status','');
+        $banners = $request->except('_token');
 
         $res = DB::table('banners')->insert($banners);
 
-        if($res){
-            return redirect('admin/banners')->with('success','添加成功');
-        }else{
-            return back()->with('error','添加失败');
+        if($res) {
+            exit('添加成功');
+        } else {
+            exit('添加失败');
         }
+
     }
 
     /**
@@ -98,25 +108,29 @@ class BannersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        // 检查文件
-         if($request->hasFile('url')){
-            $url = $request->file('url')->store(date('Ymd'));
-        }else{
-            $url = $request->input('url');
-        }
+        //接收修改表单所有值
+        $data = $request->all();
 
-        //接受数据
-        $banners['title'] = $request->input('title','');
-        $banners['url'] = $url;
+        // 实例化goods模型
+        $banners = banners::find($data['id']);
 
-         // 执行修改
-        $res = DB::table('banners')->where('id',$id)->update($banners);
-        if($res){
-            return redirect('admin/banners')->with('success','修改成功');
-        }else{
-            return back()->with('error','修改失败');
+        //判断token是否一致
+        if ($banners->_token !== $data['token']) exit('验证失败');
+
+        //判断各项是否为空
+        if (!$data['title'] || !$data['url']) exit('请确保各项值不为空');
+
+        // 将数据存入数据库
+        $banners->title = $data['title'];
+        $banners->url = $data['url'];
+
+        $path = $banners->save();
+        if ($path) {
+            exit('修改成功');
+        } else {
+            exit('修改失败');
         }
     }
 
@@ -126,13 +140,20 @@ class BannersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        $res = Banners::destroy($id);
-        if ($res) {
-            return back()->with('success','删除成功');
+         //接收传值
+        $id = $request->input('id');
+        //查询id对应用户
+        $img = Banners::find($id);
+        //执行删除操作
+        $banners = Banners::destroy($id);
+        if ($banners) {
+            echo '删除成功';
+            //删除查询出的用户头像
+            Storage::delete($img->url);
         } else {
-            return back()->with('error','删除失败');
+            echo '删除失败';
         }
     }
     

@@ -1,5 +1,14 @@
 @include('/admin/common/head')
 @include('admin/common/sidebar')
+@if (count($errors) > 0)
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
 <div class="page-header">
     <h3 class="page-title">
         广告列表
@@ -7,10 +16,10 @@
 </div>
 <div class="card">
     <div class="card-body">
-        <form action="/admin/user" method="get" style="width:100%">
+        <form action="/admin/advert" method="get" style="width:100%">
         <div class="input-group" style="width:30%">
             <h4 style="font-size:25px;">搜索:&nbsp;&nbsp;</h4>
-            <input style="height:30px;" type="text" class="form-control" placeholder="输入用户名或ID搜索">
+            <input style="height:30px;" type="text" name="search" class="form-control" placeholder="输入用户名或ID搜索">
             <div class="input-group-append">
                 <button style="height:30px;" class="btn btn-sm btn-gradient-primary" type="submit"><i class="mdi mdi-account-search"></i></button>
             </div>
@@ -47,11 +56,8 @@
                         <td>{{ $v->created_at }}</td>
                         <td>
                             <a href="/admin/advert/{{$v->id}}/edit" class="btn btn-info btn-sm">修改</a>
-                           <form action="/admin/advert/{{ $v->id }}" method="post" style="display: inline-block;">
-                                {{ csrf_field() }}
-                                {{ method_field('DELETE') }}
-                                <input type="submit" value="删除" class="btn btn-gradient-danger btn-sm">
-                            </form>
+                            <a href="JavaScript:;" onclick="del({{$v->id}},this)"
+                           class="btn btn-gradient-danger btn-sm">删除</a>
                             @if( $v->activity_status == 0 )
                             <a href="javascript:;" class="btn btn-gradient-primary btn-sm" onclick="changeStatus({{ $v->id }},1)">激活</a>
                             @else
@@ -61,46 +67,67 @@
                     </tr>
                 @endforeach
                 </tbody>
-        </table>
+            </table>
+        <!-- 分页 开始 -->
+        <div style="margin-top:10px;">{{ $advert->appends(['search'=>$search])->links('common.paginator') }}</div>
+        <!-- 分页 结束 -->
     </div>
 </div>
         <script type="text/javascript">
             function changeStatus(id,sta)
             {
-            	if(sta == 1){
+                if(sta == 1){
                     $('#myModal form input[type=radio]').eq(1).attr('checked',true);
-            	}else{
-            	    $('#myModal form input[type=radio]').eq(0).attr('checked',true);	
-            	}
-            	$('#myModal form input[type=hidden]').eq(0).val(id);
-            	$('#myModal').modal('show')
+                }else{
+                    $('#myModal form input[type=radio]').eq(0).attr('checked',true);    
+                }
+                $('#myModal form input[type=hidden]').eq(0).val(id);
+                $('#myModal').modal('show')
             }
        </script>
-		<!-- Modal -->
-		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-		  <div class="modal-dialog" role="document">
-		    <div class="modal-content">
-		      <div class="modal-header">
-		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-		        <h4 class="modal-title" id="myModalLabel">广告状态</h4>
-		      </div>
-		      <div class="modal-body">
-		        <form action="/admin/advert/changeStatus" method="get">
-		            <input type="hidden" name="id" value="">
-		        	<div class="form-group"> 
-				       <br>
-				          未开启:<input type="radio" name="activity_status" value="0">
-				          &nbsp;&nbsp;&nbsp;
-				          开启:<input type="radio" name="activity_status" value="1"> 
-		            </div>
-		            <input type="submit" class="btn btn-success">
-		        </form>
-		      </div>
-		    
-		    </div>
-		  </div>
-		</div>
+        <!-- Modal -->
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">广告状态</h4>
+              </div>
+              <div class="modal-body">
+                <form action="/admin/advert/changeStatus" method="get">
+                    <input type="hidden" name="id" value="">
+                    <div class="form-group"> 
+                       <br>
+                          未开启:<input type="radio" name="activity_status" value="0">
+                          &nbsp;&nbsp;&nbsp;
+                          开启:<input type="radio" name="activity_status" value="1"> 
+                    </div>
+                    <input type="submit" class="btn btn-success">
+                </form>
+              </div>
+            
+            </div>
+          </div>
+        </div>
         <!-- END PANEL HEADLINE -->
     </div>
 </div>
 @include('/admin/common/foot')
+<script>
+    function del(id, obj) {
+        layer.msg('确定删除?', {
+            time: 0 //不自动关闭
+            , btn: ['确定', '取消']
+            , yes: function () {
+                $.get('/admin/advert/del?id=' + id, function (res) {
+                    if (res == '删除成功') {
+                        layer.alert(res, {icon: 6});
+                        $(obj).parent().parent().remove();
+                    } else {
+                        layer.msg(res, {icon: 5});
+                    }
+                }, 'html')
+            }
+        });
+    }
+</script>

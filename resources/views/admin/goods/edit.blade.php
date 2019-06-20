@@ -69,6 +69,14 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">促销价</label>
+                            <div class="col-sm-9">
+                                <input type="number" name="gprices" value="{{ $goods->gprices }}" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group row">
                             <label class="col-sm-3 col-form-label">所属栏目</label>
                             <div class="col-sm-9">
                                 <select class="form-control" name="cid">
@@ -88,7 +96,7 @@
                     <label>上传缩略图</label>
                     <div class="input-group col-xs-12">
                         <input type="file" name="file" id="file" class="form-control">
-                            <input type="hidden" id="hidden_uface" name="uface">
+                            <input type="hidden" value="{{ $goods->gthumb_1 }}" id="hidden_uface" name="uface">
                     </div>
                     <img style="width:100px; height:100px;" src="/uploads/{{$goods->gthumb_1}}" id="uface" alt="">
                 </div>
