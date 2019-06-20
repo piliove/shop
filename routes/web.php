@@ -101,15 +101,24 @@ Route::get('/admin/changecatemsg','Admin\CateController@change');
 //分类管理 
 Route::resource('/admin/cate', 'Admin\CateController');
 
+//活动商品详情
+Route::get('/admin/activity/actgoods', 'Admin\ActivityController@actGoods');
+//活动商品 取消资格
+Route::post('/admin/activity/delactgoods', 'Admin\ActivityController@delactGoods');
+//活动商品 添加资格 页面
+Route::get('/admin/activity/createactgoods', 'Admin\ActivityController@createActGoods');
+//活动商品 添加
+Route::get('/admin/activity/addactgoods', 'Admin\ActivityController@addActGoods');
 //活动头像异步传输
 Route::post('/admin/getprofile', 'Admin\ActivityController@getProfile');
+//后台 活动消息转变提醒
+Route::get('/admin/changeactivitymsg', 'Admin\ActivityController@change');
 //后台 活动管理
 Route::resource('/admin/activity', 'Admin\ActivityController');
-//后台 活动消息转变提醒
-Route::get('/admin/changeactivitymsg','Admin\ActivityController@change');
+
 
 //后台 商品改变推荐位
-Route::get('/admin/recommendchange','Admin\GoodsController@changerec');
+Route::get('/admin/recommendchange', 'Admin\GoodsController@changerec');
 
 
 

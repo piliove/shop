@@ -9,7 +9,10 @@ use Illuminate\Support\Facades\Storage;
 //引用正则
 use App\Http\Requests\CheckActivity;
 //引入模型对象
-use  App\Models\Activity;
+use App\Models\Activity;
+use App\Models\Goods;
+//引入数据库语句
+use DB;
 
 class ActivityController extends Controller
 {
@@ -239,5 +242,82 @@ class ActivityController extends Controller
         }
     }
 
-   
+     /**
+     * 显示活动商品详情 页面
+     *
+     * @param  Request(id(活动id), search_key(搜索关键字))
+     * @return 258行
+     * @return_param act_goods_data 活动商品数据 serch_key 关键字数据
+     */
+     public function actGoods(Request $request)
+     {
+         //搜索关键字
+         $search_key = $request->input('search_key','');
+         //取的活动id
+         $id = $request->input('id');
+         //实例化模型
+         $activity = Activity::find($id);
+         //根据id取的一对多关系的活动商品
+         $act_goods_data = $activity->goods()->paginate(5);
+         return view('admin.activity.actinfo',['act_goods_data'=>$act_goods_data, 'search_key'=>$search_key, 'aid'=>$id]);
+     }
+
+     /**
+     * 取消活动商品资格
+     *
+     * @param  Request(id(商品id))
+     * @return 276行
+     */
+     public function delActGoods(Request $request)
+     {
+         //取的要修改的活动商品id
+         $id = $request->input('id');
+
+         //修改活动id
+         $res = DB::table('goods')->where('id',$id)->update(['activity_id'=>0]);
+
+         if($res){
+             echo '修改成功';
+         } else {
+             echo '修改失败';
+         }
+
+     }
+
+     /**
+     * 添加活动商品资格
+     *
+     * @param  Request(id(活动id))
+     * @return 
+     */
+     public function createActGoods(Request $request)
+     {
+         
+         //搜索关键字
+         $search_key = $request->input('search_key','');
+         $aid = $request->input('aid');
+         //添加所有的商品
+         $goods_data = Goods::where('gname','like','%'.$search_key.'%')->where('activity_id',0)->paginate(5);
+
+         return view('admin.activity.createActGoods',['goods_data'=>$goods_data, 'search_key'=>$search_key, 'aid'=>$aid]); 
+     }
+
+     public static $temp = array();
+
+     public function addActGoods(Request $request)
+     {
+         //接收数据
+       $id = $request->input('id');
+       $add = $request->input('add');
+       $aid = $request->input('aid');
+       
+       if($add == "1"){
+           DB::table('goods')->where('id',$id)->update(['activity_id'=>$aid]);
+          
+       } else {
+           DB::table('goods')->where('id',$id)->update(['activity_id'=>0]);
+       }
+     
+
+     }
 }

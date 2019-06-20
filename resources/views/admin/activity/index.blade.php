@@ -23,10 +23,9 @@
             <thead>
              <tr>
                 <th>ID</th>
-                <th>活动标题</th>
-                <th>活动描述</th>
+                <th>活动标题</th>                
                 <th>活动标签</th>
-                <th>活动图</th>
+                <th class="act_img">活动图</th>
                 <th>开始时间</th>
                 <th>结束时间</th>
                 <th>状态</th>
@@ -38,10 +37,9 @@
                 <tr>
                     <td>{{ $v->id }}</td>
                     <td>{{ $v->activity_title }}</td>
-                    <td>{{ $v->activity_desc }}</td>
                     <td>{{ $v->activity_tag }}</td>
                     <td>
-                        <img src="/uploads/{{ $v->activity_path }}" alt="">
+                        <img src="/uploads/{{ $v->activity_path }}" alt="" title="{{ $v->activity_desc }}">
                     </td>
                     <td>{{ $v->start_time }}</td>
                     <td>{{ $v->end_time }}</td>
@@ -49,7 +47,7 @@
                     <td>  
                             <a href="/admin/activity/{{ $v->id }}/edit" class="btn btn-info btn-sm">修改</a>                
                             <a href="javascript:;" onclick="del({{ $v->id }}, this)" class="btn btn-gradient-danger btn-sm">删除</a>
-                        
+                            <a href="/admin/activity/actgoods?id={{ $v->id }}" class="btn btn-gradient-primary btn-sm">活动商品详情</a>
                     </td>
                 </tr>
                @endforeach
@@ -91,4 +89,10 @@
         );
 
     }
+
+    layer.tips('鼠标移动到图片上查看活动描述', '.act_img', {
+        tips: [1, '#3595CC'],
+        time: 4000
+    });
+
 </script>
