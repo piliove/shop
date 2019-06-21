@@ -22,7 +22,7 @@ class FeedbackController extends Controller
         $search = $request->input('search','');
 
         // 查询所有数据
-        $feedbacks = FeedBacks::where('uname','like','%'.$search.'%')->paginate(1);
+        $feedbacks = FeedBacks::where('uname','like','%'.$search.'%')->paginate(5);
 
         // 加载 反馈列表页面
         return view('admin.feedback.index',['feedbacks'=>$feedbacks,'search'=>$search]);
@@ -52,25 +52,27 @@ class FeedbackController extends Controller
 
         // 判断所给的值是否为空
         if($data['uname'] == false){
-            return back()->with('error','用户名不能为空');
+            exit('用户名不能为空');
         }
 
         // 判断反馈信息是否为空
         if($data['feedback_info'] == false){
-            return back()->with('error','反馈信息不能为空');
+            exit('反馈信息不能为空');
         }
 
         //创建模型写入数据到数据库并判断是否添加成功
         $feedbacks = new FeedBacks;
         $feedbacks->uname = $data['uname'];
         $feedbacks->feedback_info = $data['feedback_info'];
+
+        // 存入数据库
         $feedbacks->save();
         
         // 判断成功与否
-        if($feedbacks){
-            return redirect('/admin/feedback')->with('success','添加成功!');
-        }else {
-            return back()->with('error','添加失败!');
+        if ($feedbacks) {
+            exit('添加成功');
+        } else {
+            exit('添加失败');
         }
 
     }
@@ -87,14 +89,19 @@ class FeedbackController extends Controller
     }
 
     /**
-     * 显示 修改反馈页面
+     * 显示 详情页面
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
-        //
+
+        // 查询该记录所有数据
+        $feedbacks = Feedbacks::find($id);
+
+        // 渲染详情页面
+        return view('admin.feedback.edit',['feedbacks'=>$feedbacks]);
     }
 
     /**

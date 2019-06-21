@@ -64,7 +64,52 @@
                 </li>
                 <!-- 侧边栏:链接管理 结束 -->
 
-                
+
+                <!-- 侧边栏:分类管理 开始 -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/cate">
+                        <span class="menu-title">栏目管理</span>
+                        <i class="mdi mdi-account menu-icon"></i>
+                    </a>
+                </li>
+                <!-- 侧边栏:分类管理 结束 -->
+
+                <!-- 侧边栏:活动管理 开始 -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/activity">
+                        <span class="menu-title">活动管理</span>
+                        <i class="mdi mdi-account menu-icon"></i>
+                    </a>
+                </li>
+                <!-- 侧边栏:活动管理 结束 -->
+
+                <!-- 侧边栏:商家管理 开始 -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/business">
+                        <span class="menu-title">商家管理</span>
+                        <i class="mdi mdi-account menu-icon"></i>
+                    </a>
+                </li>
+                <!-- 侧边栏:商家管理 结束 -->
+
+                <!-- 侧边栏:商品管理 开始 -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/goods">
+                        <span class="menu-title">商品管理</span>
+                        <i class="mdi mdi-account menu-icon"></i>
+                    </a>
+                </li>
+                <!-- 侧边栏:商品管理 结束 -->
+
+                <!-- 侧边栏:地址管理 开始 -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/addres">
+                        <span class="menu-title">地址管理</span>
+                        <i class="mdi mdi-account menu-icon"></i>
+                    </a>
+                </li>
+                <!-- 侧边栏:地址管理 结束 -->
+
             </ul>
         </nav>
         <!-- 内容start -->

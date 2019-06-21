@@ -22,7 +22,7 @@ class CouponController extends Controller
         $search = $request->input('search','');
 
         // 查询所有数据
-        $coupons = Coupons::where('cname','like','%'.$search.'%')->paginate(1);
+        $coupons = Coupons::where('cname','like','%'.$search.'%')->paginate(5);
 
         // 渲染 加载优惠券列表视图页面
         return view('admin.coupon.index',['coupons'=>$coupons,'search'=>$search]);
@@ -47,24 +47,22 @@ class CouponController extends Controller
      */
     public function store(Request $request)
     {
-        // 接收表单传递的参数
-        $data['cname'] = $request->input('cname','');
-        $data['cprice'] = $request->input('cprice','');
-        $data['cnum'] = $request->input('cnum','');
+        // 获取表单提交的值
+        $data = $request->all();
 
-        // 判断字符串长度
-        if (mb_strlen($data['cname'])<20) {
-            return back()->with('error','优惠券名称长度超过限制');
+        // 判断优惠券名称长度
+        if( strlen($data['cname']) > 30 ){
+            exit('优惠券长度不超过十位');
         }
 
-        // 判断是否是数字
+        // 判断价格是否是数字类型
         if( is_numeric($data['cprice']) == false ){
-            return back()->with('error','优惠券价格有误');
+            exit('价格必须输入数字');
         }
 
-        // 判断是否是数字
+        // 判断数量是否是数字类型
         if( is_numeric($data['cnum']) == false ){
-            return back()->with('error','优惠券数量有误');
+            exit('数量必须输入数字');
         }
 
         //创建模型写入数据到数据库并判断是否添加成功
@@ -77,10 +75,10 @@ class CouponController extends Controller
         $coupons->save();
 
         // 判断成功与否
-        if($coupons){
-            return redirect('/admin/coupon')->with('success','添加成功!');
-        }else {
-            return back()->with('error','添加失败!');
+        if ($coupons) {
+            exit('添加成功');
+        } else {
+            exit('添加失败');
         }
 
     }
@@ -118,25 +116,26 @@ class CouponController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request,$id)
+    public function update(Request $request)
     {
-        // 接收表单传递的参数
-        $data['cname'] = $request->input('cname','');
-        $data['cprice'] = $request->input('cprice','');
-        $data['cnum'] = $request->input('cnum','');
-        
-        // 判断是否是数字
+        //接收修改表单所有值
+        $data = $request->all();
+
+        //查询出对应ID的coupons的数据库
+        $coupons = Coupons::find($data['id']);
+
+        // 判断价格是否是数字类型
         if( is_numeric($data['cprice']) == false ){
-            return back()->with('error','优惠券价格有误');
+            exit('价格必须输入数字');
         }
 
-        // 判断是否是数字
+        // 判断数量是否是数字类型
         if( is_numeric($data['cnum']) == false ){
-            return back()->with('error','优惠券数量有误');
+            exit('数量必须输入数字');
         }
 
         // 查询该记录所有数据
-        $coupons = Coupons::find($id);
+        // $coupons = Coupons::find($id);
         $coupons->cname = $data['cname'];
         $coupons->cprice = $data['cprice'];
         $coupons->cnum = $data['cnum'];
@@ -146,9 +145,9 @@ class CouponController extends Controller
         
         // 判断成功与否
         if($coupons){
-            return redirect('/admin/coupon')->with('success','添加成功!');
+            exit('修改成功');
         }else {
-            return back()->with('error','添加失败!');
+            exit('修改失败');
         }
     }
 
