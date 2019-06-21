@@ -21,7 +21,7 @@ class RegController extends Controller
      */
     public function index()
     {
-        return view('/home/reg');
+        return view('/home/reg/reg');
     }
 
     /**

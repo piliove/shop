@@ -14,7 +14,7 @@ class LoginController extends Controller
      */
     public function login()
     {
-        return view('home/login');
+        return view('home//login/login');
     }
 
     public function doLogin(Request $request)
