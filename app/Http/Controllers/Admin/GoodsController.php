@@ -87,6 +87,7 @@ class GoodsController extends Controller
         // 将数据存入数据库
         $goods->gname = $data['gname'];
         $goods->gprice = $data['gprice'];
+        $goods->gprice = $data['gprices'];
         $goods->gdesc = $data['gdesc'];
         $goods->gtitle = $data['gtitle'];
         $goods->gnum = $data['gnum'];
@@ -159,11 +160,18 @@ class GoodsController extends Controller
         if ($goods->_token !== $data['token']) exit('验证失败');
 
         //判断各项是否为空
-        if (!$data['gname'] || !$data['gprice'] || !$data['gdesc'] || !$data['gtitle'] || !$data['gnum'] || !$data['gid'] || !$data['uface']) exit('请确保各项值不为空');
+        if ( !$data['gname'] || !$data['gprice'] || !$data['gdesc'] || !$data['gtitle'] || !$data['gnum'] || !$data['gid'] ) exit('请确保各项值不为空');
+        //判断头像是否有修改
+        if (empty($data['uface'])) {
+            $data['uface'] = $goods->uface;
+        } else {
+            $data['uface'];
+        }
 
         // 将数据存入数据库
         $goods->gname = $data['gname'];
         $goods->gprice = $data['gprice'];
+        $goods->gprice = $data['gprices'];
         $goods->gdesc = $data['gdesc'];
         $goods->gtitle = $data['gtitle'];
         $goods->gnum = $data['gnum'];

@@ -67,6 +67,14 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">促销价</label>
+                            <div class="col-sm-9">
+                                <input type="number" name="gprices" value="" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group row">
                             <label class="col-sm-3 col-form-label">所属栏目</label>
                             <div class="col-sm-9">
                                 <select class="form-control" name="cid">
