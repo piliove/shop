@@ -18,7 +18,10 @@ class IndexController extends Controller
         // 使用CartController控制器下的countCart方法
         $countCart = CartController::countCart();
 
+        //取得分类
+        $cate_data = CateController::getCate();
+        
         // 渲染 商城首页
-        return view('/home/index/index',['countCart'=>$countCart]);
+        return view('/home/index/index',['countCart'=>$countCart, 'cate_data'=>$cate_data]);
     }
 }
