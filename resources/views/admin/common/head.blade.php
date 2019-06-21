@@ -61,5 +61,4 @@
             </button>
         </div>
     </nav>
-    <!-- partial -->
     <div class="container-fluid page-body-wrapper">
