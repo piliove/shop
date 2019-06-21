@@ -11,9 +11,7 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
 
 //*********************************前台路由******************************
 //=================前台注册(手机号/邮箱)=====================
@@ -225,6 +223,14 @@ Route::resource('/admin/activity', 'Admin\ActivityController');
 
 //后台 商品改变推荐位
 Route::get('/admin/recommendchange', 'Admin\GoodsController@changerec');
+
+//后台 网站配置
+Route::get('/admin/website', 'Admin\WebsiteController@index');
+//后台 文件修改
+Route::post('/admin/website/update', 'Admin\WebsiteController@update');
+//后台 改变信息
+Route::get('/admin/changesitemsg', 'Admin\WebsiteController@change');
+
 
 
 
