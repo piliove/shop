@@ -78,7 +78,7 @@ class GoodsController extends Controller
         $data = $request->all();
 
         //判断各项是否为空
-        if (!$data['gname'] || !$data['gprice'] || !$data['gdesc'] || !$data['gtitle'] || !$data['gnum'] || !$data['gid'] || !$data['uface']) exit('请确保各项值不为空');
+        if (!$data['gname'] && !$data['gprice'] && !$data['gdesc'] && !$data['gtitle'] && !$data['gnum'] && !$data['gid'] && !$data['uface']) exit('请确保各项值不为空');
         
         //创建模型写入数据到数据库并判断是否添加成功
         // 实例化goods模型

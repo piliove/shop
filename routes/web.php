@@ -66,7 +66,7 @@ Route::get('/home/cart/delete', 'Home\CartController@delete');
 Route::get('/home/orders/index', 'Home\OrdersController@index');
 
 //=====================前台地址管理========================
-//接收修改商品传值
+// 接收修改商品传值
 Route::post('/home/addres/update','Home\AddresController@update');
 // 前台删除用户
 Route::get('home/addres/del', 'Home\AddresController@destroy');
@@ -77,52 +77,52 @@ Route::resource('home/addres', 'Home\AddresController');
 
 //*********************************后台路由******************************
 //======================登陆管理===================
-//显示登陆页面
+// 显示登陆页面
 Route::get('/admin/login', 'Admin\LoginController@login');
 Route::get('/admin', 'Admin\LoginController@login');
-//接收登录表单传值
+// 接收登录表单传值
 Route::post('/admin/dologin', 'Admin\LoginController@doLogin');
-//退出登录
+// 退出登录
 Route::get('/admin/logout', 'Admin\LoginController@logout');
 
-//中间件
+// 中间件
 // Route::group(['middleware' => ['AdminLogin', 'RolesUser']], function () {
-//rbac错误页面
-    Route::get('/admin/rbac','Admin\LoginController@rbac');
-//个人中心
-    Route::get('/admin/center/{id}/{token}', 'Admin\LoginController@center');
-//接收个人中心传值
-    Route::post('/admin/center/update/{id}', 'Admin\LoginController@update');
+// rbac错误页面
+Route::get('/admin/rbac','Admin\LoginController@rbac');
+// 个人中心
+Route::get('/admin/center/{id}/{token}', 'Admin\LoginController@center');
+// 接收个人中心传值
+Route::post('/admin/center/update/{id}', 'Admin\LoginController@update');
 //======================用户管理===================
-//用户文件上传
-    Route::post('admin/user/updatefile', 'Admin\UserController@updateFile');
-//删除用户
-    Route::get('/admin/user/del', 'Admin\UserController@destroy');
-//接收修改用户传值
-    Route::post('/admin/user/update', 'Admin\UserController@update');
-//修改密码
-    Route::get('/admin/user/upwd', 'Admin\UserController@upwd');
-//接收修改密码值
-    Route::post('/admin/user/upwd/cpwd', 'Admin\UserController@cpwd');
-//用户增删改查
-    Route::resource('/admin/user', 'Admin\UserController');
-//管理员文件上传
-    Route::post('/admin/admin/updatefile', 'Admin\AdminUserController@updateFile');
-//删除管理员
-    Route::get('/admin/admin/del', 'Admin\AdminUserController@destroy');
-//后台管理员
-    Route::resource('/admin/admin', 'Admin\AdminUserController');
-//删除角色
-    Route::get('/admin/nodes/del', 'Admin\NodesController@destroy');
-//角色权限
-    Route::resource('/admin/nodes', 'Admin\NodesController');
-//删除控制器
-    Route::get('/admin/roles/del', 'Admin\RolesController@destroy');
-//控制器列表
-    Route::resource('/admin/roles', 'Admin\RolesController');
+// 用户文件上传
+Route::post('admin/user/updatefile', 'Admin\UserController@updateFile');
+// 删除用户
+Route::get('/admin/user/del', 'Admin\UserController@destroy');
+// 接收修改用户传值
+Route::post('/admin/user/update', 'Admin\UserController@update');
+// 修改密码
+Route::get('/admin/user/upwd', 'Admin\UserController@upwd');
+// 接收修改密码值
+Route::post('/admin/user/upwd/cpwd', 'Admin\UserController@cpwd');
+// 用户增删改查
+Route::resource('/admin/user', 'Admin\UserController');
+// 管理员文件上传
+Route::post('/admin/admin/updatefile', 'Admin\AdminUserController@updateFile');
+// 删除管理员
+Route::get('/admin/admin/del', 'Admin\AdminUserController@destroy');
+// 后台管理员
+Route::resource('/admin/admin', 'Admin\AdminUserController');
+// 删除角色
+Route::get('/admin/nodes/del', 'Admin\NodesController@destroy');
+// 角色权限
+Route::resource('/admin/nodes', 'Admin\NodesController');
+// 删除控制器
+Route::get('/admin/roles/del', 'Admin\RolesController@destroy');
+// 控制器列表
+Route::resource('/admin/roles', 'Admin\RolesController');
 
 //======================反馈管理===================
-//反馈增删改查
+// 反馈增删改查
 Route::resource('/admin/feedback', 'Admin\FeedbackController');
 
 //======================轮播图管理===================
@@ -134,7 +134,7 @@ Route::get('/admin/banners/changeStatus','Admin\BannersController@changeStatus')
 Route::get('admin/banners/del', 'Admin\BannersController@destroy');
 // 轮播图 修改 
 Route::post('/admin/banners/update', 'Admin\BannersController@update');
-//轮播图增删改查
+// 轮播图增删改查
 Route::resource('/admin/banners','Admin\BannersController');
 
 //=======================广告管理========================
@@ -156,7 +156,8 @@ Route::get('/admin/changelinkmsg', 'Admin\LinkController@change');
 Route::resource('admin/link', 'Admin\LinkController');
 
 //======================地址管理========================
-// 删除地址
+
+//======================删除地址=========================
 Route::get('admin/addres/del', 'Admin\AddresController@destroy');
 // 后台地址
 Route::resource('admin/addres', 'Admin\AddresController');
@@ -219,6 +220,45 @@ Route::resource('/admin/activity', 'Admin\ActivityController');
 
 //后台 商品改变推荐位
 Route::get('/admin/recommendchange', 'Admin\GoodsController@changerec');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//=======================C=========================
+
+
+
+
+
+
+
+
+
+
 
 
 

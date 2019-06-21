@@ -124,17 +124,50 @@
 									</li>
 									<li class="td td-op">
 										<div class="td-inner">
-											<a href="javascript:;" title="移入收藏夹" class="btn-fav">
+											<a href="javascript:;" onclick="login()" title="移入收藏夹" class="btn-fav">
                                             移入收藏夹</a>
 											<a href="/home/cart/delete?id={{ $v->id }}" onclick="down()" data-point-url="#" class="delete">
                                             删除</a>
 										</div>
 									</li>
+									<!-- ajax脚本 开始 -->
 									<script>
 										function down(){
 											confirm('确定要删除吗?');
 										}
 									</script>
+									<!-- ajax脚本 结束 -->
+									<!-- ajax脚本 开始 -->
+									<script>
+
+									$.ajaxSetup({
+										headers: {
+											'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+										}
+									});
+
+									function login(){
+										// 获取用户输入的用户名和密码
+										let uname = $('.form1 input[name=uname]').eq(0).val();
+										let upass = $('.form1 input[name=upass]').eq(0).val();
+
+										// 发送ajax
+										$.post('/home/login/dologin',{uname,upass},function(res){
+											if (res.msg == 'err' ) {
+												// 弹出失败提示
+												layer.msg(res.info);
+											} else {
+												// 弹出成功提示
+												layer.msg(res.info);
+
+												// 跳转到首页
+												window.location.href = '/';
+											}
+										},'json');
+									}
+
+									</script>
+									<!-- ajax脚本 结束 -->
 								</ul>
 							</div>
                             @endforeach
