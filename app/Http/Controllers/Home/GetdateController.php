@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Cates;
 
-class CateController extends Controller
+class GetdateController extends Controller
 {
     public static function getCate($pid = 0)
     {

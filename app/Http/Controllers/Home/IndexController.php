@@ -19,7 +19,7 @@ class IndexController extends Controller
         $countCart = CartController::countCart();
 
         //取得分类
-        $cate_data = CateController::getCate();
+        $cate_data = GetdateController::getCate();
         
         // 渲染 商城首页
         return view('/home/index/index',['countCart'=>$countCart, 'cate_data'=>$cate_data]);
