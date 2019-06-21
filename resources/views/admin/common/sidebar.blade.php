@@ -19,6 +19,33 @@
                 </li>
                 <!-- 侧边栏:用户 结束 -->
 
+                <!-- 侧边栏:管理员 开始 -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/admin">
+                        <span class="menu-title">管理员管理</span>
+                        <i class="mdi mdi-account menu-icon"></i>
+                    </a>
+                </li>
+                <!-- 侧边栏:管理员 结束 -->
+
+                <!-- 侧边栏:角色管理 开始 -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/nodes">
+                        <span class="menu-title">角色管理</span>
+                        <i class="mdi mdi-account menu-icon"></i>
+                    </a>
+                </li>
+                <!-- 侧边栏:角色管理 结束 -->
+
+                <!-- 侧边栏:权限管理 开始 -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/roles">
+                        <span class="menu-title">权限管理</span>
+                        <i class="mdi mdi-account menu-icon"></i>
+                    </a>
+                </li>
+                <!-- 侧边栏:权限管理 结束 -->
+
                 <!-- 侧边栏:反馈管理 开始 -->
                 <li class="nav-item">
                     <a class="nav-link" href="/admin/feedback">
