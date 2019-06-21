@@ -6,12 +6,9 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Addres;
 use DB;
-<<<<<<< HEAD
-=======
 // 使用Cart控制器的方法
 use App\Http\Controllers\Home\CartController;
 
->>>>>>> origin/muyinya
 class AddresController extends Controller
 {
     /**
@@ -21,19 +18,13 @@ class AddresController extends Controller
      */
     public function index()
     {
-<<<<<<< HEAD
-        $addres = DB::table('addres')->get();
-        return view('home/addres/index',['addres'=>$addres]);
-=======
-        // 获取地址管理 所有数据
-        $addres = DB::table('addres')->get();
-
         // 使用CartController控制器下的countCart方法
         $countCart = CartController::countCart();
 
-        // 渲染 地址首页
+        $addres = DB::table('addres')->get();
+
+        // 渲染 地址管理页面
         return view('home/addres/index',['addres'=>$addres,'countCart'=>$countCart]);
->>>>>>> origin/muyinya
     }
 
     /**
@@ -115,16 +106,14 @@ class AddresController extends Controller
      */
     public function edit($id)
     {
-<<<<<<< HEAD
          // 获取商品管理指定数据信息
         $addres = Addres::find($id);
 
+        // 使用CartController控制器下的countCart方法
+        $countCart = CartController::countCart();
 
         // 渲染 添加管理页面
-        return view('home.addres.edit',['addres'=>$addres]);
-=======
-        //
->>>>>>> origin/muyinya
+        return view('home.addres.edit',['addres'=>$addres,'countCart'=>$countCart]);
     }
 
     /**
@@ -134,7 +123,6 @@ class AddresController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-<<<<<<< HEAD
     public function update(Request $request)
     {
         //接收修改表单所有值
@@ -161,13 +149,6 @@ class AddresController extends Controller
             exit('修改失败');
         }
 
-=======
-    public function update(Request $request, $id)
-    {
-        //接收传值
-        $id = $request->input('id');
-        dd($id);
->>>>>>> origin/muyinya
     }
 
     /**
@@ -190,7 +171,6 @@ class AddresController extends Controller
             echo '删除失败';
         }
     }
-<<<<<<< HEAD
     public function changeStatus(Request $request)
     {
        //接收修改表单所有值
@@ -207,6 +187,4 @@ class AddresController extends Controller
             return back()->with('error','修改失败');
         }
     }
-=======
->>>>>>> origin/muyinya
 }

@@ -37,54 +37,6 @@
         </div>
         <div class="navbar-menu-wrapper d-flex align-items-stretch">
             <ul class="navbar-nav navbar-nav-right">
-                
-                <li class="nav-item dropdown">
-                    <a class="nav-link count-indicator dropdown-toggle" id="messageDropdown" href="#" data-toggle="dropdown" aria-expanded="false">
-                        <i class="mdi mdi-email-outline"></i>
-                        <span class="count-symbol bg-warning"></span>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="messageDropdown">
-                        <h6 class="p-3 mb-0">Messages</h6>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item preview-item">
-                            <div class="preview-thumbnail">
-                                <img src="/admins/images/faces/face4.jpg" alt="image" class="profile-pic">
-                            </div>
-                            <div class="preview-item-content d-flex align-items-start flex-column justify-content-center">
-                                <h6 class="preview-subject ellipsis mb-1 font-weight-normal">Mark send you a message</h6>
-                                <p class="text-gray mb-0">
-                                    1 Minutes ago
-                                </p>
-                            </div>
-                        </a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item preview-item">
-                            <div class="preview-thumbnail">
-                                <img src="/admins/images/faces/face2.jpg" alt="image" class="profile-pic">
-                            </div>
-                            <div class="preview-item-content d-flex align-items-start flex-column justify-content-center">
-                                <h6 class="preview-subject ellipsis mb-1 font-weight-normal">Cregh send you a message</h6>
-                                <p class="text-gray mb-0">
-                                    15 Minutes ago
-                                </p>
-                            </div>
-                        </a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item preview-item">
-                            <div class="preview-thumbnail">
-                                <img src="/admins/images/faces/face3.jpg" alt="image" class="profile-pic">
-                            </div>
-                            <div class="preview-item-content d-flex align-items-start flex-column justify-content-center">
-                                <h6 class="preview-subject ellipsis mb-1 font-weight-normal">Profile picture updated</h6>
-                                <p class="text-gray mb-0">
-                                    18 Minutes ago
-                                </p>
-                            </div>
-                        </a>
-                        <div class="dropdown-divider"></div>
-                        <h6 class="p-3 mb-0 text-center">4 new messages</h6>
-                    </div>
-                </li>
                 <li class="nav-item nav-profile dropdown">
                     <a class="nav-link dropdown-toggle" id="profileDropdown" href="#" data-toggle="dropdown" aria-expanded="false">
                         <div class="nav-profile-img">
@@ -92,16 +44,16 @@
                             <span class="availability-status online"></span>
                         </div>
                         <div class="nav-profile-text">
-                            <p class="mb-1 text-black">David Greymaax</p>
+                            <p class="mb-1 text-black">@if(empty(session('AdminUser'))) 后台管理员 @else {{session('AdminUser')->uname}} @endif</p>
                         </div>
                     </a>
                     <div class="dropdown-menu navbar-dropdown" aria-labelledby="profileDropdown">
-                        <a class="dropdown-item" href="#">
-                            <i class="mdi mdi-cached mr-2 text-success"></i>
-                            个人中心
-                        </a>
+{{--                        <a class="dropdown-item" href="/admin/login/center/{{session('AdminUser')->id}}/{{session('AdminUser')->_token}}">--}}
+{{--                            <i class="mdi mdi-cached mr-2 text-success"></i>--}}
+{{--                            个人中心--}}
+{{--                        </a>--}}
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">
+                        <a class="dropdown-item" href="/admin/logout">
                             <i class="mdi mdi-logout mr-2 text-primary"></i>
                             退出
                         </a>
@@ -113,7 +65,4 @@
             </button>
         </div>
     </nav>
-    <!-- partial -->
     <div class="container-fluid page-body-wrapper">
-        <!-- partial:partials/_sidebar.html -->
-        

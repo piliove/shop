@@ -14,7 +14,7 @@ class LoginController extends Controller
      */
     public function login()
     {
-        return view('home/login');
+        return view('home//login/login');
     }
 
     public function doLogin(Request $request)
@@ -24,11 +24,8 @@ class LoginController extends Controller
         $number = $request->input('number', '');
         $upwd = $request->input('upwd', '');
         //判断是否有传值
-<<<<<<< HEAD
-        if (empty($number) || empty($upwd)) exit('请确保各项不为空');
-=======
         if (empty($number) && empty($upwd)) exit('请确保各项不为空');
->>>>>>> origin/muyinya
+
         //判断用户选择的登录方式
         if ($choice == 'c_email') {
             $userinfo = DB::table('user_info')->where('email', $number)->first();

@@ -65,13 +65,18 @@ Route::get('/home/cart/delete', 'Home\CartController@delete');
 // 显示 商品结算页面
 Route::get('/home/orders/index', 'Home\OrdersController@index');
 
-//=====================前台地址管理========================
-// 接收修改商品传值
+// 前台 修改 默认地址
+Route::get('/home/addres/changeStatus', 'Home\AddresController@changeStatus');
+//接收修改商品传值
 Route::post('/home/addres/update','Home\AddresController@update');
 // 前台删除用户
 Route::get('home/addres/del', 'Home\AddresController@destroy');
 // 前台地址
 Route::resource('home/addres', 'Home\AddresController');
+
+//=================前台个人中心页面=====================
+// 显示 个人中心页面
+Route::get('/home/person/index', 'Home\PersonController@index');
 
 
 
