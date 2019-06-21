@@ -12,57 +12,17 @@
 	</head>
 
 	<body>
-
-		<!--顶部导航条 -->
-		<div class="am-container header">
-			<ul class="message-l">
-				<div class="topMessage">
-					<div class="menu-hd">
-						<a href="#" target="_top" class="h">亲，请登录</a>
-						<a href="#" target="_top">免费注册</a>
-					</div>
-				</div>
-			</ul>
-			<ul class="message-r">
-				<div class="topMessage home">
-					<div class="menu-hd"><a href="#" target="_top" class="h">商城首页</a></div>
-				</div>
-				<div class="topMessage my-shangcheng">
-					<div class="menu-hd MyShangcheng"><a href="#" target="_top"><i class="am-icon-user am-icon-fw"></i>个人中心</a></div>
-				</div>
-				<div class="topMessage mini-cart">
-					<div class="menu-hd"><a id="mc-menu-hd" href="#" target="_top"><i class="am-icon-shopping-cart  am-icon-fw"></i><span>购物车</span><strong id="J_MiniCartNum" class="h">0</strong></a></div>
-				</div>
-				<div class="topMessage favorite">
-					<div class="menu-hd"><a href="#" target="_top"><i class="am-icon-heart am-icon-fw"></i><span>收藏夹</span></a></div>
-			</ul>
-			</div>
-
-			<!--悬浮搜索框-->
-
-			<div class="nav white">
-				<div class="logo"><img src="/home/images/logo.png" /></div>
-				<div class="logoBig">
-					<li><img src="/home/images/logobig.png" /></li>
-				</div>
-
-				<div class="search-bar pr">
-					<a name="index_none_header_sysc" href="#"></a>
-					<form>
-						<input id="searchInput" name="index_none_header_sysc" type="text" placeholder="搜索" autocomplete="off">
-						<input id="ai-topsearch" class="submit am-btn" value="搜索" index="1" type="submit">
-					</form>
-				</div>
-			</div>
-
-			<div class="clear"></div>
+			<!-- 导航信息栏 开始 -->
+			@include('/home/common/nav')
+			<!-- 导航信息栏 结束 -->
+			
 			<div class="concent">
 				<!--地址 -->
 				<div class="paycont">
 					<div class="address">
 						<h3>确认收货地址 </h3>
 						<div class="control">
-                            <a href="/home/addres"><div class="tc-btn createAddr theme-login am-btn am-btn-danger">新增地址</div></a>
+                            <a href="/home/addres"><div class="tc-btn am-btn am-btn-danger">新增地址</div></a>
 						</div>
 						<div class="clear"></div>
 						<ul>
@@ -73,7 +33,7 @@
 									<div class="user DefaultAddr">
 
 										<span class="buy-address-detail">   
-                   <span class="buy-user">艾迪 </span>
+                   			<span class="buy-user">艾迪 </span>
 										<span class="buy-phone">15871145629</span>
 										</span>
 									</div>
@@ -103,44 +63,6 @@
 									<span class="new-addr-bar">|</span>
 									<a href="javascript:void(0);" onclick="delClick(this);">删除</a>
 								</div>
-
-							</li>
-							<div class="per-border"></div>
-							<li class="user-addresslist">
-								<div class="address-left">
-									<div class="user DefaultAddr">
-
-										<span class="buy-address-detail">   
-                   <span class="buy-user">艾迪 </span>
-										<span class="buy-phone">15871145629</span>
-										</span>
-									</div>
-									<div class="default-address DefaultAddr">
-										<span class="buy-line-title buy-line-title-type">收货地址：</span>
-										<span class="buy--address-detail">
-								   <span class="province">湖北</span>省
-										<span class="city">武汉</span>市
-										<span class="dist">武昌</span>区
-										<span class="street">东湖路75号众环大厦2栋9层902</span>
-										</span>
-
-										</span>
-									</div>
-									<ins class="deftip hidden">默认地址</ins>
-								</div>
-								<div class="address-right">
-									<span class="am-icon-angle-right am-icon-lg"></span>
-								</div>
-								<div class="clear"></div>
-
-								<div class="new-addr-btn">
-									<a href="#">设为默认</a>
-									<span class="new-addr-bar">|</span>
-									<a href="#">编辑</a>
-									<span class="new-addr-bar">|</span>
-									<a href="javascript:void(0);"  onclick="delClick(this);">删除</a>
-								</div>
-
 							</li>
 
 						</ul>
@@ -198,7 +120,8 @@
 							</div>
 							<div class="clear"></div>
 							</div>
-
+							
+							@foreach($data as $k => $v)
 							<tr id="J_BundleList_s_1911116345_1" class="item-list">
 								<div id="J_Bundle_s_1911116345_1_0" class="bundle  bundle-last">
 									<div class="bundle-main">
@@ -207,11 +130,11 @@
 												<li class="td td-item">
 													<div class="item-pic">
 														<a href="#" class="J_MakePoint">
-															<img src="/home/images/kouhong.jpg_80x80.jpg" class="itempic J_ItemImg"></a>
+															<img style="width:80px;" src="/uploads/{{ $v->gthumb_1 }}" class="itempic J_ItemImg"></a>
 													</div>
 													<div class="item-info">
 														<div class="item-basic-info">
-															<a href="#" target="_blank" title="美康粉黛醉美唇膏 持久保湿滋润防水不掉色" class="item-title J_MakePoint" data-point="tbcart.8.11">美康粉黛醉美唇膏 持久保湿滋润防水不掉色</a>
+															<a href="#" target="_blank" title="{{ $v->gtitle }}" class="item-title J_MakePoint" data-point="tbcart.8.11">{{ $v->gtitle }}</a>
 														</div>
 													</div>
 												</li>
@@ -224,7 +147,7 @@
 												<li class="td td-price">
 													<div class="item-price price-promo-promo">
 														<div class="price-content">
-															<em class="J_Price price-now">39.00</em>
+															<em class="J_Price price-now">{{ $v->gprices }}</em>
 														</div>
 													</div>
 												</li>
@@ -236,7 +159,7 @@
 														<span class="phone-title">购买数量</span>
 														<div class="sl">
 															<input class="min am-btn" name="" type="button" value="-" />
-															<input class="text_box" name="" type="text" value="1" style="width:30px;height:32px;" />
+															<input class="text_box" name="" type="text" value="{{ $v->num }}" style="width:30px;height:32px;" />
 															<input class="add am-btn" name="" type="button" value="+" />
 														</div>
 													</div>
@@ -244,7 +167,7 @@
 											</li>
 											<li class="td td-sum">
 												<div class="td-inner">
-													<em tabindex="0" class="J_ItemSum number">117.00</em>
+													<em tabindex="0" class="J_ItemSum number">{{ $v->num * $v->gprices }}</em>
 												</div>
 											</li>
 											<li class="td td-oplist">
@@ -261,6 +184,8 @@
 
 									</div>
 							</tr>
+							@endforeach
+
 							</div>
 							<div class="clear"></div>
 							<div class="pay-total">
@@ -291,14 +216,6 @@
 												【消费满95元可用】
 											</div>
 										</option>
-										<option value="b" selected>
-											<div class="c-price">
-												<strong>￥3</strong>
-											</div>
-											<div class="c-limit">
-												【无使用门槛】
-											</div>
-										</option>
 									</select>
 								</li>
 
@@ -324,7 +241,7 @@
 							<!--含运费小计 -->
 							<div class="buy-point-discharge ">
 								<p class="price g_price ">
-									合计（含运费） <span>¥</span><em class="pay-sum">244.00</em>
+									合计（含运费） <span>¥</span><em class="pay-sum">{{ $countPrice }}</em>
 								</p>
 							</div>
 
@@ -334,7 +251,7 @@
 									<div class="box">
 										<div tabindex="0" id="holyshit267" class="realPay"><em class="t">实付款：</em>
 											<span class="price g_price ">
-                                    <span>¥</span> <em class="style-large-bold-red " id="J_ActualFee">244.00</em>
+                                    <span>¥</span> <em class="style-large-bold-red " id="J_ActualFee">{{ $countPrice }}</em>
 											</span>
 										</div>
 
@@ -373,28 +290,7 @@
 						<div class="clear"></div>
 					</div>
 				</div>
-				<div class="footer">
-					<div class="footer-hd">
-						<p>
-							<a href="#">恒望科技</a>
-							<b>|</b>
-							<a href="#">商城首页</a>
-							<b>|</b>
-							<a href="#">支付宝</a>
-							<b>|</b>
-							<a href="#">物流</a>
-						</p>
-					</div>
-					<div class="footer-bd">
-						<p>
-							<a href="#">关于恒望</a>
-							<a href="#">合作伙伴</a>
-							<a href="#">联系我们</a>
-							<a href="#">网站地图</a>
-							<em>© 2015-2025 Hengwang.com 版权所有</em>
-						</p>
-					</div>
-				</div>
+				@include('/home/common/foot')
 			</div>
 			<div class="theme-popover-mask"></div>
 			<div class="theme-popover">

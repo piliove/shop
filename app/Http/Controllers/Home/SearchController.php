@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Goods;
 use DB;
+// 使用Cart控制器的方法
+use App\Http\Controllers\Home\CartController;
 
 class SearchController extends Controller
 {
@@ -69,8 +71,11 @@ class SearchController extends Controller
         }
         /*利用中文分词获取查询结果 结束*/
 
+        // 使用CartController控制器下的countCart方法
+        $countCart = CartController::countCart();
+
         // 渲染 搜索列表页面
-        return view('home.search.index',['search'=>$search,'data'=>$data]);
+        return view('home.search.index',['search'=>$search,'data'=>$data,'countCart'=>$countCart]);
     }
 
     public function word($text)

@@ -15,18 +15,21 @@
                 <h4 style="font-size:25px;">搜索:&nbsp;&nbsp;</h4>
                 <input style="height:30px;" name="search" type="text" class="form-control" placeholder="输入用户名搜索">
                 <div class="input-group-append">
-                    <button style="height:30px;" class="btn btn-sm btn-gradient-primary" type="submit"><i class="mdi mdi-account-search"></i></button>
+                    <button style="height:30px;" class="btn btn-sm btn-gradient-primary" type="submit"><i
+                                class="mdi mdi-account-search"></i></button>
                 </div>
             </div>
         </form>
         <a href="/admin/user/create" style="margin-top:10px;" class="badge badge-info">
             <i class="mdi mdi-account-multiple-plus"></i>添加用户</a>
+        <a href="JavaScript:;" class="badge badge-success" onclick="upwd()">
+            <i class="mdi mdi-account-key">修改密码</i></a>
         <table class="table">
             <thead>
             <tr>
                 <th>用户ID</th>
                 <th>用户名</th>
-                <th>用户权限</th>
+                <th>用户状态</th>
                 <th>操作</th>
             </tr>
             </thead>
@@ -35,14 +38,10 @@
                 <tr>
                     <td>{{$v->id}}</td>
                     <td>{{$v->uname}}</td>
-                    @if($v->power==0)
-                        <td><label class="badge badge-success">普通用户</label></td>
-                    @elseif($v->power==1)
-                        <td><label class="badge badge-danger">会员用户</label></td>
-                    @elseif($v->power==2)
-                        <td><label class="badge badge-info">管理员</label></td>
+                    @if($v->status==1)
+                        <td><label class="badge badge-success">已激活</label></td>
                     @else
-                        <td><label class="badge badge-warning">超级管理员</label></td>
+                        <td><label class="badge badge-danger">未激活</label></td>
                     @endif
                     <td>
                         <a href="/admin/user/{{$v->id}}/edit" type="button" class="btn btn-info btn-sm">详情</a>
@@ -75,6 +74,17 @@
                     }
                 }, 'html')
             }
+        });
+    }
+</script>
+<script>
+    function upwd() {
+        layer.open({
+            type: 2,
+            area: ['700px', '450px'],
+            fixed: false, //不固定
+            maxmin: true,
+            content: '/admin/user/upwd'
         });
     }
 </script>

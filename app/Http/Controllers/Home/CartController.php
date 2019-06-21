@@ -8,6 +8,8 @@ use DB;
 
 class CartController extends Controller
 {
+    // 获取指定用户的id
+
     // 记载 购物车列表 首页
     public function index()
     {
@@ -27,7 +29,7 @@ class CartController extends Controller
 
         // 获取商品总的价格
         $countPrice = self::countPrice();
-
+        
         // 渲染 购物车列表页面
         return view('home.cart.index',['data'=>$data,'countCart'=>$countCart,'countPrice'=>$countPrice]);
     }

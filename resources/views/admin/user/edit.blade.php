@@ -50,19 +50,6 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group row">
-                            <label class="col-sm-3 col-form-label">用户权限</label>
-                            <div class="col-sm-9">
-                                <select class="form-control" name="power">
-                                    <option value="0">普通用户</option>
-                                    <option value="1">会员用户</option>
-                                    <option value="2">管理员</option>
-                                    <option value="3">超级管理员</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group row">
                             <label class="col-sm-3 col-form-label">性别</label>
                             <div class="col-sm-4">
                                 <div class="form-check">
