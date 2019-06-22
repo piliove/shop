@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Home;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Cates;
+use App\Models\Goods;
 
 class GetdateController extends Controller
 {
@@ -18,5 +19,11 @@ class GetdateController extends Controller
 
         return $data;
         
+    }
+
+    public static function getRec()
+    {
+        $data = Goods::where('rec_status',1)->get();
+        return $data;
     }
 }

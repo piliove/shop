@@ -49,15 +49,23 @@
                     <td>{{ $v->gnum }}</td>
                     <td class="rec_status">
                         @if($v->rec_status == 1)
-                            <label status="{{ $v->rec_status }}" title="切换推荐" onclick="rec_change({{ $v->id }}, this)" class="badge badge-success">推荐中</label>
+                            <label class="badge badge-success">推荐中</label>
                         @else 
-                            <label status="{{ $v->rec_status }}" title="切换推荐" onclick="rec_change({{ $v->id }}, this)" class="badge badge-danger">未推荐</label>
+                            <label class="badge badge-danger">未推荐</label>
                         @endif
                     </td>
                     <td>
                         <a href="/admin/goods/{{ $v->id }}/edit"><button type="button" class="btn btn-info btn-sm">修改</button></a>
                         <a href="JavaScript:;" token="" onclick="del({{$v->id}},this)"
                            class="btn btn-gradient-danger btn-sm">删除</a>
+                        @if($v->rec_status == 1)
+                            <a href="/admin/recommend/{{ $v->id }}/edit" class="btn btn-gradient-success btn-sm">设置推荐</a>
+                            <a href="javascript:;" onclick="delRec({{ $v->id }}, this)" class="btn btn-gradient-warning btn-sm" >取消推荐</a>
+                        @else 
+                            <a href="/admin/recommend/{{ $v->id }}" class="btn btn-gradient-success btn-sm">设置推荐</a>
+                        @endif
+                        
+                        
                     </td>
                 </tr>
                 @endforeach
@@ -72,6 +80,14 @@
 @include('admin/common/foot')
 <!-- script 脚本 开始 -->
 <script>
+
+      $(document).ready(function(){
+          @if( !empty(session('rec_msg')) )
+              layer.msg("{{session('rec_msg')}}");
+              $.get("/admin/changerecmsg",{msg:true});
+          @endif
+      });
+
     function del(id,obj)
         {
             // 添加token属性
@@ -94,53 +110,22 @@
 
         }
 
-        //利用ajax改变商品推荐状态
-        function rec_change(id,dom) 
-        {   
-            //获得当前状态
-            var status = $(dom).attr("status");
-            
-            
-            $.ajax({
-                type: "get",
-                url: "/admin/recommendchange",
-                data: {"status":status,"id":id},
-                dataType: "html",
-                success: function (res) {
-                     //开始赋值(相反值)
-                     $(dom).attr({"status":res});
-                    if (res == 1) {
-                        //变成推荐位
-                        $(dom).html('推荐中');
-                        $(dom).attr('class','badge badge-success');
-                                            
-                    } else {
-
-                        //非推荐
-                        $(dom).html('未推荐');
-                        $(dom).attr('class','badge badge-danger');
-                    }
-
-                    layer.msg('切换成功');
-                    //查看推荐的商品数多少个
-                    let len = $('.rec_status>label[status="1"]').length;
-                    //超过3个不允许推荐
-                    if (len>=3) {
-                        layer.msg('推荐位只能有3个');
-                        $('.rec_status>label[status="0"]').attr('onclick','');
-                    } else {
-                        $('.rec_status>label[status="0"]').attr('onclick','rec_change({{ $v->id }}, this)');
-                    }
-
-                    
-                }
-            });
+    //取消推荐位
+    function delRec(id,obj){
+        // 弹出提示信息框
+        if(!window.confirm('确定要取消推荐吗')){
+            return false;
         }
+        $.post("/admin/recommend/del/"+id,{'_token':'{{ csrf_token() }}'},
+            function (msg) {              
+                    window.location.reload();              
+            },
+            "html"
+        );
+    }
 
-        //小tips
-        layer.tips('点击切换推荐位','.rec_status',{
-            tips: [1, '#3595CC'],
-            time: 4000
-        });
+        
+
+
 </script>
 <!-- script 脚本 结束 -->

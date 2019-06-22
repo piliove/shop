@@ -21,7 +21,10 @@ class IndexController extends Controller
         //取得分类
         $cate_data = GetdateController::getCate();
         
+        //取得推荐商品
+        $rec_data_goods = GetdateController::getRec();
+      
         // 渲染 商城首页
-        return view('/home/index/index',['countCart'=>$countCart, 'cate_data'=>$cate_data]);
+        return view('/home/index/index',['countCart'=>$countCart, 'cate_data'=>$cate_data, 'rec_data'=>$rec_data_goods]);
     }
 }

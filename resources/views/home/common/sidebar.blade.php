@@ -7,7 +7,40 @@
                 @foreach($cate_data as $k=>$v)
                     <li class="appliance js_toggle relative first">
                         <div class="category-info">
-                            <h3 class="category-name b-category-name"><i></i><a
+                            <h3 class="category-name b-category-name">
+                            <i>
+                            @switch($v->id)
+                                @case(1)
+                                    <img src="/home/images/icons/jiadian.png">
+                                    @break
+                                @case(5)
+                                    <img src="/home/images/icons/fuzhuang.png">
+                                    @break
+                                @case(13)
+                                    <img src="/home/images/icons/jiaju.png">
+                                    @break
+                                @case(18)
+                                    <img src="/home/images/icons/food.png">
+                                    @break
+                                @case(24)
+                                    <img src="/home/images/icons/diannao.png">
+                                    @break
+                                @case(29)
+                                    <img src="/home/images/icons/yundong.png">
+                                    @break
+                                @case(32)
+                                    <img src="/home/images/icons/qiche.png">
+                                    @break
+                                @case(33)
+                                    <img src="/home/images/icons/hua.png">
+                                    @break
+                                @case(34)
+                                    <img src="/home/images/icons/yiyaobaojian.png">
+                                    @break
+                            @endswitch
+                            
+
+                            </i><a
                                         class="ml-22" title="点心">{{ $v->cname }}</a></h3>
                             <em>&gt;</em></div>
                         <div class="menu-item menu-in top">
@@ -17,9 +50,9 @@
                                         <div class="sort-side">
                                         @foreach($v->sub as $kk=>$vv)
                                             <dl class="dl-sort">
-                                                <dt><span title="蛋糕">{{ $vv->cname }}</span></dt>
+                                                <dt><span title="{{ $vv->cname }}">{{ $vv->cname }}</span></dt>
                                             @foreach($vv->sub as $kkk=>$vvv)
-                                                <dd><a title="蒸蛋糕" href="#"><span>{{ $vvv->cname }}</span></a></dd>
+                                                <dd><a title="{{ $vvv->cname }}" href="#"><span>{{ $vvv->cname }}</span></a></dd>
                                             @endforeach    
                                             </dl>
                                         @endforeach
