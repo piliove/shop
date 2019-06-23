@@ -253,6 +253,11 @@
 							<!--信息 -->
 							<form action="/home/orders/pay" method="post">
 								{{ csrf_field() }}
+								@foreach($data as $k => $v)
+								<input type="hidden" name="gtitle" value="{{ $v->gtitle }}">
+								<input type="hidden" name="gprices" value="{{ $v->gprices }}">
+								<input type="hidden" name="gnum" value="{{ $v->num }}">
+								@endforeach
 								<div class="order-go clearfix">
 									<div class="pay-confirm clearfix">
 										<div class="box">

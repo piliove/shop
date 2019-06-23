@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Home;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Home\CartController;
+use App\Models\Orders;
 use DB;
 
 class OrdersController extends Controller
@@ -51,8 +52,42 @@ class OrdersController extends Controller
     // 加载 提交订单页面
     public function pay(Request $request)
     {
+        // 判断用户登录情况
+        if ( session('IndexLogin') == true ) {
+            // 用户登录,则给用户ID
+            $uid = session('IndexUser')->id;
+        } else {
+            echo "<script>alert('您还未登录,请先登录');location.href="/";</script>";
+            exit;
+        }
+
+        // 获取表单提交的所有数据
         $data = $request->all();
 
-        dd($data);
+        // 实例化 订单表
+        $orders = new Orders;
+        
+        // 插入数据到数据中
+        $orders->number = date('ymd', time()) . rand(1000, 10000);
+        $orders->count = $data['price'];
+        $orders->oaddr = $data['aname'].' '.$data['dname'];
+        $orders->uid   = $uid;
+        $orders->paystatus = 1;
+        $orders->gtitle = $data['gtitle'];
+        $orders->gprices = $data['gprices'];
+        $orders->gnum   = $data['gnum'];
+        $orders->name = $data['name'];
+        $orders->aphone = $data['aphone'];
+
+        // 保存到数据库
+        $res = $orders->save();
+
+        // 判断成功与否
+        if ($res) {
+            return redirect('/home/ordersinfo/index');
+        } else {
+            return back();
+        }
+
     }
 }
