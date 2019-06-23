@@ -12,9 +12,17 @@ class OrdersController extends Controller
     // 加载 结算页面
     public function index(Request $request)
     {
-        // 获取指定用户的id
-        $id = $request->input('id',0);
+        // 判断用户登录情况
+        if ( session('IndexLogin') == true ) {
+            // 用户登录,则给用户ID
+            $uid = session('IndexUser')->id;
+        } else {
+            echo "您还未登录,请先登录";
+            exit;
+        }
 
+        // 获取指定用户添加的地址数据
+        $addres = DB::table('addres')->where('uid',$uid)->get();
 
         // 判断session值是否存在
         if (!empty($_SESSION['cart'])) {
@@ -29,7 +37,22 @@ class OrdersController extends Controller
         // 获取商品总的价格
         $countPrice = CartController::countPrice();
 
+        // 获取购物券的数据
+        $coupon = DB::table('coupon')->where('uid',$uid)->get();
+
+        // 获取购物券的价格
+        $coupon_price = DB::table('coupon')->first();
+        $coupon_price = $coupon_price->cprice;
+
         // 渲染 结算页面
-        return view('home.orders.index',['data'=>$data,'countCart'=>$countCart,'countPrice'=>$countPrice]);
+        return view('home.orders.index',['coupon_price'=>$coupon_price,'coupon'=>$coupon,'addres'=>$addres,'data'=>$data,'countCart'=>$countCart,'countPrice'=>$countPrice]);
+    }
+
+    // 加载 提交订单页面
+    public function pay(Request $request)
+    {
+        $data = $request->all();
+
+        dd($data);
     }
 }

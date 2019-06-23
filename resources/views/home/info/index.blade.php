@@ -15,6 +15,7 @@
 		<script type="text/javascript" src="/home/js/jquery.imagezoom.min.js"></script>
 		<script type="text/javascript" src="/home/js/jquery.flexslider.js"></script>
 		<script type="text/javascript" src="/home/js/list.js"></script>
+		<script src="/home/layer/layer.js"></script>
 	</head>
 
 	<body>
@@ -25,22 +26,12 @@
             <b class="line"></b>
 			<div class="listMain">
 
-				<!--分类-->
+			<!--分类-->
 			<div class="nav-table">
-					   <div class="long-title"><span class="all-goods">全部分类</span></div>
-					   <div class="nav-cont">
-							<ul>
-								<li class="index"><a href="#">首页</a></li>
-                                <li class="qc"><a href="#">闪购</a></li>
-                                <li class="qc"><a href="#">限时抢</a></li>
-                                <li class="qc"><a href="#">团购</a></li>
-                                <li class="qc last"><a href="#">大包装</a></li>
-							</ul>
-						    <div class="nav-extra">
-						    	<i class="am-icon-user-secret am-icon-md nav-user"></i><b></b>我的福利
-						    	<i class="am-icon-angle-right" style="padding-left: 10px;"></i>
-						    </div>
-						</div>
+				<div class="long-title"><span class="all-goods">全部分类</span></div>
+				<!-- 导航菜单 开始 -->
+				@include('home/common/nav_cont')
+				<!-- 导航菜单 结束 -->
 			</div>
 				<ol class="am-breadcrumb am-breadcrumb-slash">
 					<li><a href="#">首页</a></li>
@@ -147,15 +138,15 @@
 								<div class="iteminfo_freprice">
 									<div class="am-form-content address">
 										<select data-am-selected>
-											<option value="a">浙江省</option>
+											<option value="a">广东省</option>
 											<option value="b">湖北省</option>
 										</select>
 										<select data-am-selected>
-											<option value="a">温州市</option>
+											<option value="a">广州市</option>
 											<option value="b">武汉市</option>
 										</select>
 										<select data-am-selected>
-											<option value="a">瑞安区</option>
+											<option value="a">天河区</option>
 											<option value="b">洪山区</option>
 										</select>
 									</div>
@@ -262,9 +253,9 @@
 									<dt class="tb-metatit">优惠券</dt>
 									<div class="gold-list">
 										<ul>
-											<li>125减5</li>
-											<li>198减10</li>
-											<li>298减20</li>
+											<a style="color:#fff;cursor:pointer;" href="/home/coupon/index"><li>125减5</li></a>
+											<a style="color:#fff;cursor:pointer;" href="/home/coupon/index"><li>200减10</li></a>
+											<a style="color:#fff;cursor:pointer;" href="/home/coupon/index"><li>150减50</li></a>
 										</ul>
 									</div>
 								</div>
@@ -279,16 +270,34 @@
 							</div>
 							<li>
 								<div class="clearfix tb-btn tb-btn-buy theme-login">
-									<a id="LikBuy" title="点此按钮到下一步确认购买信息" href="#">立即购买</a>
+									<a id="LikBuy" title="点此按钮到下一步确认购买信息" href="/home/orders/index">立即购买</a>
 								</div>
 							</li>
 							<li>
 								<div class="clearfix tb-btn tb-btn-basket theme-login">
-									<a id="LikBasket" title="加入购物车" href="/home/cart/add?id={{ $data->id }}"><i></i>加入购物车</a>
+									<a id="LikBasket" title="加入购物车" href="JavaScript:;"  onclick="join({{ $id }},{{ $data->id }})"><i></i>加入购物车</a>
 								</div>
 							</li>
 						</div>
-
+						<script>
+							// 加入购物车
+							function join(idss,id) {
+								layer.msg('确定添加购物车?', {
+									time: 0 //不自动关闭
+									, btn: ['确定', '取消']
+									, yes: function () {
+										$.get('/home/cart/add/?idss='+idss+'&id='+id, function (res) {
+											if (res == '加入购物车成功') {
+												layer.alert(res);
+												location.href="/home/cart/index";
+											} else {
+												layer.msg(res);
+											}
+										}, 'html')
+									}
+								});
+							}
+						</script>
 					</div>
 
 					<div class="clear"></div>

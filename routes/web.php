@@ -40,6 +40,14 @@ Route::get('/home/search/index', 'Home\SearchController@index');
 //=================前台商品详情页面=====================
 // 商品详情页
 Route::get('/home/info/index/{id}', 'Home\InfoController@index');
+// 商品详情验证
+Route::get('home/info/index', 'Home\InfoController@index');
+
+//=================前台优惠券页面=====================
+// 领取 商品优惠券页
+Route::get('/home/coupon/add', 'Home\CouponController@add');
+// 商品优惠券页
+Route::get('/home/coupon/index', 'Home\CouponController@index');
 
 //=================前台收藏管理页面=====================
 // 移入 收藏列表页
@@ -62,6 +70,8 @@ Route::get('/home/cart/delete', 'Home\CartController@delete');
 //=================前台结算页面=====================
 // 显示 商品结算页面
 Route::get('/home/orders/index', 'Home\OrdersController@index');
+// 执行 提交订单
+Route::post('/home/orders/pay', 'Home\OrdersController@pay');
 
 // 前台 修改 默认地址
 Route::get('/home/addres/changeStatus', 'Home\AddresController@changeStatus');

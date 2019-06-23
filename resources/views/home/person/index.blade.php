@@ -27,7 +27,7 @@
 						</ul>
 						<ul class="message-r">
 							<div class="topMessage home">
-								<div class="menu-hd"><a href="/" target="_top" class="h">商城首页</a></div>
+								<div class="menu-hd"><a href="/" target="_top" class="h">首页</a></div>
 							</div>
 							<div class="topMessage my-shangcheng">
 								<div class="menu-hd MyShangcheng"><a href="/home/person/index" target="_top"><i class="am-icon-user am-icon-fw"></i>个人中心</a></div>
@@ -61,20 +61,10 @@
 			</article>
 		</header>
             <div class="nav-table">
-					   <div class="long-title"><span class="all-goods">全部分类</span></div>
-					   <div class="nav-cont">
-							<ul>
-								<li class="index"><a href="#">首页</a></li>
-                                <li class="qc"><a href="#">闪购</a></li>
-                                <li class="qc"><a href="#">限时抢</a></li>
-                                <li class="qc"><a href="#">团购</a></li>
-                                <li class="qc last"><a href="#">大包装</a></li>
-							</ul>
-						    <div class="nav-extra">
-						    	<i class="am-icon-user-secret am-icon-md nav-user"></i><b></b>我的福利
-						    	<i class="am-icon-angle-right" style="padding-left: 10px;"></i>
-						    </div>
-						</div>
+				<div class="long-title"><span class="all-goods">全部分类</span></div>
+				<!-- 导航菜单 开始 -->
+				@include('home/common/nav_cont')
+				<!-- 导航菜单 结束 -->
 			</div>
 			<b class="line"></b>
 		<div class="center">
@@ -117,7 +107,7 @@
 										</a>
 									</p>
 									<p class="m-coupon">
-										<a href="coupon.html">
+										<a href="/home/coupon/index">
 											<i><img src="/home/images/coupon.png"/></i>
 											<span class="m-title">优惠券</span>
 											<em class="m-num">2</em>
@@ -466,7 +456,7 @@
 			<aside class="menu">
 				<ul>
 					<li class="person active">
-						<a href="index.html">个人中心</a>
+						<a href="">个人中心</a>
 					</li>
 					<li class="person">
 						<a href="#">个人资料</a>
@@ -486,7 +476,7 @@
 					<li class="person">
 						<a href="#">我的资产</a>
 						<ul>
-							<li> <a href="coupon.html">优惠券 </a></li>
+							<li> <a href="/home/coupon/index">优惠券 </a></li>
 							<li> <a href="bonus.html">红包</a></li>
 							<li> <a href="bill.html">账单明细</a></li>
 						</ul>
