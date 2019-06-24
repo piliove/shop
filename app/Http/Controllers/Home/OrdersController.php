@@ -15,7 +15,7 @@ class OrdersController extends Controller
     {
 
         // 判断用户登录情况
-        if ( session('IndexLogin') == true ) {
+        if ( session('IndexLogin') == true && $_SESSION['cart'] == true ) {
             // 用户登录,则给用户ID
             $uid = session('IndexUser')->id;
         } else {
@@ -52,6 +52,9 @@ class OrdersController extends Controller
     // 加载 提交订单页面
     public function pay(Request $request)
     {
+        // 获取商品总的价格
+        $countPrice = CartController::countPrice();
+
         // 判断用户登录情况
         if ( session('IndexLogin') == true ) {
             // 用户登录,则给用户ID
@@ -64,26 +67,54 @@ class OrdersController extends Controller
         // 获取表单提交的所有数据
         $data = $request->all();
 
-        // 实例化 订单表
-        $orders = new Orders;
+        // 设置一个空的数组
+        $datas = [];
         
-        // 插入数据到数据中
-        $orders->order = date('ymd', time()) . rand(1000, 10000);
-        $orders->uid = $uid;
-        $orders->prices = $data['price'];
-        $orders->addr = $data['aname'].' '.$data['dname'];
-        $orders->uname = $data['name'];
-        $orders->phone = $data['aphone'];
-        
-        // 保存到数据库
-        $res = $orders->save();
+        // 开启事务处理
+        DB::beginTransaction();
 
-        // 判断成功与否
-        if ($res) {
-            return redirect('/home/ordersinfo/index');
-        } else {
-            return back();
+        // 插入数据到订单表中
+        $datas['order'] = date('ymd', time()) . rand(1000, 10000);
+        $datas['num'] = $data['num'];
+        $datas['uid'] = $uid;
+        $datas['prices'] = $countPrice;
+        $datas['addr'] = $data['aname'].' '.$data['dname'];
+        $datas['uname'] = $data['name'];
+        $datas['phone'] = $data['aphone'];
+        $datas['ctimes'] = date('Y-m-d H:i:s',time());
+
+        // 保存到数据库
+        $oid = DB::table('orders')->insertGetId($datas);
+
+        // 插入数据到订单详情表中
+
+        // 将详细信息 压入到订单详情表中
+        if($_SESSION['cart']){
+            $list = $_SESSION['cart'];
+
+            foreach ($list as $key => $value) {
+                $temp['gid'] = $value->id;
+                $temp['oid'] = $oid;
+                $temp['gname'] = $value->gtitle;
+                $temp['price'] = $value->gprices;
+                $temp['num'] = $value->num;
+                // $temp['xiaoji'] = $countPrice;
+                $temp['tupian'] = $value->gthumb_1;
+                
+                $res = DB::table('orders_info')->insert($temp);
+
+                // 判断成功与否
+                if (!$res) {
+                    // 为false 返回
+                    DB::rollBack();
+                }
+            }
         }
+
+        // 提交事务
+        DB::commit();
+     	$_SESSION['cart'] = null;
+     	echo "<script>alert('提交订单成功');location.href='/home/ordersinfo/index'</script>";
 
     }
 }

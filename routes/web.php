@@ -76,7 +76,14 @@ Route::post('/home/orders/pay', 'Home\OrdersController@pay');
 //=================前台 订单页面=====================
 // 显示 订单页面
 Route::get('/home/ordersinfo/index', 'Home\OrdersInfoController@index');
+// 执行 删除订单
+Route::get('/home/ordersinfo/del', 'Home\OrdersInfoController@del');
 
+//=================前台 订单详情页面=====================
+// 显示 订单页面
+Route::get('/home/ordermore/index/{id}', 'Home\OrderMoreController@index');
+
+//=================前台 地址管理===========================
 // 前台 修改 默认地址
 Route::get('/home/addres/changeStatus', 'Home\AddresController@changeStatus');
 //接收修改商品传值
@@ -89,7 +96,6 @@ Route::resource('home/addres', 'Home\AddresController');
 //=================前台个人中心页面=====================
 // 显示 个人中心页面
 Route::get('/home/person/index', 'Home\PersonController@index');
-
 
 
 //*********************************后台路由******************************

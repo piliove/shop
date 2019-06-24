@@ -259,6 +259,9 @@
 											<div tabindex="0" id="holyshit267" class="realPay"><em class="t">实付款：</em>
 												<span class="price g_price ">
 												<span>¥</span> <em class="style-large-bold-red " id="J_ActualFee">{{ $countPrice - $coupon_price }}</em>
+												<!-- 商品总的数量 -->
+												<input type="hidden" name="num" value="{{ $countCart }}">
+												<!-- 商品实付款的价格 -->
 												<input type="hidden" name="price" value="{{ $countPrice - $coupon_price }}">
 												</span>
 											</div>

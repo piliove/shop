@@ -70,10 +70,6 @@
                                 <li class="qc"><a href="#">团购</a></li>
                                 <li class="qc last"><a href="#">大包装</a></li>
 							</ul>
-						    <div class="nav-extra">
-						    	<i class="am-icon-user-secret am-icon-md nav-user"></i><b></b>我的福利
-						    	<i class="am-icon-angle-right" style="padding-left: 10px;"></i>
-						    </div>
 						</div>
 			</div>
 			<b class="line"></b>
@@ -101,12 +97,12 @@
 									<div class="s-item">
 
 										<div class="s-pic">
-											<a href="#" class="s-pic-link">
+											<a href="/home/info/index/{{ $v->gid }}" class="s-pic-link">
 												<img src="/uploads/{{ $v->cthumb }}" alt="{{ $v->ctitle }}" title="{{ $v->ctitle }}" class="s-pic-img s-guess-item-img">
 											</a>
 										</div>
 										<div class="s-info">
-											<div class="s-title"><a href="#" title="{{ $v->ctitle }}">{{ $v->ctitle }}</a></div>
+											<div class="s-title"><a href="" title="{{ $v->ctitle }}">{{ $v->ctitle }}</a></div>
 											<div class="s-price-box">
 												<span class="s-price"><em class="s-price-sign">¥</em><em class="s-value">{{ $v->cprices }}</em></span>
 												<span class="s-history-price"><em class="s-price-sign">¥</em><em class="s-value">{{ $v->cprice }}</em></span>
@@ -144,7 +140,7 @@
 			<aside class="menu">
 				<ul>
 					<li class="person">
-						<a href="index.html">个人中心</a>
+						<a href="/">个人中心</a>
 					</li>
 					<li class="person">
 						<a href="#">个人资料</a>
@@ -157,14 +153,14 @@
 					<li class="person">
 						<a href="#">我的交易</a>
 						<ul>
-							<li><a href="order.html">订单管理</a></li>
+							<li><a href="/home/ordersinfo/index">订单管理</a></li>
 							<li> <a href="change.html">退款售后</a></li>
 						</ul>
 					</li>
 					<li class="person">
 						<a href="#">我的资产</a>
 						<ul>
-							<li> <a href="coupon.html">优惠券 </a></li>
+							<li> <a href="/home/coupon/index">优惠券 </a></li>
 							<li> <a href="bonus.html">红包</a></li>
 							<li> <a href="bill.html">账单明细</a></li>
 						</ul>
@@ -173,7 +169,7 @@
 					<li class="person">
 						<a href="#">我的小窝</a>
 						<ul>
-							<li class="active"> <a href="collection.html">收藏</a></li>
+							<li class="active"> <a href="/home/collect/index">收藏</a></li>
 							<li> <a href="foot.html">足迹</a></li>
 							<li> <a href="comment.html">评价</a></li>
 							<li> <a href="news.html">消息</a></li>

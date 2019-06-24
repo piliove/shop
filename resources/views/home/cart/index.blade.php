@@ -50,6 +50,7 @@
 					<div class="clear"></div>
 
 					<tr class="item-list">
+						@if( $data == true )
 						<div class="bundle  bundle-last ">
 							<div class="bundle-hd">
 								<div class="bd-promos">
@@ -171,6 +172,10 @@
 							</div>
                             @endforeach
 						</div>
+						@else
+						<p style="text-align:center;font-size:24px;margin:5px;">您的购物车为空,快去添加商品啦 !</p>
+						<img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1561949642&di=0ff7c484fc63caec9fa482b5f24ba183&imgtype=jpg&er=1&src=http%3A%2F%2Fhbimg.b0.upaiyun.com%2Fe1b1467beea0a9c7d6a56b32bac6d7e5dcd914f7c3e6-YTwUd6_fw658" alt="">
+						@endif
 					</tr>
 					<div class="clear"></div>
 
