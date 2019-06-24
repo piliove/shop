@@ -50,7 +50,7 @@
          <!-- 分页 开始 -->
          <div style="margin-top:10px;">{{ $act_goods_data->appends(['search_key'=>$search_key])->links('common.paginator') }}</div>
          <!-- 分页 结束 -->
-         <a href="javascript:history.go(-1)" class="btn btn-gradient-dark btn-rounded btn-fw">返回</a>
+         <a href="/admin/activity" class="btn btn-gradient-dark btn-rounded btn-fw">返回</a>
     </div>
 </div>
         

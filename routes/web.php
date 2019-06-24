@@ -236,7 +236,7 @@ Route::resource('/admin/activity', 'Admin\ActivityController');
 
 
 //后台 商品改变推荐位
-Route::get('/admin/recommendchange', 'Admin\GoodsController@changerec');
+Route::get('/admin/recommend/{id}', 'Admin\RecommendController@create');
 
 //后台 网站配置
 Route::get('/admin/website', 'Admin\WebsiteController@index');
@@ -244,6 +244,17 @@ Route::get('/admin/website', 'Admin\WebsiteController@index');
 Route::post('/admin/website/update', 'Admin\WebsiteController@update');
 //后台 改变信息
 Route::get('/admin/changesitemsg', 'Admin\WebsiteController@change');
+//后台 商品添加到修改位
+Route::post('/admin/recommend/{id}', 'Admin\RecommendController@store');
+//后台 商品信息修改
+Route::get('/admin/changerecmsg', 'Admin\RecommendController@change');
+//后台 修改推荐信息
+Route::get('/admin/recommend/{id}/edit', 'Admin\RecommendController@edit');
+//后台 存储修改的推荐信息
+Route::post('/admin/recommend/{id}/edit', 'Admin\RecommendController@update');
+//后台 取消推荐
+Route::post('/admin/recommend/del/{id}', 'Admin\RecommendController@del');
+
 
 
 
