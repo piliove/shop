@@ -44,5 +44,7 @@
               layer.msg("{{session('rec_msg')}}");
               $.get("/admin/changerecmsg",{msg:true});
           @endif
+
+
       });
 </script>

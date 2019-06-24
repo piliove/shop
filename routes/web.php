@@ -14,7 +14,7 @@
 
 
 //*********************************前台路由******************************
-//=================前台注册(手机号/邮箱)=====================
+//=================前台 注册(手机号/邮箱)=====================
 //首页
 Route::get('/index/index', 'Home\IndexController@index');
 Route::get('/', 'Home\IndexController@index');
@@ -33,21 +33,29 @@ Route::get('/login', 'Home\LoginController@login');
 //接收登录信息
 Route::post('/login/dologin', 'Home\LoginController@doLogin');
 
-//=================前台搜索列表=====================
+//=================前台 搜索列表=====================
 // 搜索列表页
 Route::get('/home/search/index', 'Home\SearchController@index');
 
-//=================前台商品详情页面=====================
+//=================前台 商品详情页面=====================
 // 商品详情页
 Route::get('/home/info/index/{id}', 'Home\InfoController@index');
+// 商品详情验证
+Route::get('home/info/index', 'Home\InfoController@index');
 
-//=================前台收藏管理页面=====================
+//=================前台 优惠券页面=====================
+// 领取 商品优惠券页
+Route::get('/home/coupon/add', 'Home\CouponController@add');
+// 商品优惠券页
+Route::get('/home/coupon/index', 'Home\CouponController@index');
+
+//=================前台 收藏管理页面=====================
 // 移入 收藏列表页
 Route::get('/home/collect/add', 'Home\CollectController@add');
 // 收藏列表页
 Route::get('/home/collect/index', 'Home\CollectController@index');
 
-//=================前台购物车页面=====================
+//=================前台 购物车页面=====================
 // 执行 添加到购物车操作
 Route::get('/home/cart/add', 'Home\CartController@add');
 // 显示 购物车页面
@@ -59,9 +67,15 @@ Route::get('/home/cart/descnum', 'Home\CartController@descNum');
 // 执行 删除商品
 Route::get('/home/cart/delete', 'Home\CartController@delete');
 
-//=================前台结算页面=====================
+//=================前台 结算页面=====================
 // 显示 商品结算页面
 Route::get('/home/orders/index', 'Home\OrdersController@index');
+// 执行 提交订单
+Route::post('/home/orders/pay', 'Home\OrdersController@pay');
+
+//=================前台 订单页面=====================
+// 显示 订单页面
+Route::get('/home/ordersinfo/index', 'Home\OrdersInfoController@index');
 
 // 前台 修改 默认地址
 Route::get('/home/addres/changeStatus', 'Home\AddresController@changeStatus');
