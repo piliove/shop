@@ -11,4 +11,10 @@ class Cates extends Model
 
     //设置时间限定
     public $timestamps = false;
+
+    //设置一对多关系,关于商品
+    public function goods()
+    {
+        return $this->hasMany('App\Models\Goods', 'cid');
+    }
 }

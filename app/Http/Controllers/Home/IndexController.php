@@ -23,8 +23,14 @@ class IndexController extends Controller
         
         //取得推荐商品
         $rec_data_goods = GetdateController::getRec();
+
+        //取得活动内容
+        $activity_data_four = GetdateController::getActivity(4);
       
         // 渲染 商城首页
-        return view('/home/index/index',['countCart'=>$countCart, 'cate_data'=>$cate_data, 'rec_data'=>$rec_data_goods]);
+        return view('/home/index/index',['countCart'=>$countCart,
+                                         'cate_data'=>$cate_data,
+                                         'rec_data'=>$rec_data_goods, 
+                                         'activity_data'=>$activity_data_four]);
     }
 }
