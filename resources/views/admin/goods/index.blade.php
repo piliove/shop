@@ -30,7 +30,6 @@
                 <th>商品标题</th>
                 <th>商品描述</th>
                 <th>商品数量</th>
-                <th>推荐状态</th>
                 <th>操作</th>
             </tr>
             </thead>
@@ -47,13 +46,6 @@
                     <p style="width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">{{ $v->gdesc }}</p>
                     </td>
                     <td>{{ $v->gnum }}</td>
-                    <td class="rec_status">
-                        @if($v->rec_status == 1)
-                            <label class="badge badge-success">推荐中</label>
-                        @else 
-                            <label class="badge badge-danger">未推荐</label>
-                        @endif
-                    </td>
                     <td>
                         <a href="/admin/goods/{{ $v->id }}/edit"><button type="button" class="btn btn-info btn-sm">修改</button></a>
                         <a href="JavaScript:;" token="" onclick="del({{$v->id}},this)"
@@ -63,9 +55,7 @@
                             <a href="javascript:;" onclick="delRec({{ $v->id }}, this)" class="btn btn-gradient-warning btn-sm" >取消推荐</a>
                         @else 
                             <a href="/admin/recommend/{{ $v->id }}" class="btn btn-gradient-success btn-sm">设置推荐</a>
-                        @endif
-                        
-                        
+                        @endif 
                     </td>
                 </tr>
                 @endforeach

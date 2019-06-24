@@ -13,13 +13,13 @@ class OrdersController extends Controller
     // 加载 结算页面
     public function index(Request $request)
     {
+
         // 判断用户登录情况
         if ( session('IndexLogin') == true ) {
             // 用户登录,则给用户ID
             $uid = session('IndexUser')->id;
         } else {
-            echo "您还未登录,请先登录";
-            exit;
+            return back();
         }
 
         // 获取指定用户添加的地址数据
@@ -57,7 +57,7 @@ class OrdersController extends Controller
             // 用户登录,则给用户ID
             $uid = session('IndexUser')->id;
         } else {
-            echo "<script>alert('您还未登录,请先登录');location.href="/";</script>";
+            echo "<script>alert('您还未登录,请先登录');</script>";
             exit;
         }
 

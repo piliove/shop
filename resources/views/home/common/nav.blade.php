@@ -28,7 +28,6 @@
         </ul>
     </div>
     <!--悬浮搜索框-->
-
     <div class="nav white">
         <div class="logo"><img src="/home/images/logo.png"></div>
         <div class="logoBig">

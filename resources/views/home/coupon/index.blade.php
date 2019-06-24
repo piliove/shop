@@ -125,7 +125,7 @@
 														<a href="javascript:;"  onclick="join({{ $v->id }})" class="btn"><span class="txt">立即领取</span><b></b></a>
 													</div>
                                                     <script>
-                                                        // 加入购物车
+                                                        // 领取优惠券
                                                         function join(id) {
                                                             layer.msg('确定领取?', {
                                                                 time: 0 //不自动关闭

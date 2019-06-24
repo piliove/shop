@@ -200,14 +200,30 @@
 							<strong class="price">¥<em id="J_Total">{{ $countPrice }}</em></strong>
 						</div>
 						<div class="btn-area">
-							<a href="" id="J_Go" class="submit-btn submit-btn-disabled" aria-label="请注意如果没有选择宝贝，将无法结算">
+							<a href="#" id="J_Go" class="submit-btn submit-btn-disabled" aria-label="请注意如果没有选择宝贝，将无法结算">
 								<form action="/home/orders/index" method="get">
 									<span><input style="background:#F40;width:80px;height:49px;border:1px solid #F40;color:#fff;" type="submit" value="结&nbsp;算"></span>
 								</form>
-								<!-- <a href="javascript:;">结&nbsp;算</a> -->
 								<!-- ajax脚本 结算 开始 -->
-								<script>
-								</script>
+								<!-- <script>
+									// 领取优惠券
+									function go(id) {
+										layer.msg('确定去结算?', {
+											time: 0 //不自动关闭
+											, btn: ['确定', '取消']
+											, yes: function () {
+												$.get('/home/orders/index/?id='+id, function (res) {
+													if (res == '跳转成功') {
+														// layer.msg(res);
+														location.href="/home/orders/index";
+													} else {
+														layer.msg(res);
+													}
+												}, 'html')
+											}
+										});
+									}
+								</script> -->
 								<!-- ajax脚本 结算 结束 -->	
 							</a>
 						</div>
