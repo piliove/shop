@@ -20,6 +20,14 @@ class RecommendController extends Controller
         //获取标题
         $goods = DB::table('goods')->where('id',$id)->first();
 
+        //查询一下推荐位栏目数量,超过3个则不再添加
+        $rec_s =  DB::table('goods')->where('rec_status', 1)->count();
+        if ($rec_s >= 3) {
+           session(['status_m'=>'推荐位以超过3个']);
+           return back()->with('error','推荐位已超过3个');
+        }
+     
+
         return view('admin.recommend.create', ['gs_data'=>$goods]);
     }
 
@@ -38,6 +46,8 @@ class RecommendController extends Controller
             'title.max'=>'标题超过10个字',
             'desc.max'=>'描述超过10个字',           
         ]);
+        
+
 
         //实例化模型
         $recommend = new Recommends();
@@ -73,7 +83,8 @@ class RecommendController extends Controller
     {
         $rec_data = DB::table('recommends')->where('goods_id', $id)->first();
         $goods_title = DB::table('goods')->where('id', $id)->value('gtitle');
-   
+        
+       
 
         return view('admin.recommend.edit', ['rec_data'=>$rec_data, 'goods_title'=>$goods_title]);
     }

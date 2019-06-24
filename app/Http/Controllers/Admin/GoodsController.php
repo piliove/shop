@@ -78,7 +78,7 @@ class GoodsController extends Controller
         $data = $request->all();
 
         //判断各项是否为空
-        if (!$data['gname'] && !$data['gprice'] && !$data['gdesc'] && !$data['gtitle'] && !$data['gnum'] && !$data['gid'] && !$data['uface']) exit('请确保各项值不为空');
+        if (!$data['gname'] || !$data['gprice'] || !$data['gdesc'] || !$data['gtitle'] || !$data['gnum'] || !$data['gid'] || !$data['uface']) exit('请确保各项值不为空');
         
         //创建模型写入数据到数据库并判断是否添加成功
         // 实例化goods模型
@@ -87,13 +87,15 @@ class GoodsController extends Controller
         // 将数据存入数据库
         $goods->gname = $data['gname'];
         $goods->gprice = $data['gprice'];
-        $goods->gprice = $data['gprices'];
+        $goods->gprices = $data['gprices'];
         $goods->gdesc = $data['gdesc'];
         $goods->gtitle = $data['gtitle'];
         $goods->gnum = $data['gnum'];
         $goods->gid = $data['gid'];
         $goods->cid = $data['cid'];
         $goods->gthumb_1 = $data['uface'];
+        $goods->rec_status = 0;
+        $goods->activity_id = 0;
         $goods->_token = date('ymd', time()) . rand(1000, 10000);
 
         try {
@@ -104,7 +106,7 @@ class GoodsController extends Controller
                 exit('添加失败');
             }
         } catch (\Exception $e) {
-            echo '用户名已存在';
+            echo '错误';
         }
 
     }
@@ -171,13 +173,15 @@ class GoodsController extends Controller
         // 将数据存入数据库
         $goods->gname = $data['gname'];
         $goods->gprice = $data['gprice'];
-        $goods->gprice = $data['gprices'];
+        $goods->gprices = $data['gprices'];
         $goods->gdesc = $data['gdesc'];
         $goods->gtitle = $data['gtitle'];
         $goods->gnum = $data['gnum'];
         $goods->gid = $data['gid'];
         $goods->cid = $data['cid'];
         $goods->gthumb_1 = $data['uface'];
+        $goods->rec_status = 0;
+        $goods->activity_id = 0;
         $goods->_token = date('ymd', time()) . rand(1000, 10000);
 
         try {

@@ -1,5 +1,22 @@
 @include('/admin/common/head')
 @include('/admin/common/sidebar')
+@if(session('success'))
+<div class="bs-example" data-example-id="dismissible-alert-css" >
+    <div class="alert alert-success alert-dismissible" role="alert">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+      <strong>{{ session('success') }}</strong> 
+    </div>
+  </div>
+@endif
+
+@if(session('error'))
+<div  class="bs-example" data-example-id="dismissible-alert-css" >
+    <div class="alert alert alert-danger alert-dismissible" role="alert">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+      <strong>{{ session('error') }}</strong> 
+    </div>
+  </div>
+@endif
 {{--标题start--}}
 <div class="page-header">
     <h3 class="page-title">
@@ -46,16 +63,26 @@
                     <p style="width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">{{ $v->gdesc }}</p>
                     </td>
                     <td>{{ $v->gnum }}</td>
+                    <td class="rec_status">
+                        @if($v->rec_status == 1)
+                            <label class="badge badge-success changeR">推荐中</label>
+                        @else 
+                            <label class="badge badge-danger chnageR">未推荐</label>
+                        @endif
+                    </td>
+
                     <td>
                         <a href="/admin/goods/{{ $v->id }}/edit"><button type="button" class="btn btn-info btn-sm">修改</button></a>
                         <a href="JavaScript:;" token="" onclick="del({{$v->id}},this)"
                            class="btn btn-gradient-danger btn-sm">删除</a>
                         @if($v->rec_status == 1)
-                            <a href="/admin/recommend/{{ $v->id }}/edit" class="btn btn-gradient-success btn-sm">设置推荐</a>
+                            <a href="/admin/recommend/{{ $v->id }}/edit" class="btn btn-gradient-success btn-sm ">设置推荐</a>
                             <a href="javascript:;" onclick="delRec({{ $v->id }}, this)" class="btn btn-gradient-warning btn-sm" >取消推荐</a>
                         @else 
-                            <a href="/admin/recommend/{{ $v->id }}" class="btn btn-gradient-success btn-sm">设置推荐</a>
-                        @endif 
+                            <a href="/admin/recommend/{{ $v->id }}" class="btn btn-gradient-success btn-sm ">设置推荐</a>
+                        @endif
+                        
+                        
                     </td>
                 </tr>
                 @endforeach
@@ -76,6 +103,8 @@
               layer.msg("{{session('rec_msg')}}");
               $.get("/admin/changerecmsg",{msg:true});
           @endif
+
+
       });
 
     function del(id,obj)

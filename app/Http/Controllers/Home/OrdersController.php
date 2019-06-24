@@ -68,17 +68,13 @@ class OrdersController extends Controller
         $orders = new Orders;
         
         // 插入数据到数据中
-        $orders->number = date('ymd', time()) . rand(1000, 10000);
-        $orders->count = $data['price'];
-        $orders->oaddr = $data['aname'].' '.$data['dname'];
-        $orders->uid   = $uid;
-        $orders->paystatus = 1;
-        $orders->gtitle = $data['gtitle'];
-        $orders->gprices = $data['gprices'];
-        $orders->gnum   = $data['gnum'];
-        $orders->name = $data['name'];
-        $orders->aphone = $data['aphone'];
-
+        $orders->order = date('ymd', time()) . rand(1000, 10000);
+        $orders->uid = $uid;
+        $orders->prices = $data['price'];
+        $orders->addr = $data['aname'].' '.$data['dname'];
+        $orders->uname = $data['name'];
+        $orders->phone = $data['aphone'];
+        
         // 保存到数据库
         $res = $orders->save();
 

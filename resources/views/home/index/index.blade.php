@@ -127,22 +127,11 @@
         <!--今日推荐 -->
 
         <div class="am-g am-g-fixed recommendation">
-            <div class="clock am-u-sm-3"
-            ">
-            <img src="/home/images/2016.png "></img>
+            <div class="clock am-u-sm-3">
+            <img src="/home/images/2016.png ">
             <p>今日<br>推荐</p>
         </div>
-      @foreach($rec_data as $k=>$v)
-        <div class="am-u-sm-4 am-u-lg-3 ">
-            <div class="info ">
-                <h3>{{ $v->gtitle }}</h3>
-                <h4>{{ $v->desc}}</h4>
-            </div>
-            <div class="recommendationMain one">
-                <a href="introduction.html"><img src="/home/images/tj.png "></img></a>
-            </div>
-        </div>
-      @endforeach
+        
 
 
     </div>
@@ -162,7 +151,7 @@
                 <div class="icon-sale one "></div>
                 <h4>秒杀</h4>
                 <div class="activityMain ">
-                    <img src="/home/images/activity1.jpg "></img>
+                    <img src="/home/images/activity1.jpg ">
                 </div>
                 <div class="info ">
                     <h3>春节送礼优选</h3>
@@ -173,7 +162,7 @@
                 <div class="icon-sale two "></div>
                 <h4>特惠</h4>
                 <div class="activityMain ">
-                    <img src="/home/images/activity2.jpg "></img>
+                    <img src="/home/images/activity2.jpg ">
                 </div>
                 <div class="info ">
                     <h3>春节送礼优选</h3>
@@ -184,7 +173,7 @@
                 <div class="icon-sale three "></div>
                 <h4>团购</h4>
                 <div class="activityMain ">
-                    <img src="/home/images/activity3.jpg "></img>
+                    <img src="/home/images/activity3.jpg ">
                 </div>
                 <div class="info ">
                     <h3>春节送礼优选</h3>
@@ -195,7 +184,7 @@
                 <div class="icon-sale "></div>
                 <h4>超值</h4>
                 <div class="activityMain ">
-                    <img src="/home/images/activity.jpg "></img>
+                    <img src="/home/images/activity.jpg ">
                 </div>
                 <div class="info ">
                     <h3>春节送礼优选</h3>
