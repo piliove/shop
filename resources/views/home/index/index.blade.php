@@ -134,7 +134,17 @@
             <img src="/home/images/2016.png ">
             <p>今日<br>推荐</p>
         </div>
-        
+      @foreach($rec_data as $k=>$v)
+        <div class="am-u-sm-4 am-u-lg-3 ">
+            <div class="info ">
+                <h3>{{ $v->rec_title }}</h3>
+                <h4>{{ $v->rec_desc}}</h4>
+            </div>
+            <div class="recommendationMain one">
+                <a href="introduction.html"><img src="/uploads/{{ $v->sub }}"></img></a>
+            </div>
+        </div>
+      @endforeach
 
 
     </div>
@@ -150,49 +160,19 @@
                         </span>
         </div>
         <div class="am-g am-g-fixed ">
+        @foreach($activity_data as $k=>$v)
             <div class="am-u-sm-3 ">
                 <div class="icon-sale one "></div>
-                <h4>秒杀</h4>
+                <h4>{{ $v->activity_tag }}</h4>
                 <div class="activityMain ">
-                    <img src="/home/images/activity1.jpg ">
+                    <img src="/uploads/{{ $v->activity_path }}" height="300"></img>
                 </div>
                 <div class="info ">
-                    <h3>春节送礼优选</h3>
+                    <h3>{{ $v->activity_title }}</h3>
                 </div>
             </div>
-
-            <div class="am-u-sm-3 ">
-                <div class="icon-sale two "></div>
-                <h4>特惠</h4>
-                <div class="activityMain ">
-                    <img src="/home/images/activity2.jpg ">
-                </div>
-                <div class="info ">
-                    <h3>春节送礼优选</h3>
-                </div>
-            </div>
-
-            <div class="am-u-sm-3 ">
-                <div class="icon-sale three "></div>
-                <h4>团购</h4>
-                <div class="activityMain ">
-                    <img src="/home/images/activity3.jpg ">
-                </div>
-                <div class="info ">
-                    <h3>春节送礼优选</h3>
-                </div>
-            </div>
-
-            <div class="am-u-sm-3 last ">
-                <div class="icon-sale "></div>
-                <h4>超值</h4>
-                <div class="activityMain ">
-                    <img src="/home/images/activity.jpg ">
-                </div>
-                <div class="info ">
-                    <h3>春节送礼优选</h3>
-                </div>
-            </div>
+        @endforeach
+            
 
         </div>
     </div>

@@ -6,11 +6,12 @@
 		<title>搜索页面</title>
 		<link href="/home/AmazeUI-2.4.2/assets/css/amazeui.css" rel="stylesheet" type="text/css" />
 		<link href="/home/AmazeUI-2.4.2/assets/css/admin.css" rel="stylesheet" type="text/css" />
-		<link href="/home/basic/css/demo.css" rel="stylesheet" type="text/css" />
+		<link href="/home/basic/css/demo.css" rel="stylesheet" type="text/css" />   
 		<link href="/home/css/seastyle.css" rel="stylesheet" type="text/css" />
-		<link href="/home/css/page.css" rel="stylesheet" type="text/css" />
+        <link href="/home/css/page.css" rel="stylesheet" type="text/css" />
 		<script type="text/javascript" src="/home/basic/js/jquery-1.7.min.js"></script>
 		<script type="text/javascript" src="/home/js/script.js"></script>
+
 	</head>
 
 	<body>
@@ -40,16 +41,14 @@
 						<div class="am-u-sm-12 am-u-md-12">
 	                  	<div class="theme-popover">														
 							<div class="searchAbout">
-								<span class="font-pale">相关搜索：</span>
-								<a title="坚果" href="#">坚果</a>
-								<a title="瓜子" href="#">瓜子</a>
-								<a title="鸡腿" href="#">豆干</a>
+								<span class="font-pale">当前位置:</span>
+								<span>{{ $cate_title }}</span>
 
 							</div>
 							<ul class="select">
 								<p class="title font-normal">
-									<span class="fl">松子</span>
-									<span class="total fl">搜索到<strong class="num">997</strong>件相关商品</span>
+									<span class="fl">{{ $cate_title }}</span>
+									<span class="total fl">搜索到<strong class="num">{{ $cate_good_count }}</strong>件相关商品</span>
 								</p>
 								<div class="clear"></div>
 								<li class="select-result">
@@ -60,47 +59,21 @@
 									</dl>
 								</li>
 								<div class="clear"></div>
-								<li class="select-list">
-									<dl id="select1">
-										<dt class="am-badge am-round">品牌</dt>	
-									
-										 <div class="dd-conent">										
-											<dd class="select-all selected"><a href="#">全部</a></dd>
-											<dd><a href="#">百草味</a></dd>
-											<dd><a href="#">良品铺子</a></dd>
-											<dd><a href="#">新农哥</a></dd>
-											<dd><a href="#">楼兰蜜语</a></dd>
-											<dd><a href="#">口水娃</a></dd>
-											<dd><a href="#">考拉兄弟</a></dd>
-										 </div>
-						
-									</dl>
-								</li>
-								<li class="select-list">
-									<dl id="select2">
-										<dt class="am-badge am-round">种类</dt>
-										<div class="dd-conent">
-											<dd class="select-all selected"><a href="#">全部</a></dd>
-											<dd><a href="#">东北松子</a></dd>
-											<dd><a href="#">巴西松子</a></dd>
-											<dd><a href="#">夏威夷果</a></dd>
-											<dd><a href="#">松子</a></dd>
-										</div>
-									</dl>
-								</li>
-								<li class="select-list">
-									<dl id="select3">
-										<dt class="am-badge am-round">选购热点</dt>
-										<div class="dd-conent">
-											<dd class="select-all selected"><a href="#">全部</a></dd>
-											<dd><a href="#">手剥松子</a></dd>
-											<dd><a href="#">薄壳松子</a></dd>
-											<dd><a href="#">进口零食</a></dd>
-											<dd><a href="#">有机零食</a></dd>
-										</div>
-									</dl>
-								</li>
-					        
+                            
+                                
+                                    <li class="select-list">
+                                        <dl id="select1">
+                                            <dt class="am-badge am-round">分类</dt>									
+                                            <div class="dd-conent">	
+                                            @foreach($cates_data as $k=>$v)									   
+                                                <dd><a href="/list?cid={{ $v->id }}" style="color:{{ $v->id == $cid ? 'red' : '' }}">{{ $v->cname }}</a></dd>
+                                            @endforeach	                                                                                              								
+                                            </div>
+                                        </dl>
+                                    </li>
+                                
+								        
+                                    
 							</ul>
 							<div class="clear"></div>
                         </div>
@@ -114,22 +87,23 @@
 								<div class="clear"></div>
 
 								<ul class="am-avg-sm-2 am-avg-md-3 am-avg-lg-4 boxes">
-                                    @foreach($data as $k => $v)
-									<li>
-										<div class="i-pic limit">
-											<a href="/home/info/index/{{ $v->id }}"><img src="/uploads/{{ $v->gthumb_1 }}" /></a>											
-											<p class="title fl">{{ $v->gtitle }}</p>
-											<p class="price fl">
-												<b>¥</b>
-												<strong>{{ $v->gprice }}</strong>
-											</p>
-											<p class="number fl">
-												销量<span>1110</span>
-											</p>
-										</div>
-									</li>
+                                    @foreach($cates_goods as $k=>$v)
+									    <li>
+									    	<div class="i-pic limit">
+									    		<a href="/home/info/index/{{ $v->id }}"><img src="/uploads/{{ $v->gthumb_1 }}" /></a>											
+									    		<p class="title fl">{{ $v->gtitle }}</p>
+									    		<p class="price fl">
+									    			<b>¥</b>
+									    			<strong>{{ $v->gprice }}</strong>
+									    		</p>
+									    		<p class="number fl">
+									    			销量<span>1110</span>
+									    		</p>
+									    	</div>
+									    </li>
                                     @endforeach
 								</ul>
+                               
 							</div>
 							<div class="search-side">
 
@@ -180,7 +154,7 @@
 							</div>
 							<div class="clear"></div>
 							<!--分页 -->
-							
+                            {{ $cates_goods->appends(['cid'=>$cid ])->links() }}
 
 						</div>
 					</div>

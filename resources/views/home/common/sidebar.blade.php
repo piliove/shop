@@ -52,7 +52,7 @@
                                             <dl class="dl-sort">
                                                 <dt><span title="{{ $vv->cname }}">{{ $vv->cname }}</span></dt>
                                             @foreach($vv->sub as $kkk=>$vvv)
-                                                <dd><a title="{{ $vvv->cname }}" href="#"><span>{{ $vvv->cname }}</span></a></dd>
+                                                <dd><a title="{{ $vvv->cname }}" href="/list?cid={{ $vvv->id }}"><span>{{ $vvv->cname }}</span></a></dd>
                                             @endforeach    
                                             </dl>
                                         @endforeach

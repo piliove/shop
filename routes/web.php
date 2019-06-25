@@ -283,7 +283,8 @@ Route::post('/admin/recommend/del/{id}', 'Admin\RecommendController@del');
 
 
 
-
+//前台 商品列表
+Route::resource('/list', 'Home\ListController');
 
 
 

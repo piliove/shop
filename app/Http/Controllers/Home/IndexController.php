@@ -40,6 +40,11 @@ class IndexController extends Controller
         $blog = Blog::all();
         $advert = Advert::all();
 
+
+
+        //取得活动内容
+        $activity_data_four = GetdateController::getActivity(4);
+      
         // 渲染 商城首页
         return view('/home/index/index',['countCart'=>$countCart,
                                          'cate_data'=>$cate_data,
@@ -47,6 +52,7 @@ class IndexController extends Controller
                                          'banners'=>$banners,
                                          'blog'=>$blog,
                                          'advert'=>$advert,
+                                         'activity_data'=>$activity_data_four,
                                         ]);
     }
 }
