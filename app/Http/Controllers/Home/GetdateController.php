@@ -51,7 +51,7 @@ class GetdateController extends Controller
     //取得商品id
     public static function getCate_list_goods($cid)
     {
-        $goods = Cates::find($cid)->goods()->paginate(1);
+        $goods = Cates::find($cid)->goods()->paginate(20);
         return $goods;
     }
 

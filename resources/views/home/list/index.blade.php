@@ -26,16 +26,13 @@
 					   <div class="long-title"><span class="all-goods">全部分类</span></div>
 					   <div class="nav-cont">
 							<ul>
-								<li class="index"><a href="#">首页</a></li>
+								<li class="index"><a href="/">首页</a></li>
                                 <li class="qc"><a href="#">闪购</a></li>
                                 <li class="qc"><a href="#">限时抢</a></li>
                                 <li class="qc"><a href="#">团购</a></li>
                                 <li class="qc last"><a href="#">大包装</a></li>
 							</ul>
-						    <div class="nav-extra">
-						    	<i class="am-icon-user-secret am-icon-md nav-user"></i><b></b>我的福利
-						    	<i class="am-icon-angle-right" style="padding-left: 10px;"></i>
-						    </div>
+
 						</div>
 			</div>
 			
@@ -45,13 +42,13 @@
 	                  	<div class="theme-popover">														
 							<div class="searchAbout">
 								<span class="font-pale">当前位置:</span>
-								
+								<span>{{ $cate_title }}</span>
 
 							</div>
 							<ul class="select">
 								<p class="title font-normal">
-									<span class="fl">种类</span>
-									<span class="total fl">搜索到<strong class="num">997</strong>件相关商品</span>
+									<span class="fl">{{ $cate_title }}</span>
+									<span class="total fl">搜索到<strong class="num">{{ $cate_good_count }}</strong>件相关商品</span>
 								</p>
 								<div class="clear"></div>
 								<li class="select-result">

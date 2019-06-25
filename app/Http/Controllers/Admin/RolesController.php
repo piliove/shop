@@ -36,10 +36,7 @@ class RolesController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
-<<<<<<< HEAD
-=======
         if (empty($data['control']) && empty($data['method']) && empty($data['desc'])) exit('请确保各项不为空');
->>>>>>> origin/muyinya
         //写入数据库且判断是否添加成功
         $res = DB::table('roles')->insert($data);
         if ($res) {
@@ -67,12 +64,8 @@ class RolesController extends Controller
         $control = $request->input('control', '');
         $method = $request->input('method', '');
         $desc = $request->input('desc', '');
-<<<<<<< HEAD
-        $res = DB::table('roles')->where('id',$id)->update(['control' => $control, 'method' => $method, 'desc' => $desc]);
-=======
         if (empty($desc) && empty($method) && empty($control)) exit('请确保各项不为空');
         $res = DB::table('roles')->where('id', $id)->update(['control' => $control, 'method' => $method, 'desc' => $desc]);
->>>>>>> origin/muyinya
         if ($res) {
             echo '修改成功';
         } else {
