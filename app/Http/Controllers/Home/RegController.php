@@ -39,6 +39,7 @@ class RegController extends Controller
 
             //检查是否有空值
             if (empty($email) && empty($upwd) && empty($upwd1)) exit('请确保每项不为空');
+
             //正则验证邮箱
             if (!preg_match('/^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/', $email)) exit('邮箱号码格式不正确');//验证邮箱
             //正则检查密码是否符号要求
@@ -121,6 +122,7 @@ class RegController extends Controller
         $code = $request->input('code');
         //检查是否有空项
         if (empty($data['phone']) && empty($data['upwd']) && empty($code)) exit('请确保每项不为空');
+
         //验证验证码
         if ($code !== redis::get($data['phone'])) exit('验证码错误');
         //验证两次密码是否一致

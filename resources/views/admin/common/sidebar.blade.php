@@ -137,6 +137,24 @@
                 </li>
                 <!-- 侧边栏:地址管理 结束 -->
 
+                 <!-- 侧边栏:新闻管理 开始 -->
+                 <li class="nav-item">
+                    <a class="nav-link" href="/admin/blog">
+                        <span class="menu-title">新闻管理</span>
+                        <i class="mdi mdi-account menu-icon"></i>
+                    </a>
+                </li>
+                <!-- 侧边栏:新闻管理 结束 -->
+
+                 <!-- 侧边栏:商品管理 开始 -->
+                 <li class="nav-item">
+                    <a class="nav-link" href="/admin/website">
+                        <span class="menu-title">网站配置信息</span>
+                        <i class="mdi mdi-account menu-icon"></i>
+                    </a>
+                </li>
+                <!-- 侧边栏:商品管理 结束 -->
+
             </ul>
         </nav>
         <!-- 内容start -->

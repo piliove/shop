@@ -14,7 +14,17 @@
 		<link href="/home/css/optstyle.css" rel="stylesheet" type="text/css" />
 
 		<script type="text/javascript" src="/home/js/jquery.js"></script>
-
+		<!-- 引入layerui文件 css -->
+		<link rel="stylesheet" href="/layui-v2.4.5/layui/css/layui.css">
+		<!-- 引入layerui文件 js -->
+		<script src="/layui-v2.4.5/layui/layui.js"></script>
+		<script>
+		//一般直接写在一个js文件中
+		layui.use(['layer', 'form'], function(){
+		var layer = layui.layer;
+		
+		});
+		</script> 
 	</head>
 
 	<body>
@@ -124,17 +134,38 @@
 									</li>
 									<li class="td td-op">
 										<div class="td-inner">
-											<a href="javascript:;" title="移入收藏夹" class="btn-fav">
+											<a href="javascript:;" onclick="collect({{ $v->id }})" title="移入收藏夹" class="btn-fav">
                                             移入收藏夹</a>
 											<a href="/home/cart/delete?id={{ $v->id }}" onclick="down()" data-point-url="#" class="delete">
                                             删除</a>
 										</div>
 									</li>
+									<!-- ajax脚本 删除 开始 -->
 									<script>
 										function down(){
 											confirm('确定要删除吗?');
 										}
 									</script>
+									<!-- ajax脚本 删除 结束 -->
+									<!-- ajax脚本 移入收藏  开始 -->
+									<script>
+										function collect(id){
+											// 发送ajax
+											$.get('/home/collect/add',{id:id},function(res){
+												if (res.msg == 'err' ) {
+													// 弹出失败提示
+													layer.msg(res.info);
+												} else {
+													// 弹出成功提示
+													layer.msg(res.info);
+
+													// 跳转到首页
+													window.location.href = '/';
+												}
+											},'json');
+										}
+									</script>
+									<!-- ajax脚本 移入收藏 结束 -->
 								</ul>
 							</div>
                             @endforeach

@@ -90,6 +90,7 @@ function asyncUploadProfile(){
 
         //开始判断是否上传的是图片       
          if ( !/\.(gif|jpg|jpeg|png|GIF|JPG|PNG)$/i.test($(this).val()) ) {
+            $('img#profile_pic').attr('src','/uploads/{{ $activity_data->activity_path }}');
             layer.msg('图片类型必须是.gif,jpeg,jpg,png中的一种');
             return false;
         }

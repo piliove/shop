@@ -32,9 +32,9 @@ class CollectController extends Controller
 
         // 判断 插入数据库成功与否
         if ($res) {
-            return 'ok';
+            echo json_encode(['msg'=>'ok','info'=>'添加成功']);
         } else {
-            return 'err';
+            echo json_encode(['msg'=>'err','info'=>'添加失败']);
         }
 
     }

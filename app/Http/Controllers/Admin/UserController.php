@@ -70,7 +70,7 @@ class UserController extends Controller
             //判断密码和确认密码是否一致
             if ($request->input('upwd1') !== $data['upwd']) exit('两次密码必须一致');
             //判断各项是否为空
-            if (!$data['uname'] && !$data['upwd'] && !$data['uface']) exit('请确保各项值不为空');
+            if (empty($data['uname']) || empty($data['upwd']) || empty($data['uface'])) exit('请确保各项值不为空');
 
             //创建模型写入数据到数据库并判断是否添加成功
             //开启事务
@@ -138,7 +138,8 @@ class UserController extends Controller
         //age的值不能超出范围
         if ($data['age'] < 0 || $data['age'] >= 150) exit('年龄范围不合法');
         //判断是否有空值
-        if (empty($data['uname']) && empty($data['name']) && empty($data['email']) && empty($data['phone']) && empty($data['age']) && empty($data['qq']) && empty($data['addr'])) exit('请确保所有选项不为空');
+        if (empty($data['uname']) || empty($data['name']) || empty($data['email']) || empty($data['phone']) || empty($data['age']) || empty($data['qq']) || empty($data['addr'])) exit('请确保所有选项不为空');
+
         //开启事务
         DB::beginTransaction();
         //将需要修改的值写入users表
@@ -184,7 +185,8 @@ class UserController extends Controller
         //判断ID是否为空
         if (empty($data['id'])) exit('用户ID不能为空');
         //判断是否有空项
-        if (empty($data['upwd']) && empty($data['upwd1'])) exit('请确保各项不为空');
+        if (empty($data['upwd']) || empty($data['upwd1'])) exit('请确保各项不为空');
+
         //判断两次密码是否一致
         if ($data['upwd'] !== $data['upwd1']) exit('两次密码不一致');
         //将修改的密码写入数据库中,并验证是否修改成功

@@ -150,6 +150,9 @@ class ActivityController extends Controller
            
         //判断有无头像传入
         if ($request->hasFile('profile')) {
+            //开始查找原图片路径,并且删除
+            $path = $activity->activity_path;
+            Storage::delete($path);
             //开始压入图片路径
             $activity->activity_path = $request->file('profile')->store(date('Ymd')); 
             //删除缓存文件夹的图片

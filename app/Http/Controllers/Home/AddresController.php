@@ -18,14 +18,13 @@ class AddresController extends Controller
      */
     public function index()
     {
-        // 获取地址管理 所有数据
-        $addres = DB::table('addres')->get();
-
         // 使用CartController控制器下的countCart方法
         $countCart = CartController::countCart();
 
-        // 渲染 地址首页
-        return view('home/addres/index',['addres'=>$addres,'countCart'=>$countCart]);
+        $addres = DB::table('addres')->get();
+
+        // 渲染 地址管理页面
+        return view('home/addres/index',['addres'=>$addres,'countCart'=>$countCart,'title'=>'修改地址']);
     }
 
     /**
@@ -107,7 +106,14 @@ class AddresController extends Controller
      */
     public function edit($id)
     {
-        //
+         // 获取商品管理指定数据信息
+        $addres = Addres::find($id);
+
+        // 使用CartController控制器下的countCart方法
+        $countCart = CartController::countCart();
+
+        // 渲染 添加管理页面
+        return view('home.addres.edit',['addres'=>$addres,'countCart'=>$countCart]);
     }
 
     /**
@@ -117,11 +123,32 @@ class AddresController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //接收传值
-        $id = $request->input('id');
-        dd($id);
+        //接收修改表单所有值
+        $data = $request->all();
+        // dd($request->all);exit;
+        $addres = Addres::find($data['id']);
+        //判断token是否一致
+        if ($addres->_token !== $data['token']) exit('验证失败');
+
+        //判断各项是否为空
+        if (!$data['name'] || !$data['aname'] || !$data['dname'] || !$data['aphone']) exit('请确保各项值不为空');
+        // 接收数
+        $addres->name = $data['name'];
+        $addres->dname = $data['dname'];
+        $addres->aphone = $data['aphone'];
+        $aname = $data['aname'];
+        $comma_separated = implode(" ", $aname);
+        
+        $addres->aname=$comma_separated;
+        $path = $addres->save();
+        if ($path) {
+            exit('修改成功');
+        } else {
+            exit('修改失败');
+        }
+
     }
 
     /**
@@ -142,6 +169,22 @@ class AddresController extends Controller
             echo '删除成功';
         } else {
             echo '删除失败';
+        }
+    }
+    public function changeStatus(Request $request)
+    {
+       //接收修改表单所有值
+        $data = $request->all();
+        // dd($request->all);exit;
+        $addres = Addres::find($data['id']);
+    
+        // 接收数
+        $addres->status = $data['status'];
+        $path = $addres->save();
+        if($path){
+            return back()->with('success','修改成功');
+        }else{
+            return back()->with('error','修改失败');
         }
     }
 }

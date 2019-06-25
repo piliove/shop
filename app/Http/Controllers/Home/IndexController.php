@@ -14,7 +14,7 @@ class IndexController extends Controller
      */
     public function index()
     {
-
+        
         // 使用CartController控制器下的countCart方法
         $countCart = CartController::countCart();
 

@@ -47,9 +47,7 @@
                 </form>
             </div>
             <div class="login-links">
-                <a href="#" class="am-fr">忘记密码</a>
                 <a href="/reg" class="zcnext am-fr am-btn-default">注册</a>
-                <br/>
             </div>
             <div class="am-cf">
                 <input type="submit" id="submit" value="登 录" class="am-btn am-btn-primary am-btn-sm">
@@ -98,7 +96,7 @@
         $.post('/login/dologin', cont, function (res) {
             if (res == '登录成功') {
                 layer.alert(res, {icon: 6}, function () {
-                    location.href = "/user";
+                    location.href = "/";
                 })
             } else {
                 layer.msg(res, {icon: 5});
