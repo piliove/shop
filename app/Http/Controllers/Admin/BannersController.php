@@ -120,7 +120,7 @@ class BannersController extends Controller
         if ($banners->_token !== $data['token']) exit('验证失败');
 
         //判断各项是否为空
-        if (!$data['title'] || !$data['url']) exit('请确保各项值不为空');
+        if (empty($data['title']) || empty($data['url'])) exit('请确保各项值不为空');
 
         // 将数据存入数据库
         $banners->title = $data['title'];

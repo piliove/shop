@@ -17,6 +17,9 @@ class LoginController extends Controller
         return view('home//login/login');
     }
 
+    /**
+     * 接收登录信息传值
+     */
     public function doLogin(Request $request)
     {
         //接收传值
@@ -30,20 +33,31 @@ class LoginController extends Controller
         if ($choice == 'c_email') {
             $userinfo = DB::table('user_info')->where('email', $number)->first();
             if (empty($userinfo)) exit('账号或密码错误');
-            $res = DB::table('users')->where('id', $userinfo->uid)->first();
+            //查询users和user_info
+            $res = DB::table('users as u')
+                ->join('user_info as i', 'i.uid', 'u.id')
+                ->where('u.id', $userinfo->uid)
+                ->first();
         } else if ($choice == 'c_phone') {
             $userinfo = DB::table('user_info')->where('phone', $number)->first();
             if (empty($userinfo)) exit('账号或密码错误');
-
-            $res = DB::table('users')->where('id', $userinfo->uid)->first();
+            //查询users和user_info
+            $res = DB::table('users as u')
+                ->join('user_info as i', 'i.uid', 'u.id')
+                ->where('u.id', $userinfo->uid)
+                ->first();
         } else {
-            $res = DB::table('users')->where('uname', $number)->first();
+            //查询users和user_info
+            $res = DB::table('users as u')
+                ->join('user_info as i', 'i.uid', 'u.id')
+                ->where('u.uname', $number)
+                ->first();
             if (empty($res)) exit('账号或密码错误');
         }
         //检查密码是否正确
         if (Hash::check($upwd, $res->upwd)) {
-            session(['IndexLogin'=>true]);
-            session(['IndexUser'=>$res]);
+            session(['IndexLogin' => true]);
+            session(['IndexUser' => $res]);
             echo '登录成功';
         } else {
             echo '账号或密码错误';

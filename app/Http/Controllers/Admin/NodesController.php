@@ -65,7 +65,7 @@ class NodesController extends Controller
         $control = $request->input('control', '');
         $name = $request->only('name');
         //判断是否有空值
-        if (empty($control) && empty($name)) exit('请确保各项不为空');
+        if (empty($control) || empty($name)) exit('请确保各项不为空');
         //开启事务
         DB::beginTransaction();
         $res = DB::table('nodes')->insertGetId($name);

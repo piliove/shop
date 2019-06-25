@@ -12,7 +12,6 @@
 */
 
 
-
 //*********************************前台路由******************************
 //=================前台 注册(手机号/邮箱)=====================
 //首页
@@ -87,7 +86,7 @@ Route::get('/home/ordermore/index/{id}', 'Home\OrderMoreController@index');
 // 前台 修改 默认地址
 Route::get('/home/addres/changeStatus', 'Home\AddresController@changeStatus');
 //接收修改商品传值
-Route::post('/home/addres/update','Home\AddresController@update');
+Route::post('/home/addres/update', 'Home\AddresController@update');
 // 前台删除用户
 Route::get('home/addres/del', 'Home\AddresController@destroy');
 // 前台地址
@@ -96,6 +95,7 @@ Route::resource('home/addres', 'Home\AddresController');
 //=================前台个人中心页面=====================
 // 显示 个人中心页面
 Route::get('/home/person/index', 'Home\PersonController@index');
+
 
 //=================前台用户反馈页面=====================
 // 显示 用户反馈页面
@@ -114,6 +114,38 @@ Route::get('/home/footprint/index', 'Home\FootprintController@index');
 // 前台新闻
 Route::resource('home/blog', 'Home\BlogController');
 
+
+//显示个人资料
+Route::get('/home/person/infos', 'Home\PersonController@infos');
+//文件上传
+Route::post('/home/person/updatefile', 'Home\PersonController@updateFile');
+//获取个人资料修改信息
+Route::post('/home/person/updateinfos', 'Home\PersonController@UpdateInfos');
+
+//======================安全设置==========================
+//显示安全设置首页
+Route::get('/home/safe/index', 'Home\SafeController@index');
+//显示修改密码页面
+Route::get('/home/safe/upwd', 'Home\SafeController@upwd');
+//接收修改密码信息
+Route::post('/home/safe/updateupwd', 'Home\SafeController@UpdateUpwd');
+//修改手机号码页面
+Route::get('/home/safe/phone', 'Home\SafeController@phone');
+//发送原手机验证码
+Route::post('/home/safe/phone/code', 'Home\SafeController@PhoneCode');
+//验证原手机验证码
+Route::post('/home/safe/phone/testing', 'Home\SafeController@testing');
+//发送新手机验证码
+Route::post('/home/safe/phone/code1', 'Home\SafeController@PhoneCode1');
+//接收修改手机表单
+Route::post('/home/safe/phone/update', 'Home\SafeController@UpdatePhone');
+//显示邮箱验证页面
+Route::get('/home/safe/email', 'Home\SafeController@email');
+//接收邮箱,发送验证码
+Route::post('/home/safe/email/code', 'Home\SafeController@EmailCode');
+//接收邮箱验证表单传值
+Route::post('/home/safe/email/update', 'Home\SafeController@UpdateEmail');
+
 //*********************************后台路由******************************
 //======================登陆管理===================
 // 显示登陆页面
@@ -127,7 +159,7 @@ Route::get('/admin/logout', 'Admin\LoginController@logout');
 // 中间件
 // Route::group(['middleware' => ['AdminLogin', 'RolesUser']], function () {
 // rbac错误页面
-Route::get('/admin/rbac','Admin\LoginController@rbac');
+Route::get('/admin/rbac', 'Admin\LoginController@rbac');
 // 个人中心
 Route::get('/admin/center/{id}/{token}', 'Admin\LoginController@center');
 // 接收个人中心传值
@@ -168,13 +200,13 @@ Route::resource('/admin/feedback', 'Admin\FeedbackController');
 //文件上传
 Route::post('admin/banners/updatefile', 'Admin\BannersController@updateFile');
 // 轮播图 修改 状态
-Route::get('/admin/banners/changeStatus','Admin\BannersController@changeStatus');
+Route::get('/admin/banners/changeStatus', 'Admin\BannersController@changeStatus');
 // 轮播图 删除
 Route::get('admin/banners/del', 'Admin\BannersController@destroy');
 // 轮播图 修改 
 Route::post('/admin/banners/update', 'Admin\BannersController@update');
 // 轮播图增删改查
-Route::resource('/admin/banners','Admin\BannersController');
+Route::resource('/admin/banners', 'Admin\BannersController');
 
 //=======================广告管理========================
 //文件上传
@@ -241,7 +273,7 @@ Route::resource('admin/member', 'Admin\MemberController');
 
 //=======================B=========================
 //分类消息提醒
-Route::get('/admin/changecatemsg','Admin\CateController@change');
+Route::get('/admin/changecatemsg', 'Admin\CateController@change');
 //分类管理 
 Route::resource('/admin/cate', 'Admin\CateController');
 
@@ -343,23 +375,23 @@ Route::resource('/list', 'Home\ListController');
 //=======================D=========================
 //======================优惠券管理===================
 //接收修改优惠券的值
-Route::post('/admin/coupon/update','Admin\CouponController@update');
+Route::post('/admin/coupon/update', 'Admin\CouponController@update');
 //优惠券 增删改查
 Route::resource('admin/coupon', 'Admin\CouponController');
 
 //======================商家管理===================
 //接收修改商家的值
-Route::post('/admin/business/update','Admin\BusinessController@update');
+Route::post('/admin/business/update', 'Admin\BusinessController@update');
 // 商家 增删改查
-Route::resource('admin/business','Admin\BusinessController');
+Route::resource('admin/business', 'Admin\BusinessController');
 
 //======================商品管理===================
 //接收修改商品传值
-Route::post('/admin/goods/update','Admin\GoodsController@update');
+Route::post('/admin/goods/update', 'Admin\GoodsController@update');
 //文件上传
 Route::post('/admin/goods/updatefile', 'Admin\GoodsController@updateFile');
 // 商品 增删改查
-Route::resource('admin/goods','Admin\GoodsController');
+Route::resource('admin/goods', 'Admin\GoodsController');
 
 
 

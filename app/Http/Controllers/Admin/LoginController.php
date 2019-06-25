@@ -25,7 +25,7 @@ class LoginController extends Controller
         $uname = $request->input('uname');
         $upwd = $request->input('upwd');
         //判断是否为空值
-        if (empty($uname) && empty($upwd)) exit('请确保各项不为空');
+        if (empty($uname) || empty($upwd)) exit('请确保各项不为空');
 
         //查询并判断是否有该用户
         $res = DB::table('admin_user')->where('uname', $uname)->first();

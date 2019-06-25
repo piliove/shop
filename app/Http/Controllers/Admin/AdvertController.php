@@ -126,7 +126,7 @@ class AdvertController extends Controller
         if ($advert->_token !== $data['token']) exit('验证失败');
 
         //判断各项是否为空
-        if (!$data['advert_title'] || !$data['activity_desc'] || !$data['url']) exit('请确保各项值不为空');
+        if (empty($data['advert_title']) || empty($data['activity_desc']) || empty($data['url'])) exit('请确保各项值不为空');
 
         // 将数据存入数据库
         $advert->advert_title = $data['advert_title'];

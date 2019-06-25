@@ -71,7 +71,7 @@ class blogController extends Controller
         $data = $request->all();
 
         //判断各项是否为空
-        if (!$data['bname'] || !$data['title'] || !$data['ufate'] || !$data['bdesc']) exit('请确保各项值不为空');
+        if (empty($data['bname']) || empty($data['title']) || empty($data['ufate']) || empty($data['bdesc'])) exit('请确保各项值不为空');
         
         //创建模型写入数据到数据库并判断是否添加成功
         // 实例化goods模型
@@ -136,7 +136,7 @@ class blogController extends Controller
         if ($blog->_token !== $data['token']) exit('验证失败');
 
         //判断各项是否为空
-        if (!$data['title'] || !$data['ufate'] || !$data['bdesc']) exit('请确保各项值不为空');
+        if (empty($data['bname']) || empty($data['title']) || empty($data['ufate']) || empty($data['bdesc'])) exit('请确保各项值不为空');
 
         // 将数据存入数据库
         $blog->title = $data['title'];
