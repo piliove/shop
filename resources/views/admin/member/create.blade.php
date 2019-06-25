@@ -20,9 +20,8 @@
                 <label>会员</label>
                 <select class="form-control" name="mname">
                     <option>--请选择会员--</option>
-                    <option type="radio" name="mname" value="1" checke>普通会员</option>
-                    <option type="radio" name="mname" value="2">Vip会员</option>
-                    <option type="radio" name="mname" value="3">SVip会员</option>
+                    <option type="radio" name="mname" value="1">Vip会员</option>
+                    <option type="radio" name="mname" value="2">SVip会员</option>
                 </select>
             </div>
             

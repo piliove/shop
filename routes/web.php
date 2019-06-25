@@ -110,7 +110,11 @@ Route::get('/home/footprint/del', 'Home\FootprintController@destroy');
 Route::get('/home/footprint/index', 'Home\FootprintController@index');
 
 //=================前台评轮评论管理==========================
-
+// 用户文件上传
+Route::post('home/comment/updatefile', 'Home\CommentController@updateFile');
+// 显示 评论页面
+Route::resource('home/comment', 'Home\CommentController');
+//=================前台新闻页面管理==========================
 // 前台新闻
 Route::resource('home/blog', 'Home\BlogController');
 

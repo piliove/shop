@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Member;
 // 调用用户表模型
 use App\Models\Users;
+use DB;
 class MemberController extends Controller
 {
     /**
@@ -24,7 +25,10 @@ class MemberController extends Controller
 
         ];
         //查询所有用户数据
-        $member = Member::where($data)->orderBy('id')->paginate(3);
+        $member = DB::table('member as m')
+        ->join('users as u','m.uid','u.id')
+        ->where($data)
+        ->paginate(3);
         return view('admin.member.index',['member'=>$member,'search'=>$search]);
     }
 
@@ -66,12 +70,12 @@ class MemberController extends Controller
             $res = $member->save();
             // 判断成功与否
             if ($res) {
-                exit('添加成功');
+                exit('会员添加成功');
             } else {
-                exit('添加失败');
+                exit('会员添加失败');
             }
         } catch (\Exception $e) {
-            echo '商品名称已存在';
+            echo '会员名称已存在';
         }
     }
 
