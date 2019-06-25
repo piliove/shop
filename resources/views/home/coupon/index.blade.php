@@ -263,7 +263,7 @@
 					<li class="person">
 						<a href="#">我的交易</a>
 						<ul>
-							<li><a href="order.html">订单管理</a></li>
+							<li><a href="/home/ordersinfo/index">订单管理</a></li>
 							<li> <a href="change.html">退款售后</a></li>
 						</ul>
 					</li>
@@ -273,6 +273,7 @@
 							<li class="active"> <a href="/home/coupon/index">优惠券 </a></li>
 							<li> <a href="bonus.html">红包</a></li>
 							<li> <a href="bill.html">账单明细</a></li>
+							<li> <a href="/home/links/index">我的反馈</a></li>
 						</ul>
 					</li>
 

@@ -3,13 +3,14 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=0">
-		<title>我的收藏</title>
+		<title>反馈留言</title>
 		<link href="/home/AmazeUI-2.4.2/assets/css/admin.css" rel="stylesheet" type="text/css">
 		<link href="/home/AmazeUI-2.4.2/assets/css/amazeui.css" rel="stylesheet" type="text/css">
 		<link href="/home/css/personal.css" rel="stylesheet" type="text/css">
-		<link href="/home/css/colstyle.css" rel="stylesheet" type="text/css">
+		<link href="/home/css/stepstyle.css" rel="stylesheet" type="text/css">
+		<script type="text/javascript" src="/home/js/jquery-1.7.2.min.js"></script>
+		<script src="/home/AmazeUI-2.4.2/assets/js/amazeui.js"></script>
 	</head>
-
 	<body>
 		<!--头 -->
 		<header>
@@ -20,8 +21,8 @@
 						<ul class="message-l">
 							<div class="topMessage">
 								<div class="menu-hd">
-									<a href="#" target="_top" class="h">亲，请登录</a>
-									<a href="#" target="_top">免费注册</a>
+									<a href="/login" target="_top" class="h">亲，请登录</a>
+									<a href="/reg" target="_top">免费注册</a>
 								</div>
 							</div>
 						</ul>
@@ -30,7 +31,7 @@
 								<div class="menu-hd"><a href="/" target="_top" class="h">首页</a></div>
 							</div>
 							<div class="topMessage my-shangcheng">
-								<div class="menu-hd MyShangcheng"><a href="#" target="_top"><i class="am-icon-user am-icon-fw"></i>个人中心</a></div>
+								<div class="menu-hd MyShangcheng"><a href="/home/person/index" target="_top"><i class="am-icon-user am-icon-fw"></i>个人中心</a></div>
 							</div>
 							<div class="topMessage mini-cart">
 								<div class="menu-hd"><a id="mc-menu-hd" href="/home/cart/index" target="_top"><i class="am-icon-shopping-cart  am-icon-fw"></i><span>购物车</span><strong id="J_MiniCartNum" class="h">({{ $countCart }})</strong></a></div>
@@ -47,7 +48,7 @@
 							</div>
 
 							<div class="search-bar pr">
-								<a name="index_none_header_sysc" href=""></a>
+								<a name="index_none_header_sysc" href="/home/search/index"></a>
 								<form action="/home/search/index" method="get">
 									<input id="searchInput" name="search" type="text" placeholder="搜索" autocomplete="off">
 									<input id="ai-topsearch" class="submit am-btn" value="搜索" index="1" type="submit">
@@ -62,75 +63,37 @@
 		</header>
             <div class="nav-table">
 					   <div class="long-title"><span class="all-goods">全部分类</span></div>
-					   <div class="nav-cont">
-							<ul>
-								<li class="index"><a href="#">首页</a></li>
-                                <li class="qc"><a href="#">闪购</a></li>
-                                <li class="qc"><a href="#">限时抢</a></li>
-                                <li class="qc"><a href="#">团购</a></li>
-                                <li class="qc last"><a href="#">大包装</a></li>
-							</ul>
-						</div>
+					   	<!-- 导航菜单 开始 -->
+						@include('home/common/nav_cont')
+						<!-- 导航菜单 结束 -->
 			</div>
 			<b class="line"></b>
 		<div class="center">
 			<div class="col-main">
 				<div class="main-wrap">
-
-					<div class="user-collection">
-						<!--标题 -->
-						<div class="am-cf am-padding">
-							<div class="am-fl am-cf"><strong class="am-text-danger am-text-lg">我的收藏</strong> / <small>My&nbsp;Collection</small></div>
-						</div>
-						<hr/>
-
-						<div class="you-like">
-							<div class="s-bar">
-								我的收藏
-								<a class="am-badge am-badge-danger am-round">降价</a>
-								<a class="am-badge am-badge-danger am-round">下架</a>
-							</div>
-							<div class="s-content">
-								@if( session('IndexLogin') == true )
-								@foreach($data as $k => $v)
-								<div class="s-item-wrap">
-									<div class="s-item">
-
-										<div class="s-pic">
-											<a href="/home/info/index/{{ $v->gid }}" class="s-pic-link">
-												<img src="/uploads/{{ $v->cthumb }}" alt="{{ $v->ctitle }}" title="{{ $v->ctitle }}" class="s-pic-img s-guess-item-img">
-											</a>
-										</div>
-										<div class="s-info">
-											<div class="s-title"><a href="" title="{{ $v->ctitle }}">{{ $v->ctitle }}</a></div>
-											<div class="s-price-box">
-												<span class="s-price"><em class="s-price-sign">¥</em><em class="s-value">{{ $v->cprices }}</em></span>
-												<span class="s-history-price"><em class="s-price-sign">¥</em><em class="s-value">{{ $v->cprice }}</em></span>
-											</div>
-											<div class="s-extra-box">
-												<span class="s-comment">好评: 00.00%</span>
-												<span class="s-sales">月销: 0</span>
-											</div>
-										</div>
-										<div class="s-tp">
-											<span class="ui-btn-loading-before"><a href="/home/search/index?search={{ $v->ctitle }}">找相似</a></span>
-											<i class="am-icon-shopping-cart"></i>
-											<span class="ui-btn-loading-before buy"><a href="/home/info/index/{{ $v->gid }}">加入购物车</a></span>
-											<p>
-												<a href="javascript:;" class="c-nodo J_delFav_btn">取消收藏</a>
-											</p>
-										</div>
-									</div>
-								</div>
-								@endforeach
-								@endif
-							</div>
-
-							<div class="s-more-btn i-load-more-item" data-screen="0"><i class="am-icon-refresh am-icon-fw"></i>更多</div>
-
-						</div>
-
+					<div class="am-cf am-padding">
+						<div class="am-fl am-cf"><strong class="am-text-danger am-text-lg">反馈留言</strong> / <small>Feedback</small></div>
 					</div>
+					<hr/>
+					<form style="margin-top:100px;" class="am-form am-form-horizontal" action="/home/feedback/add" method="post">
+						{{ csrf_field() }}
+						<div class="am-form-group">
+							<label for="user-email" class="am-form-label">用户名</label>
+							<div class="am-form-content">
+								<input type="text" name="uname" id="user-email" placeholder="请输入用户名">
+							</div>
+						</div>
+						<div class="am-form-group">
+                            <label for="user-email" class="am-form-label">反馈留言</label>
+							<div class="am-form-content">
+								<textarea name="feedback_info" id="" cols="30" rows="10" placeholder="请输入反馈留言..."></textarea>
+							</div>
+						</div>
+						<div class="info-btn">
+							<div class="am-btn am-btn-danger"><input type="submit" value="提交反馈" style="background:#dd514c;border:none;padding:3px;" /></div>
+						</div>
+
+					</form>
 
 				</div>
 				<!--底部-->
@@ -140,7 +103,7 @@
 			<aside class="menu">
 				<ul>
 					<li class="person">
-						<a href="/">个人中心</a>
+						<a href="index.html">个人中心</a>
 					</li>
 					<li class="person">
 						<a href="#">个人资料</a>
@@ -153,24 +116,24 @@
 					<li class="person">
 						<a href="#">我的交易</a>
 						<ul>
-							<li><a href="/home/ordersinfo/index">订单管理</a></li>
+							<li><a href="order.html">订单管理</a></li>
 							<li> <a href="change.html">退款售后</a></li>
 						</ul>
 					</li>
 					<li class="person">
 						<a href="#">我的资产</a>
 						<ul>
-							<li> <a href="/home/coupon/index">优惠券 </a></li>
+							<li> <a href="coupon.html">优惠券 </a></li>
 							<li> <a href="bonus.html">红包</a></li>
 							<li> <a href="bill.html">账单明细</a></li>
-							<li> <a href="/home/feedback/index">我的反馈</a></li>
+							<li class="active"> <a href="/">我的反馈</a></li>
 						</ul>
 					</li>
 
 					<li class="person">
 						<a href="#">我的小窝</a>
 						<ul>
-							<li class="active"> <a href="/home/collect/index">收藏</a></li>
+							<li> <a href="collection.html">收藏</a></li>
 							<li> <a href="foot.html">足迹</a></li>
 							<li> <a href="comment.html">评价</a></li>
 							<li> <a href="news.html">消息</a></li>

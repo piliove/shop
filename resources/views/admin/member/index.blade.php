@@ -16,7 +16,7 @@
 </div>
 <div class="card">
     <div class="card-body">
-        <form action="/admin/blog" method="get" style="width:100%">
+        <form action="/admin/member" method="get" style="width:100%">
         <div class="input-group" style="width:30%">
             <h4 style="font-size:25px;">搜索:&nbsp;&nbsp;</h4>
             <input style="height:30px;" name="search" type="text" class="form-control" placeholder="输入用户名或ID搜索">
@@ -25,44 +25,47 @@
             </div>
         </div>
         </form>
-        <a href="/admin/blog/create" style="margin-top:10px;" class="badge badge-info">
-            <i class="mdi mdi-account-multiple-plus"></i>添加新闻</a>
+        <a href="/admin/member/create" style="margin-top:10px;" class="badge badge-info">
+            <i class="mdi mdi-account-multiple-plus"></i>添加会员</a>
         <table class="table">
             <thead>
              <tr>
                 <th>ID</th>
-                <th>新闻标题</th>
-                <th>新闻描述</th>
-                <th>新闻内容</th>
-                <th>新闻图片</th>
+                <th>UID</th>
+                <th>会员等级</th>
+                <th>时间</th>
                 <th>操作</th>
             </tr>
             </thead>
            <tbody>
-            @foreach($blog as $k=>$v)
-                <tr>
-                    <td>{{ $v->id }}</td>
-                    <td><p title="{{ $v->bname }}" style="width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">{{ $v->bname }}</p></td>
-                    <td><p title="{{ $v->title }}" style="width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">{{ $v->title }}</p></td>
-                    <td><p title="{{ $v->bdesc }}" style="width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">{{ $v->bdesc }}</p></td>
-                    <td>
-                    <img src="/uploads/{{ $v->ufate }}" style="width:150px;">
-                    </td>
-                    
-                    <td>
-                        <a href="/admin/blog/{{$v->id}}/edit" class="btn btn-info btn-sm">修改</a>
-                        <a href="JavaScript:;" onclick="del({{$v->id}},this)" class="btn btn-gradient-danger btn-sm">删除</a>
-                    </td>
-                </tr>
-            @endforeach
-            </tbody>
-        </table>
+                @foreach($member as $k=>$v)
+                    <tr>
+                        <td>{{$v->id}}</td>
+                        <td>{{$v->uid }}</td>
+                        <td>
+                        @if($v->mname == 1)
+                        <kbd class="badge badge-gradient-danger">普通用户</kbd>
+                        @elseif($v->mname==2)
+                        <kbd class="badge badge-gradient-warning">Vip会员</kbd>
+                        @else
+                        <kbd class="badge badge-gradient-info">SVip会员</kbd>
+                        @endif
+                        </td>
+                        <td>{{$v->created_at }}</td>
+                        <td>
+                            <a href="JavaScript:;" onclick="del({{$v->id}},this)"
+                           class="btn btn-gradient-danger btn-sm">删除</a>
+                        </td>
+                    </tr>
+                @endforeach
+                </tbody>
+            </table>
         <!-- 分页 开始 -->
-        <div style="margin-top:10px;">{{ $blog->appends(['search'=>$search])->links('common.paginator') }}</div>
+        <div style="margin-top:10px;">{{ $member->appends(['search'=>$search])->links('common.paginator') }}</div>
         <!-- 分页 结束 -->
     </div>
 </div>
-
+       
         <!-- END PANEL HEADLINE -->
     </div>
 </div>
@@ -73,7 +76,7 @@
             time: 0 //不自动关闭
             , btn: ['确定', '取消']
             , yes: function () {
-                $.get('/admin/blog/del?id=' + id, function (res) {
+                $.get('/admin/member/del?id=' + id, function (res) {
                     if (res == '删除成功') {
                         layer.alert(res, {icon: 6});
                         $(obj).parent().parent().remove();

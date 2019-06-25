@@ -73,7 +73,7 @@ Route::get('/home/orders/index', 'Home\OrdersController@index');
 // 执行 提交订单
 Route::post('/home/orders/pay', 'Home\OrdersController@pay');
 
-//=================前台 订单页面=====================
+//=================前台 订单页面=======================
 // 显示 订单页面
 Route::get('/home/ordersinfo/index', 'Home\OrdersInfoController@index');
 // 执行 删除订单
@@ -97,6 +97,22 @@ Route::resource('home/addres', 'Home\AddresController');
 // 显示 个人中心页面
 Route::get('/home/person/index', 'Home\PersonController@index');
 
+//=================前台用户反馈页面=====================
+// 显示 用户反馈页面
+Route::get('/home/feedback/index', 'Home\FeedbackController@index');
+// 执行 添加用户反馈操作
+Route::post('/home/feedback/add', 'Home\FeedbackController@add');
+
+//=================前台足迹页面=====================
+// 执行 删除足迹页面
+Route::get('/home/footprint/del', 'Home\FootprintController@destroy');
+// 显示 我的足迹页面
+Route::get('/home/footprint/index', 'Home\FootprintController@index');
+
+//=================前台评轮评论管理==========================
+
+// 前台新闻
+Route::resource('home/blog', 'Home\BlogController');
 
 //*********************************后台路由******************************
 //======================登陆管理===================
@@ -195,7 +211,11 @@ Route::post('admin/blog/updatefile', 'Admin\BlogController@updateFile');
 // 新闻
 Route::resource('admin/blog', 'Admin\BlogController');
 
-
+//======================后台会员管理========================
+// 删除用户
+Route::get('admin/member/del', 'Admin\MemberController@destroy');
+// 会员
+Route::resource('admin/member', 'Admin\MemberController');
 
 
 

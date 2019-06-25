@@ -23,10 +23,13 @@
 <!--轮播 -->
 <div class="am-slider am-slider-default scoll" data-am-flexslider id="demo-slider-0">
     <ul class="am-slides">
-        <li class="banner1"><a href="introduction.html"><img src="/home/images/ad1.jpg"/></a></li>
-        <li class="banner2"><a><img src="/home/images/ad2.jpg"/></a></li>
-        <li class="banner3"><a><img src="/home/images/ad3.jpg"/></a></li>
-        <li class="banner4"><a><img src="/home/images/ad4.jpg"/></a></li>
+        @foreach($banners as $k=>$v)
+    @if($v->status != 0)
+        <li class="banner1"><a href="/"><img src="/uploads/{{ $v->url }}"/></a></li>  
+    @else  
+        
+    @endif
+@endforeach
     </ul>
 </div>
 <div class="clear"></div>
@@ -75,11 +78,11 @@
         <div class="marqueen">
             <span class="marqueen-title">商城头条</span>
             <div class="demo">
-
+            @foreach($blog as $k=>$v)
                 <ul>
                     <li class="title-first"><a target="_blank" href="#">
                             <img src="/home/images/TJ2.jpg"></img>
-                            <span>[特惠]</span>商城爆品1分秒
+                            <span>[特惠]</span>{{$v->bname }}
                         </a></li>
                     <li class="title-first"><a target="_blank" href="#">
                             <span>[公告]</span>商城与广州市签署战略合作协议
@@ -110,11 +113,11 @@
                         <div class="clear"></div>
                     </div>
 
-                    <li><a target="_blank" href="#"><span>[特惠]</span>洋河年末大促，低至两件五折</a></li>
-                    <li><a target="_blank" href="#"><span>[公告]</span>华北、华中部分地区配送延迟</a></li>
-                    <li><a target="_blank" href="#"><span>[特惠]</span>家电狂欢千亿礼券 买1送1！</a></li>
+                    <li><a target="_blank" href="#"><span>[特惠]</span>{{$v->bname }}</a></li>
+                    
 
                 </ul>
+            @endforeach    
                 <div class="advTip"><img src="/home/images/advTip.jpg"/></div>
             </div>
         </div>
@@ -195,7 +198,7 @@
     </div>
     <div class="clear "></div>
 
-
+    @foreach($advert as $k=>$v)
     <div id="f1">
         <!--甜点-->
 
@@ -219,6 +222,7 @@
 
         <div class="am-g am-g-fixed floodFour">
             <div class="am-u-sm-5 am-u-md-4 text-one list ">
+        
                 <div class="word">
                     <a class="outer" href="#"><span class="inner"><b class="text">核桃</b></span></a>
                     <a class="outer" href="#"><span class="inner"><b class="text">核桃</b></span></a>
@@ -227,20 +231,20 @@
                     <a class="outer" href="#"><span class="inner"><b class="text">核桃</b></span></a>
                     <a class="outer" href="#"><span class="inner"><b class="text">核桃</b></span></a>
                 </div>
-                <a href="# ">
+                <a href="/home/info/index/{{ $v->id }}">
                     <div class="outer-con ">
                         <div class="title ">
-                            开抢啦！
+                            {{$v->advert_title}}
                         </div>
                         <div class="sub-title ">
-                            零食大礼包
+                            {{$v->activity_desc}}
                         </div>
                     </div>
-                    <img src="/home/images/act1.png "/>
+                    <img style="width:200px;height:212px;margin: 20px -110px;" src="/uploads/{{$v->url}} "/>
                 </a>
                 <div class="triangle-topright"></div>
+          
             </div>
-
             <div class="am-u-sm-7 am-u-md-4 text-two sug">
                 <div class="outer-con ">
                     <div class="title ">
@@ -323,6 +327,7 @@
         </div>
         <div class="clear "></div>
     </div>
+  @endforeach
 
 
     <div id="f2">
@@ -1548,7 +1553,7 @@
             </div>
 
             <div id="foot " class="item ">
-                <a href="# ">
+                <a href="/home/footprint/index">
                     <span class="zuji "></span>
                 </a>
                 <div class="mp_tooltip ">
