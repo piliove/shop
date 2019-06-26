@@ -177,25 +177,30 @@ class AddresController extends Controller
      * @param  
      * @return 
      */
-    public function changerec(Request $request)
+     /**
+     * 设置默认地址
+     * @param Request $request
+     * @param [type]  $id     
+     */
+    public function DefaultAddres(Request $request,$id)
     {
-        //获得状态
-        $status = $request->input('status');
 
-        //获得id
-        $id = $request->input('id');
 
-        //判断回馈
-        if ($status == 1) {
-            DB::table('addres')->where('id',$id)->update(['status'=>0]);
+        $diz = DB::table('addres')->where('status', '1')->first();
+
+        $data = Addres::find($diz->id);
+        $data->status = 0;
+        $res1 = $data->save();
+        $addres = Addres::find($id);
+        $addres->status = 1;
+        $res2 = $addres->save();
+
+        if ($res1 && $res2) {
             return 0;
-                  
-        } else {
-            DB::table('addres')->where('id',$id)->update(['status'=>1]);
-            return 1;     
+        }else{
+            return 1;
         }
 
-        
-  
-    } 
+
+    }
 }

@@ -129,26 +129,27 @@
 								<div class="filePic">
 									<input  class="inputPic" type="file" name="file" id="file" >
                     				<input type="hidden" id="hidden_cfate" name="cfate" class="inputPic">
-									<span>晒照片(0/5)</span>
+									<span>晒照片</span>
 									<img style="width:100px; height:100px; " src="" id="cfate" alt="" src="/home/images/image.jpg">
 									
 								</div>
 								<div class="item-opinion">
-									<li><i class="op1" name="op"  value="1"></i>好评</li>
-									<li><i class="op2" name="op"  value="2"></i>中评</li>
-									<li><i class="op3" name="op"  value="3" checked></i>差评</li>
+									<li><input type="hidden" name="Comm_status"  value="1"><i class="op1" ></i>好评</li>
+									<li><input type="hidden" name="Comm_status"  value="2"><i class="op2" ></i>中评</li>
+									<li><input type="hidden" name="Comm_status"  value="3"><i class="op3" ></i>差评</li>
 								</div>
 							</div>
 						    </form>					
 								<div class="info-btn">
 									<div id="submit" class="am-btn am-btn-danger">发表评论</div>
-								</div>							
+								</div>						
 					<script type="text/javascript">
 						$(document).ready(function() {
 							$(".comment-list .item-opinion li").click(function() {	
 								$(this).prevAll().children('i').removeClass("active");
 								$(this).nextAll().children('i').removeClass("active");
 								$(this).children('i').addClass("active");
+								$('i').attr('value');
 								
 							});
 				     })
@@ -197,15 +198,15 @@
 				        var cont = $("form").serialize();
 				        layer.load(2, {shade: [0.1, '#fff']});
 				        $.ajax({
-				            url: "/home/comment",
+				            url: "/home/comment/store",
 				            type: 'post',
 				            dataType: 'html',
 				            data: cont,
 				            success: function (res) {
 				                layer.closeAll();
-				                if (res == '添加成功') {
+				                if (res == '发表成功') {
 				                    layer.alert(res, {icon: 6}, function () {
-				                        location.href = "/home/comment";
+				                        location.href = "/home/comment/index";
 				                    });
 				                } else {
 				                    layer.msg(res, {icon: 5});
