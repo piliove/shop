@@ -4,117 +4,186 @@ namespace App\Http\Controllers\Home;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\Home\CartController;
-use App\Models\Orders;
 use DB;
 
 class OrdersController extends Controller
 {
-    // 加载 结算页面
     public function index(Request $request)
     {
+        //判断用户是否登陆
+        if( session('IndexLogin') ){
+            $uid = session('IndexUser')->uid;
 
-        // 判断用户登录情况
-        if ( session('IndexLogin') == true && $_SESSION['cart'] == true ) {
-            // 用户登录,则给用户ID
-            $uid = session('IndexUser')->id;
         } else {
-            return back();
+            echo'<script>alert("请登录");location.href="/login"</script>';
         }
 
-        // 获取指定用户添加的地址数据
-        $addres = DB::table('addres')->where('uid',$uid)->get();
 
-        // 判断session值是否存在
-        if (!empty($_SESSION['cart'])) {
-            $data = $_SESSION['cart'];            
-        } else {
-            $data = [];
-        }
+        //查找用户的收货地址
+        $addres = DB::table('addres')->where('uid', $uid)->get();
 
-        // 获取购物车的商品数量
-        $countCart = CartController::countCart();
+        //想要购买的商品
+        $data = DB::table('goods')->where('id', $request->input('id'))->first();
+        //查看购物券的价格
+        $coupon = DB::table('coupon')->where('uid', $uid)->get();
 
-        // 获取商品总的价格
-        $countPrice = CartController::countPrice();
-
-        // 获取购物券的数据
-        $coupon = DB::table('coupon')->where('uid',$uid)->get();
-
-        // 获取购物券的价格
+        //获取购物券的价格
         $coupon_price = DB::table('coupon')->first();
         $coupon_price = $coupon_price->cprice;
 
-        // 渲染 结算页面
-        return view('home.orders.index',['coupon_price'=>$coupon_price,'coupon'=>$coupon,'addres'=>$addres,'data'=>$data,'countCart'=>$countCart,'countPrice'=>$countPrice]);
+        return view('home.orders.index',['countCart'=>CartController::countCart(),
+                                         'addres'=>$addres,
+                                         'data'=>$data,
+                                         'coupon'=>$coupon,
+                                         'countPrice'=>$coupon_price,
+                                         'links_data'=>GetdateController::getLink(),
+                                        ]);
     }
 
-    // 加载 提交订单页面
     public function pay(Request $request)
     {
-        // 获取商品总的价格
-        $countPrice = CartController::countPrice();
 
-        // 判断用户登录情况
-        if ( session('IndexLogin') == true ) {
-            // 用户登录,则给用户ID
-            $uid = session('IndexUser')->id;
-        } else {
-            echo "<script>alert('您还未登录,请先登录');</script>";
-            exit;
-        }
 
-        // 获取表单提交的所有数据
-        $data = $request->all();
-
-        // 设置一个空的数组
-        $datas = [];
         
-        // 开启事务处理
+        //检测是否登陆
+        if (session('IndexLogin')) {
+            $uid = session('IndexUser')->id;
+            
+        } else {
+            echo '<script>alert("未登录,请登录");location.href="/login"</script>';
+        }
         DB::beginTransaction();
+        //开始压入数据
+        $data['num'] = $request->input('num');
+        $data['prices'] = $request->input('price')*$request->input('num');
+        $data['addr'] = $request->input('aname').' '.$request->input('dname');
+        $data['uname'] = $request->input('name');
+        $data['phone'] = $request->input('aphone');
 
-        // 插入数据到订单表中
-        $datas['order'] = date('ymd', time()) . rand(1000, 10000);
-        $datas['num'] = $data['num'];
-        $datas['uid'] = $uid;
-        $datas['prices'] = $countPrice;
-        $datas['addr'] = $data['aname'].' '.$data['dname'];
-        $datas['uname'] = $data['name'];
-        $datas['phone'] = $data['aphone'];
-        $datas['ctimes'] = date('Y-m-d H:i:s',time());
+        $data['ctimes'] = date('Y-m-d H:i:s', time());
+        $data['order'] = date('YmdHis',time()).mt_rand(1,1000);
+        $data['uid'] = $uid;
 
-        // 保存到数据库
-        $oid = DB::table('orders')->insertGetId($datas);
+        //压入数据库
 
-        // 插入数据到订单详情表中
+        $oid = DB::table('orders')->insertGetId($data);
 
-        // 将详细信息 压入到订单详情表中
-        if($_SESSION['cart']){
-            $list = $_SESSION['cart'];
+        //开始压入数据(订单详情)
+        $info_data['oid'] = $oid;
+        $info_data['gid'] = $request->input('gid');
+        $info_data['gname'] = DB::table('goods')->where('id', $request->input('gid'))->value('gname');
+        $info_data['price'] = $request->input('price');
+        $info_data['num'] = $request->input('num');
 
-            foreach ($list as $key => $value) {
-                $temp['gid'] = $value->id;
-                $temp['oid'] = $oid;
-                $temp['gname'] = $value->gtitle;
-                $temp['price'] = $value->gprices;
-                $temp['num'] = $value->num;
-                // $temp['xiaoji'] = $countPrice;
-                $temp['tupian'] = $value->gthumb_1;
-                
-                $res = DB::table('orders_info')->insert($temp);
+        //压入数据库
+        $res = DB::table('orders_info')->insert($info_data);
 
-                // 判断成功与否
-                if (!$res) {
-                    // 为false 返回
-                    DB::rollBack();
-                }
-            }
+        if(!$res){
+            //失败回滚
+            DB::rollBack();
+        } else {
+            //提交记录
+            DB::commit();  
+            DB::table('goods')->where('id', $request->input('gid'))->decrement('gnum',$request->input('num'));          
+            return redirect('/home/ordersinfo/index');
         }
 
-        // 提交事务
-        DB::commit();
-     	$_SESSION['cart'] = null;
-     	echo "<script>alert('提交订单成功');location.href='/home/ordersinfo/index'</script>";
+        
+    }
 
+    public function cart_index(Request $request)
+    {
+       
+       //检测是否登陆
+        if (session('IndexLogin')) {
+        $uid = session('IndexUser')->id;
+        
+        } else {
+        echo '<script>alert("未登录,请登录");location.href="/login"</script>';
+        }
+
+        $data = DB::table('carts')->where('uid', $uid)->where('status',1)->get();
+
+        $allNum = 0;
+        $allPrice = 0;
+        foreach($data as $k=>$v){
+            $data[$k]->sub = DB::table('goods')->where('id',$v->gid)->first();
+            $allPrice += $v->sub->gprice * $v->num; 
+            $allNum += $v->num;
+        }
+
+        //查找用户的收货地址
+        $addres = DB::table('addres')->where('uid', $uid)->get();
+
+        //查看购物券的价格
+        $coupon = DB::table('coupon')->where('uid', $uid)->get();
+
+        //获取购物券的价格
+        $coupon_price = DB::table('coupon')->first();
+        $coupon_price = $coupon_price->cprice;
+
+
+
+        return view('home.orders.index_cart',['countCart'=>CartController::countCart(),
+                                         'addres'=>$addres,
+                                         'data'=>$data,
+                                         'coupon'=>$coupon,
+                                         'countPrice'=>$coupon_price,
+                                         'links_data'=>GetdateController::getLink(),
+                                         'allPrice'=>$allPrice,
+                                         'allNum'=>$allNum,
+                                        ]);
+       
+
+    }
+
+    public function cart_pay(Request $request)
+    {
+        //检测是否登陆
+            if (session('IndexLogin')) {
+                $uid = session('IndexUser')->id;
+            
+            } else {
+                echo '<script>alert("未登录,请登录");location.href="/login"</script>';
+            }
+
+            DB::beginTransaction();
+          
+            //开始压入数据
+            $data['num'] = $request->input('num');
+            $data['prices'] = $request->input('price');
+            $data['addr'] = $request->input('aname').' '.$request->input('dname');
+            $data['uname'] = $request->input('name');
+            $data['phone'] = $request->input('aphone');
+
+            $data['ctimes'] = date('Y-m-d H:i:s', time());
+            $data['order'] = date('YmdHis',time()).mt_rand(1,1000);
+            $data['uid'] = $uid;
+
+            //压入数据库
+
+            $oid = DB::table('orders')->insertGetId($data);
+
+            //开始压入详细数据
+            $info_data = DB::table('carts')->where('uid', $uid)->where('status', 1)->get();
+            foreach($info_data as $k=>$v){
+                $data_info = [];
+                $info_data[$k]->sub = DB::table('goods')->where('id',$v->gid)->first();
+                DB::table('goods')->where('id', $v->gid)->decrement('gnum',$v->num);
+                $data_info['oid'] = $oid;
+                $data_info['gid'] = $info_data[$k]->sub->id;
+                $data_info['num'] = $v->num;
+                $data_info['gname'] = $info_data[$k]->sub->gname;
+                $data_info['price'] = $info_data[$k]->sub->gprice;
+                $res = DB::table('orders_info')->insert($data_info);
+            }
+
+            if($res == 0){
+                DB::rollBack();
+            }
+            DB::table('carts')->where('uid', $uid)->delete();
+            DB::commit();
+
+           echo '<script>alert("交易成功");location.href="/home/ordersinfo/index"</script>';
     }
 }

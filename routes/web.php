@@ -321,6 +321,12 @@ Route::post('/admin/recommend/del/{id}', 'Admin\RecommendController@del');
 
 //前台 商品列表
 Route::resource('/list', 'Home\ListController');
+//前台 购物车结算
+Route::get('/home/orders/indexcart', 'Home\OrdersController@cart_index');
+//前台 购物车下订单
+Route::post('/home/orders/indexpay', 'Home\OrdersController@cart_pay');
+//前台 购物车屏蔽商品
+Route::get('/home/cart/changestatus', 'Home\CartController@change');
 
 
 

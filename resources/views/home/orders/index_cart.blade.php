@@ -101,151 +101,32 @@
 					<div class="concent">
 						<div id="payTable">
 							<h3>确认订单信息</h3>
-							<div class="cart-table-th">
-								<div class="wp">
 
-									<div class="th th-item">
-										<div class="td-inner">商品信息</div>
-									</div>
-									<div class="th th-price">
-										<div class="td-inner">单价</div>
-									</div>
-									<div class="th th-amount">
-										<div class="td-inner">数量</div>
-									</div>
-									<div class="th th-sum">
-										<div class="td-inner">金额</div>
-									</div>
-									<div class="th th-oplist">
-										<div class="td-inner">配送方式</div>
-									</div>
-
-								</div>
-							</div>
 							<div class="clear"></div>
 							</div>
 							
-							
-							<tr id="J_BundleList_s_1911116345_1" class="item-list">
-								<div id="J_Bundle_s_1911116345_1_0" class="bundle  bundle-last">
-									<div class="bundle-main">
-										<ul class="item-content clearfix">
-											<div class="pay-phone">
-												<li class="td td-item">
-													<div class="item-pic">
-														<a href="#" class="J_MakePoint">
-															<img style="width:80px;" src="/uploads/{{ $data->gthumb_1 }}" class="itempic J_ItemImg"></a>
-													</div>
-													<div class="item-info">
-														<div class="item-basic-info">
-															<a href="#" target="_blank" title="{{ $data->gtitle }}" class="item-title J_MakePoint" data-point="tbcart.8.11">{{ $data->gtitle }}</a>
-														</div>
-													</div>
-												</li>
-												<li class="td td-info">
-													<div class="item-props">
-														<span class="sku-line">颜色：10#蜜橘色+17#樱花粉</span>
-														<span class="sku-line">包装：两支手袋装（送彩带）</span>
-													</div>
-												</li>
-												<li class="td td-price">
-													<div class="item-price price-promo-promo">
-														<div class="price-content">
-															<em class="J_Price price-now">{{ $data->gprices }}</em>
-														</div>
-													</div>
-												</li>
-											</div>
-
-											<li class="td td-amount">
-												<div class="amount-wrapper ">
-													<div class="item-amount ">
-														<span class="phone-title">购买数量</span>
-														<div class="sl">
-															<input class="min am-btn" name="" type="button" value="-" />
-															<input class="text_box countNum" name="" type="text" value="1" style="width:30px;height:32px;" />
-															<input class="add am-btn" name="" type="button" value="+" />
-														</div>
-													</div>
-												</div>
-											</li>
-											<li class="td td-sum">
-												<div class="td-inner">
-													<em tabindex="0" class="J_ItemSum number">{{ $data->gprice }}</em>
-												</div>
-											</li>
-											
-											<li class="td td-oplist">
-												<div class="td-inner">
-													<span class="phone-title">配送方式</span>
-													<div class="pay-logis">
-														包邮
-													</div>
-												</div>
-											</li>
-
-										</ul>
-										<div class="clear"></div>
-
-									</div>
-							</tr>
 							
 							</div>
 							<div class="clear"></div>
 							<div class="pay-total">
-							<!--留言-->
-							<div class="order-extra">
-								<div class="order-user-info">
-									<div id="holyshit257" class="memo">
-										<label>买家留言：</label>
-										<input type="text" title="选填,对本次交易的说明（建议填写已经和卖家达成一致的说明）" placeholder="选填,建议填写和卖家达成一致的说明" class="memo-input J_MakePoint c2c-text-default memo-close">
-										<div class="msg hidden J-msg">
-											<p class="error">最多输入500个字符</p>
-										</div>
-									</div>
-								</div>
-
-							</div>
-							<!--优惠券 -->
-							<div class="buy-agio">
-								<li class="td td-coupon">
-
-									<span class="coupon-title">优惠券</span>
-									
-									<select data-am-selected>
-										@foreach($coupon as $k => $v)
-										<option value="a">
-											<div class="c-price">
-												<strong>￥{{ $v->cprice }}</strong>
-											</div>				
-											<div class="c-limit">
-												{{ $v->cname }}
-											</div>
-										</option>
-										@endforeach
-									</select>
-									
-								</li>
 
 
-
-							</div>
 							<div class="clear"></div>
 							</div>	
 							<!--信息 -->
-							<form action="/home/orders/pay" method="post">
+							<form action="/home/orders/indexpay" method="post">
 								{{ csrf_field() }}
 								<div class="order-go clearfix">
 									<div class="pay-confirm clearfix">
 										<div class="box">
 											<div tabindex="0" id="holyshit267" class="realPay"><em class="t">实付款：</em>
 												<span class="price g_price ">
-												<span>¥</span> <em class="style-large-bold-red " id="J_ActualFee">{{ $data->gprice }}</em>
+												<span>¥</span>{{ $allPrice }}<em class="style-large-bold-red " id="J_ActualFee"></em>
 												<!-- 商品总的数量 -->
-												<input type="hidden" class="sn" name="num" value="1">
+												<input type="hidden" class="sn" name="num" value="{{ $allNum }}">
 												<!-- 商品实付款的价格 -->
-												<input type="hidden" class="sp" name="price" value="{{ $data->gprice }}">
-												<input type="hidden" name="gid" value="{{ $data->id }}">
+												<input type="hidden" class="sp" name="price" value="{{ $allPrice }}">
+
 												</span>
 											</div>
 
@@ -332,60 +213,7 @@
 
 
 		}
-
-		$('input.countNum').on('change',function(){
-			countNum();
-			
-		});
-
-
-		//判断一下总价格
-		let countNum = ()=>{
-			//总价格
-			if( $('input.countNum').val()<1 ){
-				$('input.countNum').val('1');
-				$('input.min').hide();
-			} else {
-				$('input.min').show();
-			}
-
-			let countPrice = {{ $data->gprice }}*$('input.countNum').val();
-			$('em.J_ItemSum').html(countPrice)
-			$('em#J_ActualFee').html(countPrice);
-			$('input.sp').val(countPrice)
-			$('input.sn').val($('input.countNum').val());		
-		}
-
-		$('input.add').click(function(){
-			if( $('input.countNum').val() >0){
-				$('input.min').show();
-			}
-			let countPrice = parseInt($('em.J_ItemSum').html()) + {{ $data->gprice }};
-			$('em.J_ItemSum').html(countPrice);
-			$('em#J_ActualFee').html(countPrice);
-			$('input.sp').val(countPrice)
-			$('input.sn').val( parseInt($('input.countNum').val())+1 );		
-		});
-
-		$('input.min').click(function(){
-
-		if( $('input.countNum').val() <= 2 ){
-			$('em.J_ItemSum').html('{{ $data->gprice }}');
-			$('em#J_ActualFee').html('{{ $data->gprice }}');
-			$('input.sp').val('{{ $data->gprice }}')
-			$('input.min').hide();
-			return false;
-		}
-		let countPrice = parseInt($('em.J_ItemSum').html()) - {{ $data->gprice }};
-		$('em.J_ItemSum').html(countPrice);
-		$('em#J_ActualFee').html(countPrice);
-		$('input.sp').val(countPrice)
-		$('input.sn').val( parseInt($('input.countNum').val())-1 );
-		
-	});
-
-
-		
+	
 
 	</script>
 </html>

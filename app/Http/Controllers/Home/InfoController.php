@@ -18,15 +18,31 @@ class InfoController extends Controller
     // 加载 商品详情页面
     public function index($id)
     {
-        // 使用CartController控制器下的countCart方法
-        $countCart = CartController::countCart();
+         // 使用CartController控制器下的countCart方法
+         $countCart = CartController::countCart();
 
-        // 获取商品中的指定数据
-        $data = Goods::find($id);
 
-        self::footprints($id,3);
-        // 渲染商品详情首页
-        return view('home.info.index',['data'=>$data,'countCart'=>$countCart]);
+         // 获取商品中的指定数据
+         $data = Goods::find($id);
+ 
+ 
+         // 获取指定的用户id
+         // $id = $request->input('id',0);
+ 
+ 
+         // 判断用户登录情况
+         if ( session('IndexLogin') == true ) {
+             // 用户登录,则给用户ID
+             $id = session('IndexUser')->id;
+         } else {
+             // 未登录 ID为0
+             $id = 0;
+         }
+         // dd($id);
+ 
+ 
+         // 渲染商品详情首页
+         return view('home.info.index',['id'=>$id,'data'=>$data,'countCart'=>$countCart, 'links_data'=>GetdateController::getLink()]);
     }
 
     public function footprints($id,$uid)

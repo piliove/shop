@@ -4,66 +4,68 @@ namespace App\Http\Controllers\Home;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\Home\CartController;
-use App\Models\Orders;
-use App\Models\OrderInfos;
 use DB;
+
 
 class OrdersInfoController extends Controller
 {
-    // 加载 订单页界面
     public function index()
     {
-        // 获取购物车的商品数量
-        $countCart = CartController::countCart();
-
-        // 用户登录,则给用户ID
-        $uid = session('IndexUser')->id;
-
-        // 获取所有订单数据
-        $orders = Orders::all();
-
-        $id = 0;
-        if ( !empty($uid) && !empty($orders) ) {
-            foreach ($orders as $k => $v) {
-                $id = $v->id;
-            }
+        //检测是否登陆
+        if (session('IndexLogin')) {
+            $uid = session('IndexUser')->id;
+            
         } else {
-            $id = 0;
+            echo '<script>alert("未登录,请登录");location.href="/login"</script>';
         }
 
-        // 获取单条订单信息
-        $orders = Orders::find($id);
 
-        //通过uid获取订单详情信息
-        $ordersinfo = Orders::find($id)->orderinfos;
+        //提取订单表数据
+        $orders_data = DB::table('orders')->where('uid', session('IndexUser')->id)->get();
+        
+        //取得订单详情表信息
+        foreach($orders_data as $k=>$v){
+            $orders_data[$k]->sub = DB::table('orders_info')->where('oid', $v->id)->get();
 
-        // 获取订单详情数据 即商品的信息
-        // $ordersinfo = DB::table('orders_info')->get();
+            foreach($orders_data[$k]->sub as $kk=>$vv){
+                $orders_data[$k]->sub[$kk]->path = DB::table('goods')->where('id',$vv->gid)->value('gthumb_1');
+            }
 
-        // 渲染 订单主页面
-        return view('/home/ordersinfo/index',['orders'=>$orders,'ordersinfo'=>$ordersinfo,'countCart'=>$countCart]);
+        }
+        
+    
+
+
+
+        return view('home.ordersinfo.index',[
+                                             'countCart'=>CartController::countCart(),
+                                             'links_data'=>GetdateController::getLink(),
+                                             'orders_data'=>$orders_data,
+                                            ]);
     }
 
-    // 删除指定的一条订单
     public function del(Request $request)
-    {   
-        // 获取指定的订单id
-        $id = $request->input('id',0);
+    {
+        DB::beginTransaction();
 
-        // 查询id对应订单
-        $orders = Orders::find($id);
+        $id = $request->input('id');
 
-        // 执行删除操作
-        $orders = Orders::destroy($id);
-        $orders_info = DB::table('orders_info')->where('oid', $id)->delete();
-        
-        // 判断删除是否成功
-        if ($orders && $orders_info) {
-            echo '删除成功';
-        } else {
-            echo '删除失败';
+
+        $res = DB::table('orders')->where('id',$id)->delete();
+
+        if($res){
+            $res = DB::table('orders_info')->where('oid', $id)->delete();
+            if(!$res){
+                DB::rollback();
+            }
+            DB::commit();
+            echo 'ok';
+        }else{
+           return '出错';
         }
+        
+
+
 
     }
 }
