@@ -13,25 +13,32 @@ class CartController extends Controller
     // 记载 购物车列表 首页
     public function index(Request $request)
     {
-        // 清空SESSION缓存数据
-        // $_SESSION['cart'] = null;
-        // exit;
-
-        // 判断session值是否存在
-        if (!empty($_SESSION['cart'])) {
-            $data = $_SESSION['cart'];            
-        } else {
-            $data = [];
+        //渲染页面数据
+        if(session('IndexLogin')){
+           $uid =  session('IndexUser')->uid;
         }
 
-        // 获取购物车的商品数量
-        $countCart = self::countCart();
 
-        // 获取商品总的价格
-        $countPrice = self::countPrice();
+        $countCart = self::countCart();
         
+        
+
+        $data = DB::table('carts')->where('uid', $uid)->get();
+        DB::table('carts')->where('uid', $uid)->update(['status'=>1]);
+        $allNum = 0;
+        $allPrice = 0;
+        foreach($data as $k=>$v){
+            $data[$k]->sub = DB::table('goods')->where('id', $v->gid)->first();
+            $allPrice += $v->sub->gprice * $v->num; 
+            $allNum += $v->num;
+            
+        }
+        
+        //商品总数
+
+       
         // 渲染 购物车列表页面
-        return view('home.cart.index',['data'=>$data,'countCart'=>$countCart,'countPrice'=>$countPrice]);
+        return view('home.cart.index',['allNum'=>$allNum, 'allPrice'=>$allPrice,'countCart'=>$countCart,'data'=>$data, 'links_data'=>GetdateController::getLink()]);
     }
 
     // 加载 添加 购物车页面
@@ -40,34 +47,34 @@ class CartController extends Controller
         // 获取用户id
         $idss = $request->input('idss',0);
 
+        
         // 判断如果有登录用户,则
-        if ($idss == true) {
-            echo "加入购物车成功";
-        } else {
-            echo "您还未登录,请先登录";
+        if(!$idss == true){
+            echo '请登录';
             exit;
         }
 
-        // 获取指定的商品id
-        $id = $request->input('id',0);
+        //搜索库内DB是否有相同物品
+        $goods_id = DB::table('carts')->where('gid', $request->input('id'))->get();
+        
+        if( count($goods_id) != 0 ){
+            DB::table('carts')->where('gid', $request->input('id'))->increment('num');
+            echo '添加成功';
+            exit;
+        }
+        //压入数据
+        $data['uid'] = $idss;
+        $data['gid'] = $request->input('id');
+        $data['num'] = 1;
+        $data['created_at'] = date('Y-m-d H:i:s', time());
+        
+        //购物车压入数据
+        $res = DB::table('carts')->insert($data);
 
-        if (empty($_SESSION['cart'][$id])) {
-            // 获取商品表中具体的某一个值
-            $data = DB::table('goods')->select('id','gtitle','gdesc','gprice','gprices','gthumb_1')->where('id',$id)->first();
-
-            // 商品数量
-            $data->num = 1;
-            // 商品小计
-            $data->xiaoji = ($data->num * $data->gprices);
-
-            // 将数据压入数组中
-            $_SESSION['cart'][$id] = $data;
-
-        } else {
-            // 当前数量
-            $_SESSION['cart'][$id]->num = $_SESSION['cart'][$id]->num + 1;
-            // 当前商品小计
-            $_SESSION['cart'][$id]->xiaoji = ($_SESSION['cart'][$id]->num * $_SESSION['cart'][$id]->gprices);
+        if($res){
+            echo '添加成功';
+        }else{
+            echo '添加失败';
         }
         
     }
@@ -75,15 +82,16 @@ class CartController extends Controller
     // 计算 加入购物车的商品数量
     public static function countCart()
     {
-        // 判断购物车是否为空
-        if (empty($_SESSION['cart'])) {
-            $count = 0;
-        } else {
-            $count = 0;
-            foreach($_SESSION['cart'] as $key => $value){
-                $count += $value->num;
-            }
-        }
+        
+        //用户
+        if(session('IndexLogin')){
+            $uid =  session('IndexUser')->uid;
+         }else {
+             $uid = '';
+             $count = 0;
+         }
+
+         $count = DB::table('carts')->where('uid',$uid)->count();
         // 返回统计个数
         return $count;
     }
@@ -107,44 +115,40 @@ class CartController extends Controller
     // 添加 商品数量
     public function addNum(Request $request)
     {
-        // 获取指定的id值
-        $id = $request->input('id','');
+        //接受id
+        $id = $request->input('id');
+        
 
-        // 判断session值是否为空
-        if (empty($_SESSION['cart'])) {
-            return back();
+        //增加数量
+        $res = DB::table('carts')->where('id', $id)->increment('num');
+        
+        
+        //判断成功
+        if($res){
+            echo 'ok';
         } else {
-            $n = $_SESSION['cart'][$id]->num+1;
-            $gprices = $_SESSION['cart'][$id]->gprices;
-
-            $_SESSION['cart'][$id]->num = $n;
-            $_SESSION['cart'][$id]->xiaoji = ( $n * $gprices );
-
-            return back();
+            echo 'err';
         }
     }
 
     // 减少 商品数量
     public function descNum(Request $request)
     {
-        $id = $request->input('id','');
+       //接受id
+       $id = $request->input('id');
+        
 
-        if (empty($_SESSION['cart'])) {
-            return back();
-        } else {
-            // 判断商品数量是否为0
-            if ($_SESSION['cart'][$id]->num <= 1) {
-                return back();
-            }
-
-            $n = $_SESSION['cart'][$id]->num-1;
-            $gprices = $_SESSION['cart'][$id]->gprices;
-
-            $_SESSION['cart'][$id]->num = $n;
-            $_SESSION['cart'][$id]->xiaoji = ($n * $gprices );
-
-            return back();
-        }
+       //减少数量
+       $res = DB::table('carts')->where('id', $id)->decrement('num');
+       
+       
+       //判断成功
+       if($res){
+           echo 'ok';
+       } else {
+           echo 'err';
+       }
+    
     }
 
     // 执行 删除指定的商品
@@ -153,13 +157,32 @@ class CartController extends Controller
         // 获取要删除的id
         $id = $request->input('id','');
 
-        // 判断SESSION是否为空
-        if (empty($_SESSION['cart'][$id])) {
-            echo "删除失败";
+        $res = DB::table('carts')->where('id', $id)->delete();
+
+        if($res){
+            echo '删除成功';
         } else {
-            unset($_SESSION['cart'][$id]);
-            echo "删除成功";
+            echo '删除失败';
         }
+    }
+
+    public function change(Request $request)
+    {
+       $flag = $request->input('flag');
+       $oid = $request->input('id');
+        
+       if($flag == 'on'){
+           
+          $res =  DB::table('carts')->where('id', $oid)->update(['status'=>'1']);
+       } else {
+          $res =  DB::table('carts')->where('id', $oid)->update(['status'=>'0']);
+       }
+       
+       if($res){
+           echo 'ok';
+       } else {
+           echo 'off';
+       }
     }
 
 }

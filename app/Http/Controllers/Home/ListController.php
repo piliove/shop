@@ -31,16 +31,15 @@ class ListController extends Controller
 
         //获取浏览量最多的三个商品
         $pageview = DB::table('goods')->orderBy('pageview', 'desc')->limit(3)->get();
-
-        return view('home.list.index', ['countCart' => $countCart,
-            'cates_goods' => $cates_goods,
-            'cid' => $cid,
-            'cates_data' => $cates_data,
-            'cate_title' => $cate_title,
-            'cate_good_count' => $cate_good_count,
-            'pageview'=>$pageview,
-            'links_data'=>GetdateController::getLink(),
-        ]);
+            return view('home.list.index', ['countCart' => $countCart,
+                                            'cates_goods' => $cates_goods,
+                                            'cid' => $cid,
+                                            'cates_data' => $cates_data,
+                                            'cate_title' => $cate_title,
+                                            'cate_good_count' => $cate_good_count,
+                                            'pageview'=>$pageview,
+                                            'links_data'=>GetdateController::getLink(),
+                                          ]);
     }
 
     /**

@@ -9,7 +9,7 @@ use App\Models\Footprint;
 // 使用Cart控制器的方法
 use DB;
 use App\Http\Controllers\Home\CartController;
-use DB;
+
 
 /**
  * 商品详情页面

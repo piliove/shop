@@ -50,35 +50,27 @@
 					<div class="clear"></div>
 
 					<tr class="item-list">
-						@if( $data == true )
+						@if( count($data)>0 )
 						<div class="bundle  bundle-last ">
-							<div class="bundle-hd">
-								<div class="bd-promos">
-									<div class="bd-has-promo">已享优惠:<span class="bd-has-promo-content">省￥19.50</span>&nbsp;&nbsp;</div>
-									<div class="act-promo">
-										<a href="#" target="_blank">第二支半价，第三支免费<span class="gt">&gt;&gt;</span></a>
-									</div>
-									<span class="list-change theme-login">编辑</span>
-								</div>
-							</div>
+
 							<div class="clear"></div>
-                            @foreach($data as $k => $v)
+                            @foreach($data as $k => $v) 
 							<div class="bundle-main">
 								<ul class="item-content clearfix">
 									<li class="td td-chk">
 										<div class="cart-checkbox ">
-											<input class="check" id="J_CheckBox_170037950254" name="items[]" value="170037950254" type="checkbox">
+											<input goodscheck="goods" oid="{{ $v->id }}" checked class="check" id="J_CheckBox_170037950254" name="items[]" value="170037950254" type="checkbox">
 											<label for="J_CheckBox_170037950254"></label>
 										</div>
 									</li>
 									<li class="td td-item">
 										<div class="item-pic">
-											<a href="#" target="_blank" data-title="{{ $v->gdesc }}" class="J_MakePoint" data-point="tbcart.8.12">
-												<img style="width:80px;" src="/uploads/{{ $v->gthumb_1 }}" class="itempic J_ItemImg"></a>
+											<a href="#" target="_blank" data-title="{{ $v->sub->gdesc }}" class="J_MakePoint" data-point="tbcart.8.12">
+												<img style="width:80px;" src="/uploads/{{ $v->sub->gthumb_1 }}" class="itempic J_ItemImg"></a>
 										</div>
 										<div class="item-info">
 											<div class="item-basic-info">
-												<a href="/home/info/index/{{ $v->id }}" target="_blank" title="{{ $v->gtitle }}" class="item-title J_MakePoint" data-point="tbcart.8.11">{{ $v->gtitle }}</a>
+												<a href="/home/info/index/{{ $v->gid }}" target="_blank" title="{{ $v->sub->gtitle }}" class="item-title J_MakePoint" data-point="tbcart.8.11">{{ $v->sub->gtitle }}</a>
 											</div>
 										</div>
 									</li>
@@ -94,10 +86,10 @@
 										<div class="item-price price-promo-promo">
 											<div class="price-content">
 												<div class="price-line">
-													<em class="price-original">{{ $v->gprice }}</em>
+													<em class="price-original">{{ $v->sub->gprice/0.8 }}</em>
 												</div>
 												<div class="price-line">
-													<em class="J_Price price-now" tabindex="0">{{ $v->gprices }}</em>
+													<em class="J_Price price-now" tabindex="0">{{ $v->sub->gprice }}</em>
 												</div>
 											</div>
 										</div>
@@ -106,23 +98,23 @@
 										<div class="amount-wrapper ">
 											<div class="item-amount ">
 												<div class="sl">
-                                                    <a href="/home/cart/descnum?id={{ $v->id }}"><input class="min am-btn" name="" type="button" value="-" /></a>
-													<input class="text_box" name="" type="text" value="{{ $v->num }}" style="width:30px;height:28px;" />
-													<a href="/home/cart/addnum?id={{ $v->id }}"><input class="add am-btn" name="" type="button" value="+" /></a>
+                                                    <a href="javascript:;"><input class="min am-btn" onclick="descNum(this,{{ $v->id }},{{ $v->sub->gprice }})" name="" type="button" value="-" /></a>
+													<input  class="text_box goodNum" name="" type="text" value="{{ $v->num }}" style="width:30px;height:28px;" />
+													<a href="javascript:;"><input class="add am-btn" onclick="addNum(this,{{ $v->id }},{{ $v->sub->gprice }})" name="" type="button" value="+" /></a>
 												</div>
 											</div>
 										</div>
 									</li>
 									<li class="td td-sum">
 										<div class="td-inner">
-											<em tabindex="0" class="J_ItemSum number">{{ $v->num * $v->gprices }}</em>
+											<em tabindex="0" class="J_ItemSum number">{{ $v->num * $v->sub->gprice }}</em>
 										</div>
 									</li>
 									<li class="td td-op">
 										<div class="td-inner">
-											<a href="javascript:;" onclick="collect({{ $v->id }})" title="移入收藏夹" class="btn-fav">
+											<a href="javascript:;" onclick="collect( $v->id )" title="移入收藏夹" class="btn-fav">
                                             移入收藏夹</a>
-											<a href="javascript:;" onclick="down({{ $v->id }})" data-point-url="#" class="delete">
+											<a href="javascript:;" onclick="down({{$v->id}})" data-point-url="#" class="delete">
                                             删除</a>
 										</div>
 									</li>
@@ -194,7 +186,7 @@
 					<div class="float-bar-right">
 						<div class="amount-sum">
 							<span class="txt">已选商品</span>
-							<em id="J_SelectedItemsCount">{{ $countCart }}</em><span class="txt">件</span>
+							<em id="J_SelectedItemsCount">{{ $allNum }}</em><span class="txt">件</span>
 							<div class="arrow-box">
 								<span class="selected-items-arrow"></span>
 								<span class="arrow"></span>
@@ -202,12 +194,13 @@
 						</div>
 						<div class="price-sum">
 							<span class="txt">合计:</span>
-							<strong class="price">¥<em id="J_Total">{{ $countPrice }}</em></strong>
+							<strong class="price">¥<em id="J_Total">{{ $allPrice }}</em></strong>
 						</div>
 						<div class="btn-area">
 							<a href="#" id="J_Go" class="submit-btn submit-btn-disabled" aria-label="请注意如果没有选择宝贝，将无法结算">
-								<form action="/home/orders/index" method="get">
+								<form action="/home/orders/indexcart" method="get">
 									<span><input style="background:#F40;width:80px;height:49px;border:1px solid #F40;color:#fff;" type="submit" value="结&nbsp;算"></span>
+									<input type="hidden" name="o" value="">
 								</form>
 								<!-- ajax脚本 结算 开始 -->
 								<!-- <script>
@@ -308,3 +301,85 @@
 	</body>
 	
 </html>
+<script>
+
+	$(document).ready(function(){
+		if( $('input.goodNum').val()<2 ){
+			
+			$('input.min').hide()
+		}
+	});
+
+
+
+
+	$('input[goodscheck="goods"]').click(function(){
+		if( $(this).attr('checked') == 'checked' ){
+			add(this);
+			
+			$.get("/home/cart/changestatus",{'id':$(this).attr('oid'),'flag':'on'});
+		} else {
+			min(this);
+			$.get("/home/cart/changestatus",{'id':$(this).attr('oid'),'flag':'off'});
+		}
+	});
+
+	let add = (that)=>{
+		$('em#J_Total').html(parseInt($('em#J_Total').html())+parseInt($(that).closest('ul.item-content').find('em.J_ItemSum').html()));
+		$('em#J_SelectedItemsCount').html(parseInt($('em#J_SelectedItemsCount').html())+parseInt($(that).closest('ul.item-content').find('input.goodNum').val()));
+	}
+
+	let min = (that)=>{
+		$('em#J_Total').html(parseInt($('em#J_Total').html())-parseInt($(that).closest('ul.item-content').find('em.J_ItemSum').html()))
+		$('em#J_SelectedItemsCount').html(parseInt($('em#J_SelectedItemsCount').html())-parseInt($(that).closest('ul.item-content').find('input.goodNum').val()));
+	}
+
+	//增加函数
+	function addNum(obj,id,gprice){
+		$.get("/home/cart/addnum", {'id':id},
+			function (res) {
+				
+				var checked = $(obj).closest('ul.item-content').find('input[goodscheck="goods"]').attr('checked') == 'checked' ? true : false;
+				if(res == 'ok'){
+					$(obj).closest('ul.item-content').find('em.J_ItemSum').html(parseInt($(obj).closest('ul.item-content').find('em.J_ItemSum').html())+gprice);
+					$(obj).closest('ul.item-content').find('input.goodNum').val(parseInt($(obj).closest('ul.item-content').find('input.goodNum').val())+1);
+					if($(obj).closest('ul.item-content').find('input.goodNum').val()>1){
+						$(obj).closest('ul.item-content').find('input.min').show();
+					}
+					if(checked == true){
+						$('em#J_SelectedItemsCount').html(parseInt($('em#J_SelectedItemsCount').html())+1);
+						$('em#J_Total').html(parseInt($('em#J_Total').html())+gprice);
+					}
+
+				}
+			},
+			"html"
+		);
+	}
+
+	//减少函数
+	function descNum(obj,id,gprice){
+		$.get("/home/cart/descnum", {'id':id},
+			function (res) {
+				
+				var checked = $(obj).closest('ul.item-content').find('input[goodscheck="goods"]').attr('checked') == 'checked' ? true : false;		
+				if(res == 'ok'){		
+					$(obj).closest('ul.item-content').find('em.J_ItemSum').html(parseInt($(obj).closest('ul.item-content').find('em.J_ItemSum').html())-gprice);
+					$(obj).closest('ul.item-content').find('input.goodNum').val(parseInt($(obj).closest('ul.item-content').find('input.goodNum').val())-1);
+					if($(obj).closest('ul.item-content').find('input.goodNum').val()<2){
+						$(obj).hide();
+					}
+					if(checked == true){
+						$('em#J_SelectedItemsCount').html(parseInt($('em#J_SelectedItemsCount').html())-1);
+						$('em#J_Total').html(parseInt($('em#J_Total').html())-gprice);
+					}
+
+				}
+			},
+			"html"
+		);
+	}
+
+	
+	
+</script>

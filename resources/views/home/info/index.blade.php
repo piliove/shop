@@ -123,11 +123,11 @@
 							<div class="tb-detail-price">
 								<li class="price iteminfo_price">
 									<dt>促销价</dt>
-									<dd><em>¥</em><b class="sys_item_price">{{ $data->gprices }}</b>  </dd>                                 
+									<dd><em>¥</em><b class="sys_item_price">{{ $data->gprice }}</b>  </dd>                                 
 								</li>
 								<li class="price iteminfo_mktprice">
 									<dt>原价</dt>
-									<dd><em>¥</em><b class="sys_item_mktprice">{{ $data->gprice }}</b></dd>									
+									<dd><em>¥</em><b class="sys_item_mktprice">{{ $data->gprice*1.2 }}</b></dd>									
 								</li>
 								<div class="clear"></div>
 							</div>
@@ -151,7 +151,7 @@
 										</select>
 									</div>
 									<div class="pay-logis">
-										快递<b class="sys_item_freprice">10</b>元
+										快递<b class="sys_item_freprice">0</b>元
 									</div>
 								</div>
 							</dl>
@@ -270,7 +270,7 @@
 							</div>
 							<li>
 								<div class="clearfix tb-btn tb-btn-buy theme-login">
-									<a id="LikBuy" title="点此按钮到下一步确认购买信息" href="/home/orders/index">立即购买</a>
+									<a id="LikBuy" title="点此按钮到下一步确认购买信息" href="/home/orders/index?id={{ $data->id }}">立即购买</a>
 								</div>
 							</li>
 							<li>
@@ -287,9 +287,9 @@
 									, btn: ['确定', '取消']
 									, yes: function () {
 										$.get('/home/cart/add/?idss='+idss+'&id='+id, function (res) {
-											if (res == '加入购物车成功') {
-												layer.alert(res);
-												location.href="/home/cart/index";
+											if (res == '添加成功') {
+												layer.msg(res);
+												
 											} else {
 												layer.msg(res);
 											}
