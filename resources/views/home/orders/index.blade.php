@@ -28,7 +28,11 @@
 						<ul>
 							<div class="per-border"></div>
 							@foreach($addres as $k => $v)
-							<li class="user-addresslist defaultAddr">
+							@if($v->status == 1)
+							<li class="user-addresslist defaultAddr uaddr" onclick="changeAddr(this)">
+							@else
+							<li class="user-addresslist uaddr" onclick="changeAddr(this)">
+							@endif
 								<div class="address-left">
 									<div class="user DefaultAddr">
 
@@ -48,7 +52,6 @@
 									</div>
 									@if($v->status == 1)
 									<ins class="deftip">默认地址</ins>
-									@else
 									@endif
 								</div>
 								<div class="address-right">
@@ -268,24 +271,24 @@
 
 											@foreach($addres as $k => $v)
 											@if($v->status == 1)
-											<input type="hidden" name="aname" value="{{ $v->aname }}">
-											<input type="hidden" name="dname" value="{{ $v->dname }}">
-											<input type="hidden" name="name" value="{{ $v->name }}">
-											<input type="hidden" name="aphone" value="{{ $v->aphone }}">
+											<input putaddr="aname" type="hidden" name="aname" value="{{ $v->aname }}">
+											<input putaddr="dname" type="hidden" name="dname" value="{{ $v->dname }}">
+											<input putaddr="name" type="hidden" name="name" value="{{ $v->name }}">
+											<input putaddr="aphone" type="hidden" name="aphone" value="{{ $v->aphone }}">
 											<div id="holyshit268" class="pay-address">
 												<p class="buy-footer-address">
 													<span class="buy-line-title buy-line-title-type">寄送至：</span>
 													<span class="buy--address-detail">
-													<span class="dist">{{ $v->aname }}</span>
-													<span class="street">{{ $v->dname }}</span>
+													<span spanaddr="dist" class="dist">{{ $v->aname }}</span>
+													<span spanaddr="street" class="street">{{ $v->dname }}</span>
 													</span>
 													</span>
 												</p>
 												<p class="buy-footer-address">
 													<span class="buy-line-title">收货人：</span>
 													<span class="buy-address-detail">   
-													<span class="buy-user">{{ $v->name }}</span>
-													<span class="buy-phone">{{ $v->aphone }}</span>
+													<span spanaddr="user" class="buy-user">{{ $v->name }}</span>
+													<span spanaddr="phone" class="buy-phone">{{ $v->aphone }}</span>
 													</span>
 												</p>
 											</div>
@@ -325,4 +328,21 @@
 			<div class="clear"></div>
 	</body>
 
+	<script>
+		let changeAddr = (obj)=>{
+			
+			$('span[spanaddr="user"]').text($(obj).find('span.buy-user').text());
+			$('span[spanaddr="phone"]').text($(obj).find('span.buy-phone').text());
+			$('span[spanaddr="dist"]').text($(obj).find('span.dist').text());
+			$('span[spanaddr="street"]').text($(obj).find('span.street').text());
+
+			$('input[putaddr="name"]').val($(obj).find('span.buy-user').text());
+			$('input[putaddr="aname"]').val($(obj).find('span.dist').text());
+			$('input[putaddr="dname"]').val($(obj).find('span.street').text());
+			$('input[putaddr="aphone"]').val($(obj).find('span.buy-phone').text());
+
+
+
+		}
+	</script>
 </html>

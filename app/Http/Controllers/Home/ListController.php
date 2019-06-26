@@ -35,6 +35,7 @@ class ListController extends Controller
                                        'cates_data'=>$cates_data, 
                                        'cate_title'=>$cate_title, 
                                        'cate_good_count'=>$cate_good_count,
+                                       'links_data'=>GetdateController::getLink(),
                                         ]);
     }
 

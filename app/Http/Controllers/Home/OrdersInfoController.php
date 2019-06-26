@@ -42,7 +42,11 @@ class OrdersInfoController extends Controller
         // $ordersinfo = DB::table('orders_info')->get();
 
         // 渲染 订单主页面
-        return view('/home/ordersinfo/index',['orders'=>$orders,'ordersinfo'=>$ordersinfo,'countCart'=>$countCart]);
+        return view('/home/ordersinfo/index',['orders'=>$orders,
+                                              'ordersinfo'=>$ordersinfo,
+                                              'countCart'=>$countCart,
+                                              'links_data'=>GetdateController::getLink(),
+                                             ]);
     }
 
     // 删除指定的一条订单

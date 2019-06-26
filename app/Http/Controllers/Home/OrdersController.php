@@ -46,7 +46,14 @@ class OrdersController extends Controller
         $coupon_price = $coupon_price->cprice;
 
         // 渲染 结算页面
-        return view('home.orders.index',['coupon_price'=>$coupon_price,'coupon'=>$coupon,'addres'=>$addres,'data'=>$data,'countCart'=>$countCart,'countPrice'=>$countPrice]);
+        return view('home.orders.index',['coupon_price'=>$coupon_price,
+                                         'coupon'=>$coupon,                                   
+                                         'data'=>$data,
+                                         'addres'=>$addres,
+                                         'countCart'=>$countCart,
+                                         'countPrice'=>$countPrice,
+                                         'links_data'=>GetdateController::getLink(),
+                                        ]);
     }
 
     // 加载 提交订单页面
@@ -63,10 +70,10 @@ class OrdersController extends Controller
             echo "<script>alert('您还未登录,请先登录');</script>";
             exit;
         }
-
+        
         // 获取表单提交的所有数据
         $data = $request->all();
-
+        
         // 设置一个空的数组
         $datas = [];
         
@@ -75,7 +82,7 @@ class OrdersController extends Controller
 
         // 插入数据到订单表中
         $datas['order'] = date('ymd', time()) . rand(1000, 10000);
-        $datas['num'] = $data['num'];
+        // $datas['num'] = $data['num'];
         $datas['uid'] = $uid;
         $datas['prices'] = $countPrice;
         $datas['addr'] = $data['aname'].' '.$data['dname'];
