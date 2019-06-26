@@ -29,13 +29,13 @@ class IndexController extends Controller
          
         //取得推荐商品
         $rec_data_goods = GetdateController::getRec();
-        
+        //取得友情链接
+        $links_data = GetdateController::getLink();
 
 
 
 
-
-        //
+  
         $banners = Banners::all();
         $blog = Blog::all();
         $advert = Advert::all();
@@ -53,6 +53,7 @@ class IndexController extends Controller
                                          'blog'=>$blog,
                                          'advert'=>$advert,
                                          'activity_data'=>$activity_data_four,
+                                         'links_data'=>$links_data,
                                         ]);
     }
 }

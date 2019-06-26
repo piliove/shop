@@ -18,8 +18,15 @@ class PersonController extends Controller
     public function index()
     {
         $countCart = CartController::countCart();
+        if( session('IndexLogin') ){
+            $fund = GetdateController::getFund( session('IndexUser')->id );
+            
+        } else {
+            back();
+        }
+            
         // 渲染 个人中心首页
-        return view('home.person.index', ['countCart' => $countCart, 'title' => '个人中心']);
+        return view('home.person.index', ['countCart' => $countCart, 'title' => '个人中心', 'fund'=>$fund]);
     }
 
     /**

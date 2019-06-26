@@ -61,12 +61,7 @@
 				</div>
 			</article>
 		</header>
-            <div class="nav-table">
-					   <div class="long-title"><span class="all-goods">全部分类</span></div>
-					   	<!-- 导航菜单 开始 -->
-						@include('home/common/nav_cont')
-						<!-- 导航菜单 结束 -->
-			</div>
+            @include('home.common.head_nav')
 			<b class="line"></b>
 		<div class="center">
 			<div class="col-main">

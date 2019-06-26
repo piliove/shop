@@ -342,7 +342,6 @@ Route::resource('/list', 'Home\ListController');
 
 
 
-
 //=======================C=========================
 
 

@@ -8,6 +8,7 @@ use App\Models\Cates;
 use App\Models\Goods;
 use App\Models\Recommends;
 use App\Models\Activity;
+use App\Models\Links;
 use DB;
 
 class GetdateController extends Controller
@@ -61,6 +62,22 @@ class GetdateController extends Controller
         $cates = Cates::find($cid);
         $data = Cates::where('pid', $cates->pid)->get();
         return $data;
+    }
+
+    //获取余额
+    public static function getFund($id)
+    {
+        $res = DB::table('user_info')->where('uid', $id)->value('fund');
+
+        return $res;
+    }
+
+    //获取友情链接
+    public static function getLink()
+    {
+        $links = Links::all();
+        return $links;
+
     }
 
 
