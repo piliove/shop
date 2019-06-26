@@ -13,7 +13,7 @@
 
 
 //*********************************前台路由******************************
-//=================前台注册(手机号/邮箱)=====================
+//=================前台 注册(手机号/邮箱)=====================
 //首页
 Route::get('/index/index', 'Home\IndexController@index');
 Route::get('/', 'Home\IndexController@index');
@@ -27,26 +27,36 @@ Route::post('reg/regphone', 'Home\RegController@regPhone');
 Route::post('reg/upemail', 'Home\RegController@upEmail');
 //邮箱激活页面
 Route::get('/reg/email/{id}/{token}/{uname}', 'Home\RegController@email');
+//=====================前台登录===============================
 //登录页面
 Route::get('/login', 'Home\LoginController@login');
 //接收登录信息
 Route::post('/login/dologin', 'Home\LoginController@doLogin');
-
-//=================前台搜索列表=====================
+//退出登录
+Route::get('/logout', 'Home\LoginController@logout');
+//=================前台 搜索列表=====================
 // 搜索列表页
 Route::get('/home/search/index', 'Home\SearchController@index');
 
-//=================前台商品详情页面=====================
+//=================前台 商品详情页面=====================
 // 商品详情页
 Route::get('/home/info/index/{id}', 'Home\InfoController@index');
+// 商品详情验证
+Route::get('home/info/index', 'Home\InfoController@index');
 
-//=================前台收藏管理页面=====================
+//=================前台 优惠券页面=====================
+// 领取 商品优惠券页
+Route::get('/home/coupon/add', 'Home\CouponController@add');
+// 商品优惠券页
+Route::get('/home/coupon/index', 'Home\CouponController@index');
+
+//=================前台 收藏管理页面=====================
 // 移入 收藏列表页
 Route::get('/home/collect/add', 'Home\CollectController@add');
 // 收藏列表页
 Route::get('/home/collect/index', 'Home\CollectController@index');
 
-//=================前台购物车页面=====================
+//=================前台 购物车页面=====================
 // 执行 添加到购物车操作
 Route::get('/home/cart/add', 'Home\CartController@add');
 // 显示 购物车页面
@@ -58,10 +68,23 @@ Route::get('/home/cart/descnum', 'Home\CartController@descNum');
 // 执行 删除商品
 Route::get('/home/cart/delete', 'Home\CartController@delete');
 
-//=================前台结算页面=====================
+//=================前台 结算页面=====================
 // 显示 商品结算页面
 Route::get('/home/orders/index', 'Home\OrdersController@index');
+// 执行 提交订单
+Route::post('/home/orders/pay', 'Home\OrdersController@pay');
 
+//=================前台 订单页面=======================
+// 显示 订单页面
+Route::get('/home/ordersinfo/index', 'Home\OrdersInfoController@index');
+// 执行 删除订单
+Route::get('/home/ordersinfo/del', 'Home\OrdersInfoController@del');
+
+//=================前台 订单详情页面=====================
+// 显示 订单页面
+Route::get('/home/ordermore/index/{id}', 'Home\OrderMoreController@index');
+
+//=================前台 地址管理===========================
 // 前台 修改 默认地址
 Route::get('/home/addres/changeStatus', 'Home\AddresController@changeStatus');
 //接收修改商品传值
@@ -74,6 +97,26 @@ Route::resource('home/addres', 'Home\AddresController');
 //=================前台个人中心页面=====================
 // 显示 个人中心页面
 Route::get('/home/person/index', 'Home\PersonController@index');
+
+
+//=================前台用户反馈页面=====================
+// 显示 用户反馈页面
+Route::get('/home/feedback/index', 'Home\FeedbackController@index');
+// 执行 添加用户反馈操作
+Route::post('/home/feedback/add', 'Home\FeedbackController@add');
+
+//=================前台足迹页面=====================
+// 执行 删除足迹页面
+Route::get('/home/footprint/del', 'Home\FootprintController@destroy');
+// 显示 我的足迹页面
+Route::get('/home/footprint/index', 'Home\FootprintController@index');
+
+//=================前台评轮评论管理==========================
+
+// 前台新闻
+Route::resource('home/blog', 'Home\BlogController');
+
+
 //显示个人资料
 Route::get('/home/person/infos', 'Home\PersonController@infos');
 //文件上传
@@ -104,6 +147,7 @@ Route::get('/home/safe/email', 'Home\SafeController@email');
 Route::post('/home/safe/email/code', 'Home\SafeController@EmailCode');
 //接收邮箱验证表单传值
 Route::post('/home/safe/email/update', 'Home\SafeController@UpdateEmail');
+
 //*********************************后台路由******************************
 //======================登陆管理===================
 // 显示登陆页面
@@ -123,7 +167,7 @@ Route::get('/admin/center/{id}/{token}', 'Admin\LoginController@center');
 // 接收个人中心传值
 Route::post('/admin/center/update/{id}', 'Admin\LoginController@update');
 //======================用户管理===================
-// 文件上传
+// 用户文件上传
 Route::post('admin/user/updatefile', 'Admin\UserController@updateFile');
 // 删除用户
 Route::get('/admin/user/del', 'Admin\UserController@destroy');
@@ -201,6 +245,12 @@ Route::post('admin/blog/updatefile', 'Admin\BlogController@updateFile');
 // 新闻
 Route::resource('admin/blog', 'Admin\BlogController');
 
+//======================后台会员管理========================
+// 删除用户
+Route::get('admin/member/del', 'Admin\MemberController@destroy');
+// 会员
+Route::resource('admin/member', 'Admin\MemberController');
+
 
 //=======================B=========================
 //分类消息提醒
@@ -225,7 +275,7 @@ Route::resource('/admin/activity', 'Admin\ActivityController');
 
 
 //后台 商品改变推荐位
-Route::get('/admin/recommendchange', 'Admin\GoodsController@changerec');
+Route::get('/admin/recommend/{id}', 'Admin\RecommendController@create');
 
 //后台 网站配置
 Route::get('/admin/website', 'Admin\WebsiteController@index');
@@ -233,6 +283,20 @@ Route::get('/admin/website', 'Admin\WebsiteController@index');
 Route::post('/admin/website/update', 'Admin\WebsiteController@update');
 //后台 改变信息
 Route::get('/admin/changesitemsg', 'Admin\WebsiteController@change');
+//后台 商品添加到修改位
+Route::post('/admin/recommend/{id}', 'Admin\RecommendController@store');
+//后台 商品信息修改
+Route::get('/admin/changerecmsg', 'Admin\RecommendController@change');
+//后台 修改推荐信息
+Route::get('/admin/recommend/{id}/edit', 'Admin\RecommendController@edit');
+//后台 存储修改的推荐信息
+Route::post('/admin/recommend/{id}/edit', 'Admin\RecommendController@update');
+//后台 取消推荐
+Route::post('/admin/recommend/del/{id}', 'Admin\RecommendController@del');
+
+
+//前台 商品列表
+Route::resource('/list', 'Home\ListController');
 
 
 //=======================C=========================

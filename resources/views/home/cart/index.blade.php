@@ -1,30 +1,15 @@
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
-
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
-
 		<title>购物车页面</title>
-
 		<link href="/home/AmazeUI-2.4.2/assets/css/amazeui.css" rel="stylesheet" type="text/css" />
 		<link href="/home/basic/css/demo.css" rel="stylesheet" type="text/css" />
 		<link href="/home/css/cartstyle.css" rel="stylesheet" type="text/css" />
 		<link href="/home/css/optstyle.css" rel="stylesheet" type="text/css" />
-
-		<script type="text/javascript" src="/home/js/jquery.js"></script>
-		<!-- 引入layerui文件 css -->
-		<link rel="stylesheet" href="/layui-v2.4.5/layui/css/layui.css">
-		<!-- 引入layerui文件 js -->
-		<script src="/layui-v2.4.5/layui/layui.js"></script>
-		<script>
-		//一般直接写在一个js文件中
-		layui.use(['layer', 'form'], function(){
-		var layer = layui.layer;
-		
-		});
-		</script> 
+		<script type="text/javascript" src="/home/basic/js/jquery-1.7.min.js"></script>
+		<script src="/home/layer/layer.js"></script>
 	</head>
 
 	<body>
@@ -65,6 +50,7 @@
 					<div class="clear"></div>
 
 					<tr class="item-list">
+						@if( $data == true )
 						<div class="bundle  bundle-last ">
 							<div class="bundle-hd">
 								<div class="bd-promos">
@@ -136,33 +122,49 @@
 										<div class="td-inner">
 											<a href="javascript:;" onclick="collect({{ $v->id }})" title="移入收藏夹" class="btn-fav">
                                             移入收藏夹</a>
-											<a href="/home/cart/delete?id={{ $v->id }}" onclick="down()" data-point-url="#" class="delete">
+											<a href="javascript:;" onclick="down({{ $v->id }})" data-point-url="#" class="delete">
                                             删除</a>
 										</div>
 									</li>
 									<!-- ajax脚本 删除 开始 -->
 									<script>
-										function down(){
-											confirm('确定要删除吗?');
+										// 加入购物车
+										function down(id) {
+											layer.msg('确定删除?', {
+												time: 0 //不自动关闭
+												, btn: ['确定', '取消']
+												, yes: function () {
+													$.get('/home/cart/delete?id='+id, function (res) {
+														if (res == '删除成功') {
+															layer.alert(res);
+															location.href="/home/cart/index";
+														} else {
+															layer.msg(res);
+														}
+													}, 'html')
+												}
+											});
 										}
 									</script>
 									<!-- ajax脚本 删除 结束 -->
 									<!-- ajax脚本 移入收藏  开始 -->
 									<script>
-										function collect(id){
-											// 发送ajax
-											$.get('/home/collect/add',{id:id},function(res){
-												if (res.msg == 'err' ) {
-													// 弹出失败提示
-													layer.msg(res.info);
-												} else {
-													// 弹出成功提示
-													layer.msg(res.info);
-
-													// 跳转到首页
-													window.location.href = '/';
+										// 移入收藏
+										function collect(id) {
+											layer.msg('确定加入收藏?', {
+												time: 0 //不自动关闭
+												, btn: ['确定', '取消']
+												, yes: function () {
+													$.get('/home/collect/add/?id='+id, function (res) {
+														if (res == '加入收藏成功') {
+															layer.alert(res);
+															// location.href="/home/cart/index";
+														} else {
+															layer.msg(res);
+														}
+													}, 'html')
 												}
-											},'json');
+											});
 										}
 									</script>
 									<!-- ajax脚本 移入收藏 结束 -->
@@ -170,6 +172,10 @@
 							</div>
                             @endforeach
 						</div>
+						@else
+						<p style="text-align:center;font-size:24px;margin:5px;">您的购物车为空,快去添加商品啦 !</p>
+						<img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1561949642&di=0ff7c484fc63caec9fa482b5f24ba183&imgtype=jpg&er=1&src=http%3A%2F%2Fhbimg.b0.upaiyun.com%2Fe1b1467beea0a9c7d6a56b32bac6d7e5dcd914f7c3e6-YTwUd6_fw658" alt="">
+						@endif
 					</tr>
 					<div class="clear"></div>
 
@@ -199,10 +205,31 @@
 							<strong class="price">¥<em id="J_Total">{{ $countPrice }}</em></strong>
 						</div>
 						<div class="btn-area">
-							<a href="/" id="J_Go" class="submit-btn submit-btn-disabled" aria-label="请注意如果没有选择宝贝，将无法结算">
+							<a href="#" id="J_Go" class="submit-btn submit-btn-disabled" aria-label="请注意如果没有选择宝贝，将无法结算">
 								<form action="/home/orders/index" method="get">
 									<span><input style="background:#F40;width:80px;height:49px;border:1px solid #F40;color:#fff;" type="submit" value="结&nbsp;算"></span>
-								</form>				
+								</form>
+								<!-- ajax脚本 结算 开始 -->
+								<!-- <script>
+									// 领取优惠券
+									function go(id) {
+										layer.msg('确定去结算?', {
+											time: 0 //不自动关闭
+											, btn: ['确定', '取消']
+											, yes: function () {
+												$.get('/home/orders/index/?id='+id, function (res) {
+													if (res == '跳转成功') {
+														// layer.msg(res);
+														location.href="/home/orders/index";
+													} else {
+														layer.msg(res);
+													}
+												}, 'html')
+											}
+										});
+									}
+								</script> -->
+								<!-- ajax脚本 结算 结束 -->	
 							</a>
 						</div>
 					</div>
@@ -279,5 +306,5 @@
 			<li><a href="person/index.html"><i class="am-icon-user"></i>我的</a></li>					
 		</div>
 	</body>
-
+	
 </html>

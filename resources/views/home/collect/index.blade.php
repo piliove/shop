@@ -27,7 +27,7 @@
 						</ul>
 						<ul class="message-r">
 							<div class="topMessage home">
-								<div class="menu-hd"><a href="/" target="_top" class="h">商城首页</a></div>
+								<div class="menu-hd"><a href="/" target="_top" class="h">首页</a></div>
 							</div>
 							<div class="topMessage my-shangcheng">
 								<div class="menu-hd MyShangcheng"><a href="#" target="_top"><i class="am-icon-user am-icon-fw"></i>个人中心</a></div>
@@ -70,10 +70,6 @@
                                 <li class="qc"><a href="#">团购</a></li>
                                 <li class="qc last"><a href="#">大包装</a></li>
 							</ul>
-						    <div class="nav-extra">
-						    	<i class="am-icon-user-secret am-icon-md nav-user"></i><b></b>我的福利
-						    	<i class="am-icon-angle-right" style="padding-left: 10px;"></i>
-						    </div>
 						</div>
 			</div>
 			<b class="line"></b>
@@ -95,35 +91,39 @@
 								<a class="am-badge am-badge-danger am-round">下架</a>
 							</div>
 							<div class="s-content">
+								@if( session('IndexLogin') == true )
+								@foreach($data as $k => $v)
 								<div class="s-item-wrap">
 									<div class="s-item">
 
 										<div class="s-pic">
-											<a href="#" class="s-pic-link">
-												<img src="/home/images/0-item_pic.jpg_220x220.jpg" alt="包邮s925纯银项链女吊坠短款锁骨链颈链日韩猫咪银饰简约夏配饰" title="包邮s925纯银项链女吊坠短款锁骨链颈链日韩猫咪银饰简约夏配饰" class="s-pic-img s-guess-item-img">
+											<a href="/home/info/index/{{ $v->gid }}" class="s-pic-link">
+												<img src="/uploads/{{ $v->cthumb }}" alt="{{ $v->ctitle }}" title="{{ $v->ctitle }}" class="s-pic-img s-guess-item-img">
 											</a>
 										</div>
 										<div class="s-info">
-											<div class="s-title"><a href="#" title="包邮s925纯银项链女吊坠短款锁骨链颈链日韩猫咪银饰简约夏配饰">包邮s925纯银项链女吊坠短款锁骨链颈链日韩猫咪银饰简约夏配饰</a></div>
+											<div class="s-title"><a href="" title="{{ $v->ctitle }}">{{ $v->ctitle }}</a></div>
 											<div class="s-price-box">
-												<span class="s-price"><em class="s-price-sign">¥</em><em class="s-value">42.50</em></span>
-												<span class="s-history-price"><em class="s-price-sign">¥</em><em class="s-value">68.00</em></span>
+												<span class="s-price"><em class="s-price-sign">¥</em><em class="s-value">{{ $v->cprices }}</em></span>
+												<span class="s-history-price"><em class="s-price-sign">¥</em><em class="s-value">{{ $v->cprice }}</em></span>
 											</div>
 											<div class="s-extra-box">
-												<span class="s-comment">好评: 98.03%</span>
-												<span class="s-sales">月销: 219</span>
+												<span class="s-comment">好评: 00.00%</span>
+												<span class="s-sales">月销: 0</span>
 											</div>
 										</div>
 										<div class="s-tp">
-											<span class="ui-btn-loading-before">找相似</span>
+											<span class="ui-btn-loading-before"><a href="/home/search/index?search={{ $v->ctitle }}">找相似</a></span>
 											<i class="am-icon-shopping-cart"></i>
-											<span class="ui-btn-loading-before buy">加入购物车</span>
+											<span class="ui-btn-loading-before buy"><a href="/home/info/index/{{ $v->gid }}">加入购物车</a></span>
 											<p>
 												<a href="javascript:;" class="c-nodo J_delFav_btn">取消收藏</a>
 											</p>
 										</div>
 									</div>
 								</div>
+								@endforeach
+								@endif
 							</div>
 
 							<div class="s-more-btn i-load-more-item" data-screen="0"><i class="am-icon-refresh am-icon-fw"></i>更多</div>
@@ -140,7 +140,7 @@
 			<aside class="menu">
 				<ul>
 					<li class="person">
-						<a href="index.html">个人中心</a>
+						<a href="/">个人中心</a>
 					</li>
 					<li class="person">
 						<a href="#">个人资料</a>
@@ -153,23 +153,24 @@
 					<li class="person">
 						<a href="#">我的交易</a>
 						<ul>
-							<li><a href="order.html">订单管理</a></li>
+							<li><a href="/home/ordersinfo/index">订单管理</a></li>
 							<li> <a href="change.html">退款售后</a></li>
 						</ul>
 					</li>
 					<li class="person">
 						<a href="#">我的资产</a>
 						<ul>
-							<li> <a href="coupon.html">优惠券 </a></li>
+							<li> <a href="/home/coupon/index">优惠券 </a></li>
 							<li> <a href="bonus.html">红包</a></li>
 							<li> <a href="bill.html">账单明细</a></li>
+							<li> <a href="/home/feedback/index">我的反馈</a></li>
 						</ul>
 					</li>
 
 					<li class="person">
 						<a href="#">我的小窝</a>
 						<ul>
-							<li class="active"> <a href="collection.html">收藏</a></li>
+							<li class="active"> <a href="/home/collect/index">收藏</a></li>
 							<li> <a href="foot.html">足迹</a></li>
 							<li> <a href="comment.html">评价</a></li>
 							<li> <a href="news.html">消息</a></li>

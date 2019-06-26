@@ -133,7 +133,11 @@
                     if (res.error_code == 0) {
                         layer.alert('验证码发送成功,十分钟内有效', {icon: 6});
                     } else {
-                        layer.msg('发送失败', {icon: 5});
+                        layer.msg(res, {icon: 5});
+                        $('#div_code').html('重新获取');
+                        $('#div_code').css('backgroundColor', '#dd514c');
+                        $('#code').removeAttr('disabled');
+                        clearInterval(list);
                     }
                 }, 'json')
             }
@@ -150,7 +154,7 @@
                     $('#code1').attr('disabled', true);
                     $('#div_code1').css('backgroundColor', 'gray');
                     if ($('#code1').attr('disabled')) {
-                        let i = 5;
+                        let i = 60;
                         let list = setInterval(function () {
                             i--;
                             $('#div_code1').html(i);
@@ -183,14 +187,14 @@
     <script>
         $('#submit').click(function () {
             let cont = $('form').serialize();
-            $.post('/home/safe/phone/update',cont,function(res){
-                if(res=='修改成功'){
+            $.post('/home/safe/phone/update', cont, function (res) {
+                if (res == '修改成功') {
                     layer.alert(res, {icon: 6}, function () {
                         location.href = "/home/safe/phone";
                     });
-                }else{
+                } else {
                     layer.msg(res, {icon: 5});
                 }
-            },'html')
+            }, 'html')
         })
     </script>

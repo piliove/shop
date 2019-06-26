@@ -31,18 +31,16 @@
 
                 <!--头像 -->
                 <div class="user-infoPic">
-
                     <div class="filePic">
-                        <img class="am-circle am-img-thumbnail" src="/home/images/getAvatar.do.jpg" alt=""/>
+                        <img class="am-circle am-img-thumbnail" src="/uploads/{{$user->uface}}" alt=""/>
                     </div>
-
                     <p class="am-form-help">头像</p>
-
                     <div class="info-m">
                         <div><b>用户名：<i>{{$user->name}}</i></b></div>
                         <div class="u-level">
 									<span class="rank r2">
-							             <s class="vip1"></s><a class="classes" href="#">铜牌会员</a>
+							             <s class="vip1"></s><a class="classes" href="#">@if($member->mname==1)
+                                                普通会员@elseif($member->mname==2)超级会员@else普通用户@endif</a>
 						            </span>
                         </div>
                         <div class="u-safety">
@@ -54,7 +52,6 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="check">
                     <ul>
                         <li>

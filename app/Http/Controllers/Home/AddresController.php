@@ -159,7 +159,7 @@ class AddresController extends Controller
      */
     public function destroy(Request $request)
     {
-          //接收传值
+        //接收传值
         $id = $request->input('id');
         //查询id对应用户
         $img = Addres::find($id);

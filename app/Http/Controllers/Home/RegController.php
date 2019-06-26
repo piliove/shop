@@ -91,16 +91,19 @@ class RegController extends Controller
     public function upPhone(Request $request)
     {
         $phone = $request->input('phone', '');
+        //判断是否为空
+        if (empty($phone)) exit(json_encode('手机号码不能为空'));
+        //记录手机号码判断是否频繁发送
+        \Cookie::queue($phone,'reg',1);
+        if(\Cookie::get($phone) =='reg')exit(json_encode('发送频繁,请稍后再尝试发送'));
         $code = rand(1234, 9999);
         redis::setex($phone, 600, $code);
-        //判断是否为空
-        if (empty($phone)) exit('手机号码不能为空');
-        if (!preg_match('/^1\d{2,3}-?\d{7,8}$/', $phone)) exit('手机号码格式不正确');//11位数字，以1开头
+        if (!preg_match('/^1\d{2,3}-?\d{7,8}$/', $phone)) exit(json_encode('手机号码格式不正确'));//11位数字，以1开头
         $url = "http://v.juhe.cn/sms/send";
         $params = array(
-            'key' => '98061437b0af973baba63246267c663c', //您申请的APPKEY
+            'key' => '47e57c25f8e081c045ea108c81af8848', //您申请的APPKEY
             'mobile' => $phone, //接受短信的用户手机号码
-            'tpl_id' => '166025', //您申请的短信模板ID，根据实际情况修改
+            'tpl_id' => '166571', //您申请的短信模板ID，根据实际情况修改
             'tpl_value' => '#code#=' . $code //您设置的模板变量，根据实际情况修改
         );
 

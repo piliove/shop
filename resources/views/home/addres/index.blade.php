@@ -1,21 +1,9 @@
 @include('/home/common/head_info')
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 		<div class="nav-table">
 			<div class="long-title"><span class="all-goods">全部分类</span></div>
-			<div class="nav-cont">
-				<ul>
-					<li class="index"><a href="#">首页</a></li>
-					<li class="qc"><a href="#">闪购</a></li>
-					<li class="qc"><a href="#">限时抢</a></li>
-					<li class="qc"><a href="#">团购</a></li>
-					<li class="qc last"><a href="#">大包装</a></li>
-				</ul>
-				<div class="nav-extra">
-					<i class="am-icon-user-secret am-icon-md nav-user"></i><b></b>我的福利
-					<i class="am-icon-angle-right" style="padding-left: 10px;"></i>
-				</div>
-			</div>
+			<!-- 导航菜单 开始 -->
+			@include('home/common/nav_cont')
+			<!-- 导航菜单 结束 -->
 		</div>
 		<b class="line"></b>
         <style type="text/css">
@@ -106,6 +94,25 @@
 			                          </div>
 			                        </div>
 									<script>
+<<<<<<< HEAD
+										function del(id, obj) {
+											layer.msg('确定删除?', {
+												time: 0 //不自动关闭
+												, btn: ['确定', '取消']
+												, yes: function () {
+													$.get('/home/addres/del?id=' + id, function (res) {
+														if (res == '删除成功') {
+															layer.alert(res, {icon: 6});
+															$(obj).parent().parent().remove();
+														} else {
+															layer.msg(res, {icon: 5});
+														}
+													}, 'html')
+												}
+											});
+										}
+									</script>
+=======
 								    function del(id, obj) {
 								        layer.msg('确定删除?', {
 								            time: 0 //不自动关闭
@@ -123,6 +130,7 @@
 								        });
 								    }
 								</script>
+>>>>>>> origin/muyinya
 								</ul>
 						<div class="clear"></div>
 						<a class="new-abtn-type" data-am-modal="{target: '#doc-modal-1', closeViaDimmer: 0}">添加新地址</a>

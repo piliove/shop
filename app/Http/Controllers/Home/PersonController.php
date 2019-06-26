@@ -18,8 +18,16 @@ class PersonController extends Controller
     public function index()
     {
         $countCart = CartController::countCart();
+        $id = session('IndexUser')->uid;
+        //通过ID查询出用户数据
+        $user = DB::table('users as u')
+            ->join('user_info as i', 'u.id', 'i.uid')
+            ->where('i.uid', $id)
+            ->first();
+        //查询会员等级
+        $member = DB::table('member')->where('uid', $id)->first();
         // 渲染 个人中心首页
-        return view('home.person.index', ['countCart' => $countCart, 'title' => '个人中心']);
+        return view('home.person.index', ['countCart' => $countCart, 'title' => '个人中心', 'user' => $user, 'member' => $member]);
     }
 
     /**
@@ -29,12 +37,15 @@ class PersonController extends Controller
     {
         // 使用CartController控制器下的countCart方法
         $countCart = CartController::countCart();
-        $uid = session('IndexUser')->uid;
+        $id = session('IndexUser')->uid;
+        //通过$id查询用户信息
         $user = DB::table('users as u')
             ->join('user_info as ui', 'u.id', 'ui.uid')
-            ->where('ui.uid', $uid)
+            ->where('ui.uid', $id)
             ->first();
-        return view('/home/person/infos', ['countCart' => $countCart, 'title' => '用户信息', 'user' => $user]);
+        //查询会员等级
+        $member = DB::table('member')->where('uid', $id)->first();
+        return view('/home/person/infos', ['countCart' => $countCart, 'title' => '用户信息', 'user' => $user,'member'=>$member]);
     }
 
     /**

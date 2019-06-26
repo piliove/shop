@@ -11,7 +11,7 @@ class CartController extends Controller
     // 获取指定用户的id
 
     // 记载 购物车列表 首页
-    public function index()
+    public function index(Request $request)
     {
         // 清空SESSION缓存数据
         // $_SESSION['cart'] = null;
@@ -37,12 +37,24 @@ class CartController extends Controller
     // 加载 添加 购物车页面
     public function add(Request $request)
     {
+        // 获取用户id
+        $idss = $request->input('idss',0);
+
+        // 判断如果有登录用户,则
+        if ($idss == true) {
+            echo "加入购物车成功";
+        } else {
+            echo "您还未登录,请先登录";
+            exit;
+        }
+
         // 获取指定的商品id
         $id = $request->input('id',0);
 
         if (empty($_SESSION['cart'][$id])) {
             // 获取商品表中具体的某一个值
             $data = DB::table('goods')->select('id','gtitle','gdesc','gprice','gprices','gthumb_1')->where('id',$id)->first();
+
             // 商品数量
             $data->num = 1;
             // 商品小计
@@ -57,9 +69,6 @@ class CartController extends Controller
             // 当前商品小计
             $_SESSION['cart'][$id]->xiaoji = ($_SESSION['cart'][$id]->num * $_SESSION['cart'][$id]->gprices);
         }
-
-        // 返回
-        return back();
         
     }
 
@@ -146,10 +155,10 @@ class CartController extends Controller
 
         // 判断SESSION是否为空
         if (empty($_SESSION['cart'][$id])) {
-            return back();
+            echo "删除失败";
         } else {
             unset($_SESSION['cart'][$id]);
-            return back();
+            echo "删除成功";
         }
     }
 

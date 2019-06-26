@@ -12,8 +12,8 @@
     <link rel="stylesheet" href="/home/AmazeUI-2.4.2/assets/css/amazeui.min.css"/>
     <link href="/home/css/dlstyle.css" rel="stylesheet" type="text/css">
     <script src="/home/AmazeUI-2.4.2/assets/js/jquery.min.js"></script>
-    <script src="/admins/layer/layer.js"></script>
     <script src="/home/AmazeUI-2.4.2/assets/js/amazeui.min.js"></script>
+    <script src="/admins/layer/layer.js"></script>
 </head>
 <body>
 <div class="login-boxtitle">
@@ -47,10 +47,13 @@
                             </div>
                             <div class="user-pass">
                                 <label for="passwordRepeat"><i class="am-icon-lock"></i></label>
-                                <input style="font-size:12px;" type="password" name="email_upwd1" id="passwordRepeat" placeholder="确认密码">
+                                <input style="font-size:12px;" type="password" name="email_upwd1" id="passwordRepeat"
+                                       placeholder="确认密码">
                             </div>
-                            <input type="text" class="form-control {{$errors->has('captcha')?'parsleyerror':''}}" name="captcha" placeholder="请输入验证码">
-                            <img src="{{captcha_src()}}" style="cursor: pointer" onclick="this.src='{{captcha_src()}}'+Math.random()">
+                            <input type="text" class="form-control {{$errors->has('captcha')?'parsleyerror':''}}"
+                                   name="captcha" placeholder="请输入验证码">
+                            <img src="{{captcha_src()}}" style="cursor: pointer"
+                                 onclick="this.src='{{captcha_src()}}'+Math.random()">
                         </form>
                         <div class="login-links">
                             <label for="reader-me">
@@ -84,7 +87,8 @@
                             </div>
                             <div class="user-pass">
                                 <label for="passwordRepeat"><i class="am-icon-lock"></i></label>
-                                <input style="font-size:12px;" type="password" name="upwd1" id="passwordRepeat" placeholder="确认密码">
+                                <input style="font-size:12px;" type="password" name="upwd1" id="passwordRepeat"
+                                       placeholder="确认密码">
                             </div>
                         </form>
                         <div class="login-links">
@@ -124,7 +128,7 @@
         $(obj).attr('disabled', true);
         $(obj).css('cursor', 'no-drop');
         $('#dyMobileButton').css('color', '#ccc');
-        if ($(obj).attr) {
+        if ($(obj).attr('disabled')) {
             let time = null;
             let i = 60;
             time = setInterval(function () {
@@ -144,7 +148,12 @@
                 if (res.error_code == 0) {
                     layer.alert('发送成功,验证码十分钟内有效', {icon: 6});
                 } else {
-                    layer.msg('发送失败', {icon: 5});
+                    layer.msg(res, {icon: 5});
+                    $(obj).removeAttr('disabled');
+                    $('#dyMobileButton').css('color', '#333');
+                    $('#dyMobileButton').html('重发');
+                    $('#dyMobileButton').css('cursor', 'pointer');
+                    clearInterval(time);
                 }
             }, 'json')
         }

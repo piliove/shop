@@ -42,14 +42,9 @@
             @foreach($blog as $k=>$v)
                 <tr>
                     <td>{{ $v->id }}</td>
-                    <td>{{ $v->bname }}</td>
-                    <td style="width:100px;display: -webkit-box;
-                    -webkit-box-orient: vertical;
-                    -webkit-line-clamp: 3;
-                    overflow: hidden;
-                    font-size: 14px;"
-                    >{{ $v->title }}</td>
-                    <td style="width:150px;border:1px solid #fff;height:100px; ">{{ $v->bdesc }}</td>
+                    <td><p title="{{ $v->bname }}" style="width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">{{ $v->bname }}</p></td>
+                    <td><p title="{{ $v->title }}" style="width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">{{ $v->title }}</p></td>
+                    <td><p title="{{ $v->bdesc }}" style="width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">{{ $v->bdesc }}</p></td>
                     <td>
                     <img src="/uploads/{{ $v->ufate }}" style="width:150px;">
                     </td>

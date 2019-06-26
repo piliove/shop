@@ -96,7 +96,7 @@
         $.post('/login/dologin', cont, function (res) {
             if (res == '登录成功') {
                 layer.alert(res, {icon: 6}, function () {
-                    location.href = "/";
+                    location.href = "/home/person/index";
                 })
             } else {
                 layer.msg(res, {icon: 5});

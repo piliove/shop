@@ -63,4 +63,14 @@ class LoginController extends Controller
             echo '账号或密码错误';
         }
     }
+
+    /**
+     * 退出登录
+     */
+    public function logout()
+    {
+        session(['IndexLogin' => false]);
+        session(['IndexUser' => false]);
+        return redirect('/');
+    }
 }

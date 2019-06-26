@@ -70,6 +70,7 @@ class CouponController extends Controller
         $coupons->cname = $data['cname'];
         $coupons->cprice = $data['cprice'];
         $coupons->cnum = $data['cnum'];
+        $coupons->number = date('Ymd', time()) . rand(1000, 10000);
 
         // 存入数据到数据库中
         $coupons->save();

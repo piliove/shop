@@ -361,7 +361,7 @@ text-align: center;float:none}
 .bannerTwo{position: absolute;left:157px;top:55px;width:843px ;}
 .category-content .category-list.navTwo li { height:36px;}
 .category-content .category-list.navTwo .b-category-name {line-height: 28px;}
-.category-content .category-list.navTwo .category-name i img {width: 22px; height: 22px;border-radius: 22px;}
+.category-content .category-list.navTwo .category-name i img {width: 22px; height: 22px;}
 
 
 /*标题*/
@@ -388,7 +388,7 @@ top: 11px;text-align: right;}
 .category-content .category-list li.last .c-category-list{ border-bottom: none; }
 .category-content .category-list a:hover{ text-decoration: none; color: #D2364C; }
 .category-content .category-name{ overflow:hidden; position: relative;}
-.category-content .category-name i img{ position: absolute; top: 6px; width: 25px; height: 25px; border-radius:25px;left: 6px; display:block;}
+.category-content .category-name i img{ position: absolute; top: 6px; width: 25px; height: 25px;/* border-radius:25px;*/left: 6px; display:block;}
 .category-content .category-name .ml-22{font-size:14px ;margin-left: 35px;}
 .category-content .category-list .bd-b{ height: 1px;  margin: -1px 10px 0 10px;  background: #eee; line-height: 1; font-size: 0; }
 

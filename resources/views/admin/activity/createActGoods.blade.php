@@ -41,17 +41,17 @@
                     <td>{{ $v->gprice }}</td>
                     <td class="c_idp">
                         <input class="c_id" type="checkbox" value="{{ $v->id }}" {{ $v->activity_id !=0 ? 'checked' : '' }} />
-                    </td>
+                    </td>   
                 </tr>
                 </tr>
                @endforeach
             </tbody>
         </table>
          <!-- 分页 开始 -->
-         <div style="margin-top:10px;">{{ $goods_data->appends(['search_key'=>$search_key])->links('common.paginator') }}</div>
+         <div style="margin-top:10px;">{{ $goods_data->appends(['search_key'=>$search_key, 'aid'=>$aid])->links('common.paginator') }}</div>
          <!-- 分页 结束 -->
-            <a href="javascript:;" onclick="self.location=document.referrer;" class="btn btn-gradient-primary btn-rounded btn-fw">确认添加</a>
-            <a href="javascript:history.go(-1)" class="btn btn-gradient-dark btn-rounded btn-fw">返回</a>
+            <a href="/admin/activity/actgoods?id={{ $aid }}" onclick="self.location=document.referrer;" class="btn btn-gradient-primary btn-rounded btn-fw">确认添加</a>
+            <a href="/admin/activity/actgoods?id={{ $aid }}" class="btn btn-gradient-dark btn-rounded btn-fw">返回</a>
     </div>
 </div>
         

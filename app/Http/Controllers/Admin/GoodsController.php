@@ -87,13 +87,15 @@ class GoodsController extends Controller
         // 将数据存入数据库
         $goods->gname = $data['gname'];
         $goods->gprice = $data['gprice'];
-        $goods->gprice = $data['gprices'];
+        $goods->gprices = $data['gprices'];
         $goods->gdesc = $data['gdesc'];
         $goods->gtitle = $data['gtitle'];
         $goods->gnum = $data['gnum'];
         $goods->gid = $data['gid'];
         $goods->cid = $data['cid'];
         $goods->gthumb_1 = $data['uface'];
+        $goods->rec_status = 0;
+        $goods->activity_id = 0;
         $goods->_token = date('ymd', time()) . rand(1000, 10000);
 
         try {
@@ -104,7 +106,7 @@ class GoodsController extends Controller
                 exit('添加失败');
             }
         } catch (\Exception $e) {
-            echo '用户名已存在';
+            echo '错误';
         }
 
     }
@@ -171,13 +173,15 @@ class GoodsController extends Controller
         // 将数据存入数据库
         $goods->gname = $data['gname'];
         $goods->gprice = $data['gprice'];
-        $goods->gprice = $data['gprices'];
+        $goods->gprices = $data['gprices'];
         $goods->gdesc = $data['gdesc'];
         $goods->gtitle = $data['gtitle'];
         $goods->gnum = $data['gnum'];
         $goods->gid = $data['gid'];
         $goods->cid = $data['cid'];
         $goods->gthumb_1 = $data['uface'];
+        $goods->rec_status = 0;
+        $goods->activity_id = 0;
         $goods->_token = date('ymd', time()) . rand(1000, 10000);
 
         try {
@@ -214,31 +218,5 @@ class GoodsController extends Controller
         }
     }
 
-    /**
-     * 改变推荐状态
-     *
-     * @param Request(id(被修改记录的id), status(当前状态))
-     * @return_param 0(返回未推荐), 1(返回未推荐), 
-     */
-    public function changerec(Request $request)
-    {
-        //获得状态
-        $status = $request->input('status');
-
-        //获得id
-        $id = $request->input('id');
-
-        //判断回馈
-        if ($status == 1) {
-            DB::table('goods')->where('id',$id)->update(['rec_status'=>0]);
-            return 0;
-                  
-        } else {
-            DB::table('goods')->where('id',$id)->update(['rec_status'=>1]);
-            return 1;     
-        }
-
-        
-  
-    } 
+   
 }
