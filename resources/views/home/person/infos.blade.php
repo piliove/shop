@@ -25,10 +25,11 @@
                     </div>
                     <p class="am-form-help">头像</p>
                     <div class="info-m">
-                        <div><b>用户名：<i>@if(empty($user->name))未设置@else{{$user->name}}@endif</i></b></div>
+                        <div><b>用户名：<i id="name">@if(empty($user->name))未设置@else{{$user->name}}@endif</i></b></div>
                         <div class="u-level">
 									<span class="rank r2">
-							             <s class="vip1"></s><a class="classes" href="#">铜牌会员</a>
+							             <s class="vip1"></s><a class="classes" href="#">@if($member->mname==1)
+                                                普通会员@elseif($member->mname==2)超级会员@else普通用户@endif</a>
 						            </span>
                         </div>
                         <div class="u-safety">
@@ -50,7 +51,7 @@
                         <div class="am-form-group">
                             <label for="user-name2" class="am-form-label">用户名</label>
                             <div class="am-form-content">
-                                <input type="text" id="user-name2" name="uname"
+                                <input type="text" id="user-name1" name="uname"
                                        @if(empty($user->uname))placeholder="字母,数字,下划线组成,字母开头,4-16位"
                                        @else value="{{$user->uname}}" @endif>
                             </div>
@@ -132,72 +133,74 @@
             </div>
         </div>
     </div>
+    @include('/home/common/navcir')
     @include('/home/common/sidebar_info')
-<script>
-    $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}});
-    //当input框name为file选择图片(发生改变时)触发函数
-    $('input[name="file"]').change(function (event) {
-        //显示ajax动画
-        var ii = layer.msg("上传中，请稍等...", {
-            icon: 16,
-            shade: 0.1,
-            time: false
-        });
-        //new一个fromdata
-        var formData = new FormData();
-        //构造表单name名为rface
-        formData.append('uface', $('#file').get(0).files[0]);
-        //ajax请求上传
-        $.ajax({
-            url: "/admin/user/updatefile",
-            type: "post",
-            data: formData,
-            cache: false,
-            processData: false,
-            contentType: false,
-            //异步
-            async: true,
-            dataType: "html",
-            success: function (img) {
-                //关闭所有弹框
-                layer.close(ii);
-                //弹出上传完成
-                layer.msg("上传完成");
-                //更改img里面的src值为图片链接
-                $('#uface').attr('src', '/uploads/' + img);
-                //更改隐藏input里面的value值为图片链接
-                $('#uface-hide').attr('value', img);
-                //隐藏上传按钮
-                $('#uface-img').hide();
-            }
-        });
-    });
-    //提交表单
-    $("#submit").click(function () {
-        var cont = $("form").serialize();
-        layer.load(2, {shade: [0.1, '#fff']});
-        $.ajax({
-            url: "/home/person/updateinfos",
-            type: 'post',
-            dataType: 'html',
-            data: cont,
-            success: function (res) {
-                layer.closeAll();
-                if (res == '修改成功') {
-                    layer.alert(res, {icon: 6});
-                } else {
-                    layer.msg(res, {icon: 5});
+    <script>
+        $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}});
+        //当input框name为file选择图片(发生改变时)触发函数
+        $('input[name="file"]').change(function (event) {
+            //显示ajax动画
+            var ii = layer.msg("上传中，请稍等...", {
+                icon: 16,
+                shade: 0.1,
+                time: false
+            });
+            //new一个fromdata
+            var formData = new FormData();
+            //构造表单name名为rface
+            formData.append('uface', $('#file').get(0).files[0]);
+            //ajax请求上传
+            $.ajax({
+                url: "/admin/user/updatefile",
+                type: "post",
+                data: formData,
+                cache: false,
+                processData: false,
+                contentType: false,
+                //异步
+                async: true,
+                dataType: "html",
+                success: function (img) {
+                    //关闭所有弹框
+                    layer.close(ii);
+                    //弹出上传完成
+                    layer.msg("上传完成");
+                    //更改img里面的src值为图片链接
+                    $('#uface').attr('src', '/uploads/' + img);
+                    //更改隐藏input里面的value值为图片链接
+                    $('#uface-hide').attr('value', img);
+                    //隐藏上传按钮
+                    $('#uface-img').hide();
                 }
-            },
-            timeout: 10000,
-            error: function (XMLHttpRequest, textStatus, errorThrown) {
-                layer.closeAll();
-                if (textStatus == "timeout") {
-                    layer.msg('请求超时！');
-                } else {
-                    layer.msg('服务器错误！');
-                }
-            }
+            });
         });
-    });
-</script>
+        //提交表单
+        $("#submit").click(function () {
+            var cont = $("form").serialize();
+            layer.load(2, {shade: [0.1, '#fff']});
+            $.ajax({
+                url: "/home/person/updateinfos",
+                type: 'post',
+                dataType: 'html',
+                data: cont,
+                success: function (res) {
+                    layer.closeAll();
+                    if (res == '修改成功') {
+                        $('#name').html($('#user-name2').val());
+                        layer.alert(res, {icon: 6});
+                    } else {
+                        layer.msg(res, {icon: 5});
+                    }
+                },
+                timeout: 10000,
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    layer.closeAll();
+                    if (textStatus == "timeout") {
+                        layer.msg('请求超时！');
+                    } else {
+                        layer.msg('服务器错误！');
+                    }
+                }
+            });
+        });
+    </script>

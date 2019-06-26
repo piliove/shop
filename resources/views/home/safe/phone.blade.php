@@ -1,20 +1,4 @@
 @include('/home/common/head_info')
-<div class="nav-table">
-    <div class="long-title"><span class="all-goods">全部分类</span></div>
-    <div class="nav-cont">
-        <ul>
-            <li class="index"><a href="#">首页</a></li>
-            <li class="qc"><a href="#">闪购</a></li>
-            <li class="qc"><a href="#">限时抢</a></li>
-            <li class="qc"><a href="#">团购</a></li>
-            <li class="qc last"><a href="#">大包装</a></li>
-        </ul>
-        <div class="nav-extra">
-            <i class="am-icon-user-secret am-icon-md nav-user"></i><b></b>我的福利
-            <i class="am-icon-angle-right" style="padding-left: 10px;"></i>
-        </div>
-    </div>
-</div>
 <b class="line"></b>
 <div class="center">
     <div class="col-main">
@@ -109,6 +93,7 @@
             </div>
         </div>
     </div>
+    @include('/home/common/navcir')
     @include('/home/common/sidebar_info')
     <script>
         function code() {
@@ -133,7 +118,11 @@
                     if (res.error_code == 0) {
                         layer.alert('验证码发送成功,十分钟内有效', {icon: 6});
                     } else {
-                        layer.msg('发送失败', {icon: 5});
+                        layer.msg(res, {icon: 5});
+                        $('#div_code').html('重新获取');
+                        $('#div_code').css('backgroundColor', '#dd514c');
+                        $('#code').removeAttr('disabled');
+                        clearInterval(list);
                     }
                 }, 'json')
             }
@@ -150,7 +139,7 @@
                     $('#code1').attr('disabled', true);
                     $('#div_code1').css('backgroundColor', 'gray');
                     if ($('#code1').attr('disabled')) {
-                        let i = 5;
+                        let i = 60;
                         let list = setInterval(function () {
                             i--;
                             $('#div_code1').html(i);
@@ -183,14 +172,14 @@
     <script>
         $('#submit').click(function () {
             let cont = $('form').serialize();
-            $.post('/home/safe/phone/update',cont,function(res){
-                if(res=='修改成功'){
+            $.post('/home/safe/phone/update', cont, function (res) {
+                if (res == '修改成功') {
                     layer.alert(res, {icon: 6}, function () {
                         location.href = "/home/safe/phone";
                     });
-                }else{
+                } else {
                     layer.msg(res, {icon: 5});
                 }
-            },'html')
+            }, 'html')
         })
     </script>

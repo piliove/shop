@@ -23,20 +23,24 @@ class ListController extends Controller
         $cid = $request->input('cid');
         $cates_goods = GetdateController::getCate_list_goods($cid);
         $cates_data = GetdateController::getCate_de($cid);
-        
+
         //获取分区信息,和商品数量
         $cates = Cates::find($cid);
         $cate_title = $cates->cname;
-        $cate_good_count = $cates->goods()->count();       
+        $cate_good_count = $cates->goods()->count();
 
-        return view('home.list.index',['countCart'=>$countCart, 
-                                       'cates_goods'=>$cates_goods, 
-                                       'cid'=>$cid, 
-                                       'cates_data'=>$cates_data, 
-                                       'cate_title'=>$cate_title, 
-                                       'cate_good_count'=>$cate_good_count,
-                                       'links_data'=>GetdateController::getLink(),
-                                        ]);
+        //获取浏览量最多的三个商品
+        $pageview = DB::table('goods')->orderBy('pageview', 'desc')->limit(3)->get();
+
+        return view('home.list.index', ['countCart' => $countCart,
+            'cates_goods' => $cates_goods,
+            'cid' => $cid,
+            'cates_data' => $cates_data,
+            'cate_title' => $cate_title,
+            'cate_good_count' => $cate_good_count,
+            'pageview'=>$pageview,
+            'links_data'=>GetdateController::getLink(),
+        ]);
     }
 
     /**
@@ -52,7 +56,7 @@ class ListController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -63,7 +67,7 @@ class ListController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -74,7 +78,7 @@ class ListController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -85,8 +89,8 @@ class ListController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -97,7 +101,7 @@ class ListController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)

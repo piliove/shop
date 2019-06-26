@@ -18,15 +18,31 @@ class PersonController extends Controller
     public function index()
     {
         $countCart = CartController::countCart();
-        if( session('IndexLogin') ){
-            $fund = GetdateController::getFund( session('IndexUser')->id );
-            
-        } else {
-            back();
-        }
-            
+        $id = session('IndexUser')->uid;
+        //通过ID查询出用户数据
+        $user = DB::table('users as u')
+            ->join('user_info as i', 'u.id', 'i.uid')
+            ->where('i.uid', $id)
+            ->first();
+        //查询会员等级
+        $member = DB::table('member')->where('uid', $id)->first();
+        //通过ID查询收藏列表
+        $collects = DB::table('collects')->where('uid', $id)->inRandomOrder()->limit(8)->get();
+        //获取最新上架的一个商品
+        $goods_1 = DB::table('goods')->orderBy('created_at','desc')->first();
+        //获取一个浏览量最高的商品
+        $goods_page = DB::table('goods')->orderBy('pageview','desc')->first();
         // 渲染 个人中心首页
-        return view('home.person.index', ['countCart' => $countCart, 'title' => '个人中心', 'fund'=>$fund]);
+        return view('home.person.index', [
+            'countCart' => $countCart,
+            'title' => '个人中心',
+            'user' => $user,
+            'member' => $member,
+            'collects' => $collects,
+            'goods_1'=>$goods_1,
+            'goods_page'=>$goods_page,
+            'fund'=>GetdateController::getFund($id),
+        ]);
     }
 
     /**
@@ -36,12 +52,15 @@ class PersonController extends Controller
     {
         // 使用CartController控制器下的countCart方法
         $countCart = CartController::countCart();
-        $uid = session('IndexUser')->uid;
+        $id = session('IndexUser')->uid;
+        //通过$id查询用户信息
         $user = DB::table('users as u')
             ->join('user_info as ui', 'u.id', 'ui.uid')
-            ->where('ui.uid', $uid)
+            ->where('ui.uid', $id)
             ->first();
-        return view('/home/person/infos', ['countCart' => $countCart, 'title' => '用户信息', 'user' => $user]);
+        //查询会员等级
+        $member = DB::table('member')->where('uid', $id)->first();
+        return view('/home/person/infos', ['countCart' => $countCart, 'title' => '用户信息', 'user' => $user, 'member' => $member]);
     }
 
     /**

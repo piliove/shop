@@ -21,13 +21,13 @@ class GoodsController extends Controller
     public function index(Request $request)
     {
         // 接收搜索的参数
-        $search = $request->input('search','');
+        $search = $request->input('search', '');
 
         // 查询所有数据
-        $goods = Goods::where('gname','like','%'.$search.'%')->orderBy('rec_status','desc')->paginate(5);
+        $goods = Goods::where('gname', 'like', '%' . $search . '%')->orderBy('rec_status', 'desc')->paginate(5);
 
         // 渲染 商品管理列表
-        return view('admin.goods.index',['goods'=>$goods,'search'=>$search]);
+        return view('admin.goods.index', ['goods' => $goods, 'search' => $search]);
     }
 
     /**
@@ -63,13 +63,13 @@ class GoodsController extends Controller
         $cates = Cates::all();
 
         // 渲染 添加管理页面
-        return view('admin.goods.create',['cates'=>$cates,'business'=>$business]);
+        return view('admin.goods.create', ['cates' => $cates, 'business' => $business]);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -78,8 +78,8 @@ class GoodsController extends Controller
         $data = $request->all();
 
         //判断各项是否为空
-        if ( empty($data['gname']) || empty($data['gprice']) || empty($data['gdesc']) || empty($data['gtitle']) || empty($data['gnum']) || empty($data['gid']) ) exit('请确保各项值不为空');
-        
+        if (empty($data['gname']) || empty($data['gprice']) || empty($data['gdesc']) || empty($data['gtitle']) || empty($data['gnum']) || empty($data['gid'])) exit('请确保各项值不为空');
+
         //创建模型写入数据到数据库并判断是否添加成功
         // 实例化goods模型
         $goods = new Goods;
@@ -114,7 +114,7 @@ class GoodsController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -125,7 +125,7 @@ class GoodsController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -140,20 +140,21 @@ class GoodsController extends Controller
         $cate = Cates::all();
 
         // 渲染 添加管理页面
-        return view('admin.goods.edit',['cate'=>$cate,'goods'=>$goods,'business'=>$business]);
+        return view('admin.goods.edit', ['cate' => $cate, 'goods' => $goods, 'business' => $business]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request)
     {
         //接收修改表单所有值
         $data = $request->all();
+        dd($data);
 
         // 实例化goods模型
         $goods = Goods::find($data['id']);
@@ -162,13 +163,14 @@ class GoodsController extends Controller
         if ($goods->_token !== $data['token']) exit('验证失败');
 
         //判断各项是否为空
-        if ( empty($data['gname']) || empty($data['gprice']) || empty($data['gdesc']) || empty($data['gtitle']) || empty($data['gnum']) || empty($data['gid']) ) exit('请确保各项值不为空');
+        if (empty($data['gname']) || empty($data['gprice']) || empty($data['gdesc']) || empty($data['gtitle']) || empty($data['gnum']) || empty($data['gid'])) exit('请确保各项值不为空');
         //判断头像是否有修改
         if (empty($data['uface'])) {
             $data['uface'] = $goods->uface;
         } else {
             $data['uface'];
         }
+        dd($data['cid']);
 
         // 将数据存入数据库
         $goods->gname = $data['gname'];
@@ -199,10 +201,10 @@ class GoodsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request,$id)
+    public function destroy(Request $request, $id)
     {
         // 接收到ajax提交的id参数
         $goods = Goods::find($id);
@@ -218,5 +220,4 @@ class GoodsController extends Controller
         }
     }
 
-   
 }

@@ -27,11 +27,13 @@ Route::post('reg/regphone', 'Home\RegController@regPhone');
 Route::post('reg/upemail', 'Home\RegController@upEmail');
 //邮箱激活页面
 Route::get('/reg/email/{id}/{token}/{uname}', 'Home\RegController@email');
+//=====================前台登录===============================
 //登录页面
 Route::get('/login', 'Home\LoginController@login');
 //接收登录信息
 Route::post('/login/dologin', 'Home\LoginController@doLogin');
-
+//退出登录
+Route::get('/logout', 'Home\LoginController@logout');
 //=================前台 搜索列表=====================
 // 搜索列表页
 Route::get('/home/search/index', 'Home\SearchController@index');
@@ -53,6 +55,8 @@ Route::get('/home/coupon/index', 'Home\CouponController@index');
 Route::get('/home/collect/add', 'Home\CollectController@add');
 // 收藏列表页
 Route::get('/home/collect/index', 'Home\CollectController@index');
+//取消收藏
+Route::get('/home/collect/del', 'Home\CollectController@del');
 
 //=================前台 购物车页面=====================
 // 执行 添加到购物车操作
@@ -89,7 +93,7 @@ Route::get('/home/addres/defaultaddres/{id}', 'Home\AddresController@DefaultAddr
 Route::post('/home/addres/update', 'Home\AddresController@update');
 // 前台删除用户
 Route::get('home/addres/del', 'Home\AddresController@destroy');
-// 前台地址
+// 前台收货地址
 Route::resource('home/addres', 'Home\AddresController');
 
 //=================前台个人中心页面=====================

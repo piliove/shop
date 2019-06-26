@@ -24,7 +24,7 @@ class AddresController extends Controller
         $addres = DB::table('addres')->get();
 
         // 渲染 地址管理页面
-        return view('home/addres/index',['addres'=>$addres,'countCart'=>$countCart]);
+        return view('home/addres/index',['addres'=>$addres,'countCart'=>$countCart,'title'=>'收货地址']);
     }
 
     /**

@@ -40,7 +40,9 @@ class SafeController extends Controller
         } else {
             $email = substr($user->email, 0, 4) . '*******';
         }
-        return view('/home/safe/index', ['title' => '安全设置', 'countCart' => $countCart, 'user' => $user, 'phone' => $phone, 'email' => $email]);
+        //查询会员等级
+        $member = DB::table('member')->where('uid', $id)->first();
+        return view('/home/safe/index', ['title' => '安全设置', 'countCart' => $countCart, 'user' => $user, 'phone' => $phone, 'email' => $email,'member'=>$member]);
     }
 
     /**
@@ -105,6 +107,9 @@ class SafeController extends Controller
     public function PhoneCode()
     {
         $id = session('IndexUser')->uid;
+        //记录当前用户ID检查是否频繁发送验证码
+        \Cookie::queue($id, 'code', 1);
+        if (\Cookie::get($id) == 'code') exit(json_encode('发送频繁,请稍后再尝试发送'));
         //通过ID获取对应数据
         $user = UserInfos::where('uid', $id)->first();
         //判断手机号码是否为空
@@ -159,6 +164,9 @@ class SafeController extends Controller
     public function PhoneCode1(Request $request)
     {
         $id = session('IndexUser')->uid;
+        //记录当前用户ID检查是否频繁发送验证码
+        \Cookie::queue($id, 'code1', 1);
+        if (\Cookie::get($id) == 'code1') exit(json_encode('发送频繁,请稍后再尝试发送'));
         $user = UserInfos::where('uid', $id)->first();
         //接收表单传值的手机号码
         $phone = $request->input('phone', '');
@@ -192,6 +200,7 @@ class SafeController extends Controller
     public function UpdatePhone(Request $request)
     {
         $id = session('IndexUser')->uid;
+        //获取表单传值
         $phone = $request->input('phone', '');
         $code = $request->input('code2', '');
         //判断新手机号码是否为空
@@ -206,9 +215,6 @@ class SafeController extends Controller
         $user_status = $user->save();
         //判断是否修改成功
         if ($user_status) {
-            //清除session
-            session(['IndexUser' => false]);
-            session(['IndexLogin' => false]);
             echo '修改成功';
         } else {
             echo '修改失败';
@@ -270,6 +276,9 @@ class SafeController extends Controller
     public function EmailCode(Request $request)
     {
         $id = session('IndexUser')->uid;
+        //记录用户ID判断是否频繁发送邮件
+        \Cookie::queue($id, 'EmailCode', 1);
+        if (\Cookie::get($id) == 'EmailCode') exit('发送频繁,请稍后再尝试发送');
         //通过uid查询users表
         $user = UserInfos::where('uid', $id)->first();
         //判断昵称是否为空
@@ -289,6 +298,15 @@ class SafeController extends Controller
         Mail::send('/EmailCode', ['code' => $code, 'name' => $name], function ($m) use ($email) {
             $m->to($email)->subject('邮箱验证码');
         });
+
+        //判断是否发送成功
+        $error = Mail::failures();
+        if (empty($error)) {
+            echo '发送成功';
+        } else {
+            echo '发送失败';
+        }
+
     }
 
     /**

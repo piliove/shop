@@ -20,7 +20,7 @@ class CouponController extends Controller
         $countCart = CartController::countCart();
 
         // 渲染 优惠券页面
-        return view('home.coupon.index',['coupons'=>$coupons,'countCart'=>$countCart]);
+        return view('home.coupon.index',['coupons'=>$coupons,'countCart'=>$countCart,'title'=>'优惠券管理']);
     }
 
     public function add(Request $request)

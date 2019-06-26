@@ -31,7 +31,7 @@
             <thead>
              <tr>
                 <th>ID</th>
-                <th>用户名</th>
+                <th>UID</th>
                 <th>会员等级</th>
                 <th>时间</th>
                 <th>操作</th>
@@ -41,9 +41,11 @@
                 @foreach($member as $k=>$v)
                     <tr>
                         <td>{{$v->id}}</td>
-                        <td>{{$v->uname }}</td>
+                        <td>{{$v->uid }}</td>
                         <td>
                         @if($v->mname == 1)
+                        <kbd class="badge badge-gradient-danger">普通用户</kbd>
+                        @elseif($v->mname==2)
                         <kbd class="badge badge-gradient-warning">Vip会员</kbd>
                         @else
                         <kbd class="badge badge-gradient-info">SVip会员</kbd>

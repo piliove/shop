@@ -25,10 +25,14 @@ class MemberController extends Controller
 
         ];
         //查询所有用户数据
+<<<<<<< HEAD
         $member = DB::table('member as m')
         ->join('users as u','m.uid','u.id')
         ->where($data)
         ->paginate(3);
+=======
+        $member = Member::where($data)->orderBy('id')->paginate(3);
+>>>>>>> origin/muyinya
         return view('admin.member.index',['member'=>$member,'search'=>$search]);
     }
 
@@ -70,12 +74,21 @@ class MemberController extends Controller
             $res = $member->save();
             // 判断成功与否
             if ($res) {
+<<<<<<< HEAD
                 exit('会员添加成功');
             } else {
                 exit('会员添加失败');
             }
         } catch (\Exception $e) {
             echo '会员名称已存在';
+=======
+                exit('添加成功');
+            } else {
+                exit('添加失败');
+            }
+        } catch (\Exception $e) {
+            echo '商品名称已存在';
+>>>>>>> origin/muyinya
         }
     }
 

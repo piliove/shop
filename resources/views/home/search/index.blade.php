@@ -8,7 +8,11 @@
 		<link href="/home/AmazeUI-2.4.2/assets/css/admin.css" rel="stylesheet" type="text/css" />
 		<link href="/home/basic/css/demo.css" rel="stylesheet" type="text/css" />   
 		<link href="/home/css/seastyle.css" rel="stylesheet" type="text/css" />
+<<<<<<< HEAD
         <link href="/home/css/page.css" rel="stylesheet" type="text/css" />
+=======
+		<link href="/home/css/page.css" rel="stylesheet" type="text/css" />
+>>>>>>> origin/muyinya
 		<script type="text/javascript" src="/home/basic/js/jquery-1.7.min.js"></script>
 		<script type="text/javascript" src="/home/js/script.js"></script>
 	</head>

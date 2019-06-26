@@ -28,11 +28,15 @@
 						<ul>
 							<div class="per-border"></div>
 							@foreach($addres as $k => $v)
+<<<<<<< HEAD
 							@if($v->status == 1)
 							<li class="user-addresslist defaultAddr uaddr" onclick="changeAddr(this)">
 							@else
 							<li class="user-addresslist uaddr" onclick="changeAddr(this)">
 							@endif
+=======
+							<li class="user-addresslist defaultAddr">
+>>>>>>> origin/muyinya
 								<div class="address-left">
 									<div class="user DefaultAddr">
 
@@ -52,6 +56,10 @@
 									</div>
 									@if($v->status == 1)
 									<ins class="deftip">默认地址</ins>
+<<<<<<< HEAD
+=======
+									@else
+>>>>>>> origin/muyinya
 									@endif
 								</div>
 								<div class="address-right">
@@ -271,24 +279,24 @@
 
 											@foreach($addres as $k => $v)
 											@if($v->status == 1)
-											<input putaddr="aname" type="hidden" name="aname" value="{{ $v->aname }}">
-											<input putaddr="dname" type="hidden" name="dname" value="{{ $v->dname }}">
-											<input putaddr="name" type="hidden" name="name" value="{{ $v->name }}">
-											<input putaddr="aphone" type="hidden" name="aphone" value="{{ $v->aphone }}">
+											<input type="hidden" name="aname" value="{{ $v->aname }}">
+											<input type="hidden" name="dname" value="{{ $v->dname }}">
+											<input type="hidden" name="name" value="{{ $v->name }}">
+											<input type="hidden" name="aphone" value="{{ $v->aphone }}">
 											<div id="holyshit268" class="pay-address">
 												<p class="buy-footer-address">
 													<span class="buy-line-title buy-line-title-type">寄送至：</span>
 													<span class="buy--address-detail">
-													<span spanaddr="dist" class="dist">{{ $v->aname }}</span>
-													<span spanaddr="street" class="street">{{ $v->dname }}</span>
+													<span class="dist">{{ $v->aname }}</span>
+													<span class="street">{{ $v->dname }}</span>
 													</span>
 													</span>
 												</p>
 												<p class="buy-footer-address">
 													<span class="buy-line-title">收货人：</span>
 													<span class="buy-address-detail">   
-													<span spanaddr="user" class="buy-user">{{ $v->name }}</span>
-													<span spanaddr="phone" class="buy-phone">{{ $v->aphone }}</span>
+													<span class="buy-user">{{ $v->name }}</span>
+													<span class="buy-phone">{{ $v->aphone }}</span>
 													</span>
 												</p>
 											</div>

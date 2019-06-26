@@ -1,25 +1,8 @@
 @include('/home/common/head_info')
-<div class="nav-table">
-    <div class="long-title"><span class="all-goods">全部分类</span></div>
-    <div class="nav-cont">
-        <ul>
-            <li class="index"><a href="#">首页</a></li>
-            <li class="qc"><a href="#">闪购</a></li>
-            <li class="qc"><a href="#">限时抢</a></li>
-            <li class="qc"><a href="#">团购</a></li>
-            <li class="qc last"><a href="#">大包装</a></li>
-        </ul>
-        <div class="nav-extra">
-            <i class="am-icon-user-secret am-icon-md nav-user"></i><b></b>我的福利
-            <i class="am-icon-angle-right" style="padding-left: 10px;"></i>
-        </div>
-    </div>
-</div>
 <b class="line"></b>
 <div class="center">
     <div class="col-main">
         <div class="main-wrap">
-
             <!--标题 -->
             <div class="user-safety">
                 <div class="am-cf am-padding">
@@ -31,18 +14,16 @@
 
                 <!--头像 -->
                 <div class="user-infoPic">
-
                     <div class="filePic">
-                        <img class="am-circle am-img-thumbnail" src="/home/images/getAvatar.do.jpg" alt=""/>
+                        <img class="am-circle am-img-thumbnail" src="/uploads/{{$user->uface}}" alt=""/>
                     </div>
-
                     <p class="am-form-help">头像</p>
-
                     <div class="info-m">
                         <div><b>用户名：<i>{{$user->name}}</i></b></div>
                         <div class="u-level">
 									<span class="rank r2">
-							             <s class="vip1"></s><a class="classes" href="#">铜牌会员</a>
+							             <s class="vip1"></s><a class="classes" href="#">@if($member->mname==1)
+                                                普通会员@elseif($member->mname==2)超级会员@else普通用户@endif</a>
 						            </span>
                         </div>
                         <div class="u-safety">
@@ -54,7 +35,6 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="check">
                     <ul>
                         <li>
@@ -128,5 +108,5 @@
             </div>
         </div>
     </div>
-
+@include('/home/common/navcir')
 @include('/home/common/sidebar_info')

@@ -17,7 +17,7 @@ class FeedbackController extends Controller
         $countCart = CartController::countCart();
 
         // 渲染 反馈管理页面
-        return view('home.feedback.index',['countCart'=>$countCart]);
+        return view('home.feedback.index',['countCart'=>$countCart,'title'=>'反馈留言']);
     }
 
     // 执行 添加反馈操作
