@@ -59,7 +59,7 @@
                             <div class="col-sm-9">
                                 <select class="form-control" name="gid">
                                     @if($business->id == $goods->gid)
-                                    <option value="{{ $business->id }}">{{ $business->bname }}</option>
+                                        <option value="{{ $business->id }}">{{ $business->bname }}</option>
                                     @endif
                                 </select>
                             </div>
@@ -82,9 +82,9 @@
                                 <select class="form-control" name="cid">
                                     @foreach($cate as $k => $v)
                                         @if($v->pid == 0)
-                                        <option value="{{ $v->cid }}" disabled>{{ $v->cname }}</option>
+                                            <option value="{{ $v->id }}" style="display:none;">{{ $v->cname }}</option>
                                         @else
-                                        <option value="{{ $v->cid }}">{{ $v->cname }}</option>
+                                            <option value="{{ $v->id }}">{{ $v->cname }}</option>
                                         @endif
                                     @endforeach
                                 </select>
@@ -96,7 +96,7 @@
                     <label>上传缩略图</label>
                     <div class="input-group col-xs-12">
                         <input type="file" name="file" id="file" class="form-control">
-                            <input type="hidden" value="{{ $goods->gthumb_1 }}" id="hidden_uface" name="uface">
+                        <input type="hidden" value="{{ $goods->gthumb_1 }}" id="hidden_uface" name="uface">
                     </div>
                     <img style="width:100px; height:100px;" src="/uploads/{{$goods->gthumb_1}}" id="uface" alt="">
                 </div>
@@ -108,8 +108,8 @@
 </div>
 @include('/admin/common/foot')
 <script>
- //当input框name为file选择图片(发生改变时)触发函数
- $('input[name="file"]').change(function (event) {
+    //当input框name为file选择图片(发生改变时)触发函数
+    $('input[name="file"]').change(function (event) {
         //显示ajax动画
         var ii = layer.msg("上传中，请稍等...", {
             icon: 16,

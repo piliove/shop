@@ -24,7 +24,7 @@ class AddresController extends Controller
         $addres = DB::table('addres')->get();
 
         // 渲染 地址管理页面
-        return view('home/addres/index',['addres'=>$addres,'countCart'=>$countCart,'title'=>'修改地址']);
+        return view('home/addres/index',['addres'=>$addres,'countCart'=>$countCart,'title'=>'收货地址']);
     }
 
     /**
@@ -99,7 +99,7 @@ class AddresController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * 修改操作
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -117,7 +117,7 @@ class AddresController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * 执行修改操作
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
@@ -152,14 +152,14 @@ class AddresController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * 执行删除操作
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function destroy(Request $request)
     {
-        //接收传值
+          //接收传值
         $id = $request->input('id');
         //查询id对应用户
         $img = Addres::find($id);
@@ -171,20 +171,36 @@ class AddresController extends Controller
             echo '删除失败';
         }
     }
-    public function changeStatus(Request $request)
+    /**
+     * 执行修改按钮操作
+     *
+     * @param  
+     * @return 
+     */
+     /**
+     * 设置默认地址
+     * @param Request $request
+     * @param [type]  $id     
+     */
+    public function DefaultAddres(Request $request,$id)
     {
-       //接收修改表单所有值
-        $data = $request->all();
-        // dd($request->all);exit;
-        $addres = Addres::find($data['id']);
-    
-        // 接收数
-        $addres->status = $data['status'];
-        $path = $addres->save();
-        if($path){
-            return back()->with('success','修改成功');
+
+
+        $diz = DB::table('addres')->where('status', '1')->first();
+
+        $data = Addres::find($diz->id);
+        $data->status = 0;
+        $res1 = $data->save();
+        $addres = Addres::find($id);
+        $addres->status = 1;
+        $res2 = $addres->save();
+
+        if ($res1 && $res2) {
+            return 0;
         }else{
-            return back()->with('error','修改失败');
+            return 1;
         }
+
+
     }
 }

@@ -26,8 +26,22 @@ class PersonController extends Controller
             ->first();
         //查询会员等级
         $member = DB::table('member')->where('uid', $id)->first();
+        //通过ID查询收藏列表
+        $collects = DB::table('collects')->where('uid', $id)->inRandomOrder()->limit(8)->get();
+        //获取最新上架的一个商品
+        $goods_1 = DB::table('goods')->orderBy('created_at','desc')->first();
+        //获取一个浏览量最高的商品
+        $goods_page = DB::table('goods')->orderBy('pageview','desc')->first();
         // 渲染 个人中心首页
-        return view('home.person.index', ['countCart' => $countCart, 'title' => '个人中心', 'user' => $user, 'member' => $member]);
+        return view('home.person.index', [
+            'countCart' => $countCart,
+            'title' => '个人中心',
+            'user' => $user,
+            'member' => $member,
+            'collects' => $collects,
+            'goods_1'=>$goods_1,
+            'goods_page'=>$goods_page,
+        ]);
     }
 
     /**
@@ -45,7 +59,7 @@ class PersonController extends Controller
             ->first();
         //查询会员等级
         $member = DB::table('member')->where('uid', $id)->first();
-        return view('/home/person/infos', ['countCart' => $countCart, 'title' => '用户信息', 'user' => $user,'member'=>$member]);
+        return view('/home/person/infos', ['countCart' => $countCart, 'title' => '用户信息', 'user' => $user, 'member' => $member]);
     }
 
     /**

@@ -1,21 +1,5 @@
 @include('home.common.head_info')
 <link href="/home/css/systyle.css" rel="stylesheet" type="text/css">
-<div class="nav-table">
-    <div class="long-title"><span class="all-goods">全部分类</span></div>
-    <div class="nav-cont">
-        <ul>
-            <li class="index"><a href="#">首页</a></li>
-            <li class="qc"><a href="#">闪购</a></li>
-            <li class="qc"><a href="#">限时抢</a></li>
-            <li class="qc"><a href="#">团购</a></li>
-            <li class="qc last"><a href="#">大包装</a></li>
-        </ul>
-        <div class="nav-extra">
-            <i class="am-icon-user-secret am-icon-md nav-user"></i><b></b>我的福利
-            <i class="am-icon-angle-right" style="padding-left: 10px;"></i>
-        </div>
-    </div>
-</div>
 <b class="line"></b>
 <div class="center">
     <div class="col-main">
@@ -27,7 +11,7 @@
                         <div class="m-bg"></div>
                         <div class="m-userinfo">
                             <div class="m-baseinfo">
-                                <a href="information.html">
+                                <a href="/home/person/infos">
                                     <img src="/home/images/getAvatar.do.jpg">
                                 </a>
                                 <em class="s-name">{{$user->name}}<span class="vip1"></em>
@@ -40,7 +24,7 @@
                                     <a href="news.html"><i class="am-icon-bell-o"></i>消息</a>
                                 </div>
                                 <div class="m-address">
-                                    <a href="address.html" class="i-trigger">我的收货地址</a>
+                                    <a href="/home/addres/index" class="i-trigger">我的收货地址</a>
                                 </div>
                             </div>
                         </div>
@@ -112,12 +96,12 @@
                         </div>
                         <ul>
 
-                            <a href="home/shopcart.html">
+                            <a href="/home//cart/index">
                                 <li class="am-u-sm-4"><i class="am-icon-shopping-basket am-icon-md"></i><img
                                             src="/home/images/iconbig.png"/>
                                     <p>购物车</p></li>
                             </a>
-                            <a href="collection.html">
+                            <a href="/home/collect/index">
                                 <li class="am-u-sm-4"><i class="am-icon-heart am-icon-md"></i><img
                                             src="/home/images/iconsmall1.png"/>
                                     <p>我的收藏</p></li>
@@ -132,7 +116,7 @@
                                             src="/home/images/iconsmall3.png"/>
                                     <p>好评宝贝</p></li>
                             </a>
-                            <a href="foot.html">
+                            <a href="/home/footprint/index">
                                 <li class="am-u-sm-4"><i class="am-icon-clock-o am-icon-md"></i><img
                                             src="/home/images/iconsmall2.png"/>
                                     <p>我的足迹</p></li>
@@ -235,182 +219,34 @@
                     <!--收藏夹 -->
                     <div class="you-like">
                         <div class="s-bar">我的收藏
-                            <a class="am-badge am-badge-danger am-round">降价</a>
-                            <a class="am-badge am-badge-danger am-round">下架</a>
-                            <a class="i-load-more-item-shadow" href="#"><i
+                            <a class="i-load-more-item-shadow" name="collect" href="/home/person/index/#collect"><i
                                         class="am-icon-refresh am-icon-fw"></i>换一组</a>
                         </div>
                         <div class="s-content">
-                            <div class="s-item-wrap">
-                                <div class="s-item">
+                            @foreach($collects as $k=>$v)
+                                <div class="s-item-wrap">
+                                    <div class="s-item">
 
-                                    <div class="s-pic">
-                                        <a href="#" class="s-pic-link">
-                                            <img src="/home/images/0-item_pic.jpg_220x220.jpg"
-                                                 alt="包邮s925纯银项链女吊坠短款锁骨链颈链日韩猫咪银饰简约夏配饰"
-                                                 title="包邮s925纯银项链女吊坠短款锁骨链颈链日韩猫咪银饰简约夏配饰"
-                                                 class="s-pic-img s-guess-item-img">
-                                        </a>
-                                    </div>
-                                    <div class="s-price-box">
+                                        <div class="s-pic">
+                                            <a href="/home/info/index/{{$v->gid}}" class="s-pic-link">
+                                                <img src="/uploads/{{$v->cthumb}}"
+                                                     alt="{{$v->ctitle}}"
+                                                     title="{{$v->ctitle}}"
+                                                     class="s-pic-img s-guess-item-img">
+                                            </a>
+                                        </div>
+                                        <div class="s-price-box">
                                         <span class="s-price"><em class="s-price-sign">¥</em><em
-                                                    class="s-value">42.50</em></span>
-                                        <span class="s-history-price"><em class="s-price-sign">¥</em><em
-                                                    class="s-value">68.00</em></span>
-
-                                    </div>
-                                    <div class="s-title"><a href="#" title="包邮s925纯银项链女吊坠短款锁骨链颈链日韩猫咪银饰简约夏配饰">包邮s925纯银项链女吊坠短款锁骨链颈链日韩猫咪银饰简约夏配饰</a>
-                                    </div>
-                                    <div class="s-extra-box">
-                                        <span class="s-comment">好评: 98.03%</span>
-                                        <span class="s-sales">月销: 219</span>
-
+                                                    class="s-value">{{$v->cprices}}</em></span>
+                                            <span class="s-history-price"><em class="s-price-sign">¥</em><em
+                                                        class="s-value">{{$v->cprice}}</em></span>
+                                        </div>
+                                        <div class="s-title"><a href="/home/info/index/{{$v->gid}}"
+                                                                title="{{$v->ctitle}}">{{$v->ctitle}}</a>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-
-                            <div class="s-item-wrap">
-                                <div class="s-item">
-
-                                    <div class="s-pic">
-                                        <a href="#" class="s-pic-link">
-                                            <img src="/home/images/1-item_pic.jpg_220x220.jpg"
-                                                 alt="s925纯银千纸鹤锁骨链短款简约时尚韩版素银项链小清新秋款女配饰"
-                                                 title="s925纯银千纸鹤锁骨链短款简约时尚韩版素银项链小清新秋款女配饰"
-                                                 class="s-pic-img s-guess-item-img">
-                                        </a>
-                                    </div>
-                                    <div class="s-price-box">
-                                        <span class="s-price"><em class="s-price-sign">¥</em><em
-                                                    class="s-value">49.90</em></span>
-                                        <span class="s-history-price"><em class="s-price-sign">¥</em><em
-                                                    class="s-value">88.00</em></span>
-
-                                    </div>
-                                    <div class="s-title"><a href="#" title="s925纯银千纸鹤锁骨链短款简约时尚韩版素银项链小清新秋款女配饰">s925纯银千纸鹤锁骨链短款简约时尚韩版素银项链小清新秋款女配饰</a>
-                                    </div>
-                                    <div class="s-extra-box">
-                                        <span class="s-comment">好评: 99.74%</span>
-                                        <span class="s-sales">月销: 69</span>
-
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="s-item-wrap">
-                                <div class="s-item">
-
-                                    <div class="s-pic">
-                                        <a href="#" class="s-pic-link">
-                                            <img src="/home/images/-0-saturn_solar.jpg_220x220.jpg"
-                                                 alt="4折抢购!十二生肖925银女戒指,时尚开口女戒" title="4折抢购!十二生肖925银女戒指,时尚开口女戒"
-                                                 class="s-pic-img s-guess-item-img">
-                                        </a>
-                                    </div>
-                                    <div class="s-price-box">
-                                        <span class="s-price"><em class="s-price-sign">¥</em><em
-                                                    class="s-value">378.00</em></span>
-                                        <span class="s-history-price"><em class="s-price-sign">¥</em><em
-                                                    class="s-value">1888.00</em></span>
-
-                                    </div>
-                                    <div class="s-title"><a href="#" title="4折抢购!十二生肖925银女戒指,时尚开口女戒">4折抢购!十二生肖925银女戒指,时尚开口女戒</a>
-                                    </div>
-                                    <div class="s-extra-box">
-                                        <span class="s-comment">好评: 99.93%</span>
-                                        <span class="s-sales">月销: 278</span>
-
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="s-item-wrap">
-                                <div class="s-item">
-
-                                    <div class="s-pic">
-                                        <a href="#" class="s-pic-link">
-                                            <img src="/home/images/0-item_pic.jpg_220x220.jpg"
-                                                 alt="包邮s925纯银项链女吊坠短款锁骨链颈链日韩猫咪银饰简约夏配饰"
-                                                 title="包邮s925纯银项链女吊坠短款锁骨链颈链日韩猫咪银饰简约夏配饰"
-                                                 class="s-pic-img s-guess-item-img">
-                                        </a>
-                                    </div>
-                                    <div class="s-price-box">
-                                        <span class="s-price"><em class="s-price-sign">¥</em><em
-                                                    class="s-value">42.50</em></span>
-                                        <span class="s-history-price"><em class="s-price-sign">¥</em><em
-                                                    class="s-value">68.00</em></span>
-
-                                    </div>
-                                    <div class="s-title"><a href="#" title="包邮s925纯银项链女吊坠短款锁骨链颈链日韩猫咪银饰简约夏配饰">包邮s925纯银项链女吊坠短款锁骨链颈链日韩猫咪银饰简约夏配饰</a>
-                                    </div>
-                                    <div class="s-extra-box">
-                                        <span class="s-comment">好评: 98.03%</span>
-                                        <span class="s-sales">月销: 219</span>
-
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="s-item-wrap">
-                                <div class="s-item">
-
-                                    <div class="s-pic">
-                                        <a href="#" class="s-pic-link">
-                                            <img src="/home/images/1-item_pic.jpg_220x220.jpg"
-                                                 alt="s925纯银千纸鹤锁骨链短款简约时尚韩版素银项链小清新秋款女配饰"
-                                                 title="s925纯银千纸鹤锁骨链短款简约时尚韩版素银项链小清新秋款女配饰"
-                                                 class="s-pic-img s-guess-item-img">
-                                        </a>
-                                    </div>
-                                    <div class="s-price-box">
-                                        <span class="s-price"><em class="s-price-sign">¥</em><em
-                                                    class="s-value">49.90</em></span>
-                                        <span class="s-history-price"><em class="s-price-sign">¥</em><em
-                                                    class="s-value">88.00</em></span>
-
-                                    </div>
-                                    <div class="s-title"><a href="#" title="s925纯银千纸鹤锁骨链短款简约时尚韩版素银项链小清新秋款女配饰">s925纯银千纸鹤锁骨链短款简约时尚韩版素银项链小清新秋款女配饰</a>
-                                    </div>
-                                    <div class="s-extra-box">
-                                        <span class="s-comment">好评: 99.74%</span>
-                                        <span class="s-sales">月销: 69</span>
-
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="s-item-wrap">
-                                <div class="s-item">
-
-                                    <div class="s-pic">
-                                        <a href="#" class="s-pic-link">
-                                            <img src="/home/images/-0-saturn_solar.jpg_220x220.jpg"
-                                                 alt="4折抢购!十二生肖925银女戒指,时尚开口女戒" title="4折抢购!十二生肖925银女戒指,时尚开口女戒"
-                                                 class="s-pic-img s-guess-item-img">
-                                        </a>
-                                    </div>
-                                    <div class="s-price-box">
-                                        <span class="s-price"><em class="s-price-sign">¥</em><em
-                                                    class="s-value">378.00</em></span>
-                                        <span class="s-history-price"><em class="s-price-sign">¥</em><em
-                                                    class="s-value">1888.00</em></span>
-
-                                    </div>
-                                    <div class="s-title"><a href="#" title="4折抢购!十二生肖925银女戒指,时尚开口女戒">4折抢购!十二生肖925银女戒指,时尚开口女戒</a>
-                                    </div>
-                                    <div class="s-extra-box">
-                                        <span class="s-comment">好评: 99.93%</span>
-                                        <span class="s-sales">月销: 278</span>
-
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-
-                        <div class="s-more-btn i-load-more-item" data-screen="0"><i
-                                    class="am-icon-refresh am-icon-fw"></i>更多
+                            @endforeach
                         </div>
                     </div>
                 </div>
@@ -424,9 +260,23 @@
                     </div>
                     <div class="s-care s-care-noweather">
                         <div class="s-date">
-                            <em>21</em>
-                            <span>星期一</span>
-                            <span>2015.12</span>
+                            <em>{{date('d',time())}}</em>
+                            @if(date('w',time())==0)
+                                <span>星期日</span>
+                            @elseif(date('w',time())==1)
+                                <span>星期一</span>
+                            @elseif(date('w',time())==2)
+                                <span>星期二</span>
+                            @elseif(date('w',time())==3)
+                                <span>星期三</span>
+                            @elseif(date('w',time())==4)
+                                <span>星期四</span>
+                            @elseif(date('w',time())==5)
+                                <span>星期五</span>
+                            @else
+                                <span>星期六</span>
+                            @endif
+                            <span>{{date('Y.m'),time()}}</span>
                         </div>
                     </div>
                 </div>
@@ -434,17 +284,17 @@
                 <div class="new-goods">
                     <div class="s-bar">
                         <i class="s-icon"></i>今日新品
-                        <a class="i-load-more-item-shadow">15款新品</a>
+                        <a class="i-load-more-item-shadow">最新上架</a>
                     </div>
                     <div class="new-goods-info">
-                        <a class="shop-info" href="#" target="_blank">
+                        <a class="shop-info" href="/home/info/index/{{$goods_1->id}}">
                             <div class="face-img-panel">
-                                <img src="/home/images/imgsearch1.jpg" alt="">
+                                <img src="/uploads/{{$goods_1->gthumb_1}}" alt="">
                             </div>
-                            <span class="new-goods-num ">4</span>
-                            <span class="shop-title">剥壳松子</span>
+                            <span class="new-goods-num ">1</span>
+                            <span class="shop-title">{{$goods_1->gname}}</span>
                         </a>
-                        <a class="follow " target="_blank">关注</a>
+                        <a class="follow" href="/home/info/index/{{$goods_1->id}}">详情</a>
                     </div>
                 </div>
 
@@ -454,11 +304,11 @@
                         <i class="s-icon"></i>热卖推荐
                     </div>
                     <div class="new-goods-info">
-                        <a class="shop-info" href="#" target="_blank">
+                        <a class="shop-info" href="/home/info/index/{{$goods_page->id}}" target="_blank">
                             <div>
-                                <img src="/home/images/imgsearch1.jpg" alt="">
+                                <img src="/uploads/{{$goods_page->gthumb_1}}" alt="">
                             </div>
-                            <span class="one-hot-goods">￥9.20</span>
+                            <span class="one-hot-goods">￥{{$goods_page->gprices}}</span>
                         </a>
                     </div>
                 </div>
@@ -488,4 +338,5 @@
             </div>
         </div>
     </div>
+@include('/home/common/navcir')
 @include('home.common.sidebar_info')

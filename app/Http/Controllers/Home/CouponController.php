@@ -20,7 +20,7 @@ class CouponController extends Controller
         $countCart = CartController::countCart();
 
         // 渲染 优惠券页面
-        return view('home.coupon.index',['coupons'=>$coupons,'countCart'=>$countCart]);
+        return view('home.coupon.index',['coupons'=>$coupons,'countCart'=>$countCart,'title'=>'优惠券管理']);
     }
 
     public function add(Request $request)
@@ -28,7 +28,7 @@ class CouponController extends Controller
         // 判断用户登录情况
         if ( session('IndexLogin') == true ) {
             // 用户登录,则给用户ID
-            $uid = session('IndexUser')->id;
+            $uid = session('IndexUser')->uid;
         } else {
             echo "您还未登录,请先登录";
             exit;

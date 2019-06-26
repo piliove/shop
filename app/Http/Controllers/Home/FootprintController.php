@@ -41,7 +41,7 @@ class FootprintController extends Controller
         // 使用CartController控制器下的countCart方法
         $countCart = CartController::countCart();
        
-    	return view('home.footprint.index',['footprint'=>$footprint,'search'=>$search,'data'=>$data,'countCart'=>$countCart]);
+    	return view('home.footprint.index',['footprint'=>$footprint,'search'=>$search,'data'=>$data,'title'=>'我的足迹','countCart'=>$countCart]);
     }
     /**
      * 执行删除操作
