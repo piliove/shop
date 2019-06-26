@@ -84,7 +84,7 @@ Route::get('/home/ordermore/index/{id}', 'Home\OrderMoreController@index');
 
 //=================前台 地址管理===========================
 // 前台 修改 默认地址
-Route::get('/home/addres/changeStatus', 'Home\AddresController@changeStatus');
+Route::get('/home/addres/defaultaddres/{id}', 'Home\AddresController@DefaultAddres');
 //接收修改商品传值
 Route::post('/home/addres/update', 'Home\AddresController@update');
 // 前台删除用户
@@ -110,10 +110,14 @@ Route::get('/home/footprint/del', 'Home\FootprintController@destroy');
 Route::get('/home/footprint/index', 'Home\FootprintController@index');
 
 //=================前台评轮评论管理==========================
+// 显示 添加页面
+Route::get('/home/comment/create', 'Home\CommentController@create');
+// 执行添加操作
+Route::post('/home/comment/store', 'Home\CommentController@store');
 // 用户文件上传
-Route::post('home/comment/updatefile', 'Home\CommentController@updateFile');
+Route::post('/home/comment/updatefile', 'Home\CommentController@updateFile');
 // 显示 评论页面
-Route::resource('home/comment', 'Home\CommentController');
+Route::get('/home/comment/index', 'Home\CommentController@index');
 //=================前台新闻页面管理==========================
 // 前台新闻
 Route::resource('home/blog', 'Home\BlogController');

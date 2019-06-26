@@ -36,13 +36,14 @@
 					<hr/>
 					<ul class="am-avg-sm-1 am-avg-md-3 am-thumbnails">
                     @foreach($addres as $k=>$v)
-						<li class="user-addresslist defaultAddr"  style="margin-bottom:10px;margin-left:15px;">
-						@if($v->status == 0)
-							<span class="new-option-r" onclick="rec_change({{ $v->id }},1)"><i class="am-icon-check-circle"></i>默认地址</span>
-						@else
-							<span class="new-option-r" onclick="rec_change({{ $v->id }},0)"><i class="am-icon-check-circle"></i></span>
-
-						@endif	
+						<li onclick="defaultAddr({{$v->id}})" class="user-addresslist 
+						 @if($v->status == 1)
+                            defaultAddr
+                        @endif
+						 "  style="margin-bottom:10px;margin-left:15px;">
+						
+							<span class="new-option-r"><i class="am-icon-check-circle"></i>默认地址</span>
+				
 							<p class="new-tit new-p-re">
 								<span class="new-txt">{{ $v->name }}</span>
 								<span class="new-txt-rd2">{{ $v->aphone }}</span>
@@ -62,6 +63,9 @@
 						</li>
 						@endforeach
 						<script>
+    						
+						</script>
+						<script>
 					    function del(id, obj) {
 					        layer.msg('确定删除?', {
 					            time: 0 //不自动关闭
@@ -78,43 +82,18 @@
 					            }
 					        });
 					    }
-					    //利用ajax改变商品推荐状态
-				        function rec_change(id,dom) 
-				        {   
-				            //获得当前状态
-				            var status = $(dom).attr("status");   
-				            $.ajax({
-				                type: "get",
-				                url: "/home/addres/changerec",
-				                data: {"status":status,"id":id},
-				                dataType: "html",
-				                success: function (res) {
-				                     //开始赋值(相反值)
-				                     $(dom).attr({"status":res});
-				                    if (res == 1) {
-				                        //变成推荐位
-				                        $(dom).html('推荐中');
-				                        $(dom).attr('class','user-addresslist defaultAddr');
-				                                            
-				                    } else {
-
-				                        //非推荐
-				                        $(dom).html('未推荐');
-				                        $(dom).attr('class','user-addresslist');
-				                    }
-
-				                    layer.msg('切换成功');
-				                    //查看默认地址多少个
-				                    let len = $('.status>span[status="1"]').length;
-				                    //超过1个不允许推荐
-				                    if (len>=1) {
-				                        layer.msg('默认地址只能有1个');
-				                        $('.status>span[status="0"]').attr('onclick','');
-				                    } 
-				                }
-				            });
-				        }
-
+					     function defaultAddr(id){
+                            let url = '/home/addres/defaultaddres/'+id;
+                                $.get(url,function(res){
+                                    if (res == 0) {
+                                        layer.msg('设置成功');
+                                    }else if(res == 1000){
+                                        layer.msg('设置失败,请稍后重试', function(){
+                                        //关闭后的操作
+                                        });
+                                    }
+                                })
+                         }
 						</script>
 						</ul>
 					<div class="clear"></div>
